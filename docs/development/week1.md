@@ -19,7 +19,7 @@
 - Verify basic project runs
 
 **Steps:**
-- [x] Create virtual environment and activate it
+- [ ] Create virtual environment and activate it
 - [ ] Install Django and required packages (Pillow, psycopg2)
 - [ ] Create Django project named "lostandfound"
 - [ ] Create 3 apps: `accounts`, `items`, `claims`
