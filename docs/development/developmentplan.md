@@ -102,13 +102,13 @@
 ## 📅 PHASE 1: MVP SPRINT (8 Days)
 
 ### Day 1-2 (Nov 23-24): Authentication Setup
-**Weekend - Full focus**
+**Sunday - Monday**
 
 #### Developer 1:
-- [ ] Django project setup
-- [ ] User model (simple: username, email, password, user_type)
-- [ ] Basic registration view (one form for all users)
-- [ ] Login/logout views
+- [x] Django project setup
+- [x] User model (simple: username, email, password, user_type)
+- [x] Basic registration view (one form for all users)
+- [x] Login/logout views
 
 #### Developer 2:
 - [ ] Bootstrap setup
@@ -127,7 +127,7 @@
 ---
 
 ### Day 3-4 (Nov 25-26): Core Item Functionality
-**Monday-Tuesday**
+**Tuesday - Wednesday**
 
 #### Developer 1:
 - [ ] Item model (name, category, description, location, date, photo, status)
@@ -152,7 +152,7 @@
 ---
 
 ### Day 5 (Nov 27): Search & Claims
-**Wednesday**
+**Thursday**
 
 #### Developer 1:
 - [ ] Basic search view (keyword only)
@@ -176,7 +176,7 @@
 ---
 
 ### Day 6 (Nov 28): Admin Functions
-**Thursday - Thanksgiving**
+**Friday**
 
 #### Developer 1:
 - [ ] Admin dashboard view (basic)
@@ -201,7 +201,7 @@
 ---
 
 ### Day 7-8 (Nov 29-30): Testing & MVP Launch
-**Friday-Saturday**
+**Saturday - Sunday**
 
 #### All Developers:
 - [ ] Full system testing
