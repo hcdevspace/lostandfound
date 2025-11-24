@@ -58,9 +58,9 @@ python manage.py runserver
 
 ## Technology Stack
 - Django 5.0
-- Bootstrap 5
 - SQLite (development)
 - Pillow (image handling)
+- PostgreSQL (final database)
 
 ## Features
 - User registration (Student/Teacher)
