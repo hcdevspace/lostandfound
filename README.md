@@ -23,7 +23,7 @@ cd lostandfound
 
 2. Create and activate virtual environment
 ```bash
-python -m venv venv
+py -m venv venv
 venv\Scripts\activate
 ```
 
@@ -41,17 +41,17 @@ ALLOWED_HOSTS=localhost,127.0.0.1
 
 5. Run migrations
 ```bash
-python manage.py migrate
+py manage.py migrate
 ```
 
 6. Create superuser
 ```bash
-python manage.py createsuperuser
+py manage.py createsuperuser
 ```
 
 7. Run development server
 ```bash
-python manage.py runserver
+py manage.py runserver
 ```
 
 8. Open browser to http://localhost:8000
