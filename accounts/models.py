@@ -23,7 +23,7 @@ class StudentProfile(models.Model):
         return f"{self.user.username} - Student"
 
 class TeacherProfile(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='teacher')
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='teacher_profile')
     department = models.CharField(max_length=100, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 

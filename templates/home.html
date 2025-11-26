@@ -4,47 +4,47 @@
 
 {% block content %}
 <!-- Hero Section -->
-<div class="text-center" style="margin-top: 1.5rem; margin-bottom: 1.5rem;">
-    <h1 style="color: var(--primary-color); font-size: 2.5rem; font-weight: bold; margin-bottom: 0.5rem;">
+<div class="text-center" style="margin-top: 0.75rem; margin-bottom: 1rem;">
+    <h1 style="color: var(--primary-color); font-size: 2rem; font-weight: bold; margin-bottom: 0.4rem;">
         <i class="fas fa-search"></i> School Lost & Found
     </h1>
-    <p style="font-size: 1.25rem; color: var(--text-muted); margin-bottom: 1rem;">Reunite students with their belongings</p>
+    <p style="font-size: 1rem; color: var(--text-muted); margin-bottom: 0.75rem;">Reunite students with their belongings</p>
 
     {% if not user.is_authenticated %}
-        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1rem;">
-            <a href="{% url 'register_student' %}" class="btn btn-primary" style="font-size: 1rem; padding: 0.75rem 1.75rem;">
+        <div style="display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-top: 0.5rem;">
+            <a href="{% url 'register_student' %}" class="btn btn-primary" style="font-size: 0.9rem; padding: 0.6rem 1.25rem;">
                 <i class="fas fa-user-graduate"></i> Register as Student
             </a>
-            <a href="{% url 'register_teacher' %}" class="btn btn-success" style="font-size: 1rem; padding: 0.75rem 1.75rem;">
+            <a href="{% url 'register_teacher' %}" class="btn btn-success" style="font-size: 0.9rem; padding: 0.6rem 1.25rem;">
                 <i class="fas fa-chalkboard-teacher"></i> Register as Teacher
             </a>
         </div>
-        <div style="margin-top: 0.75rem;">
-            <p style="font-size: 0.95rem; margin-bottom: 0;">Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+        <div style="margin-top: 0.5rem;">
+            <p style="font-size: 0.85rem; margin-bottom: 0;">Already have an account? <a href="{% url 'login' %}">Login here</a></p>
         </div>
     {% else %}
-        <div class="card" style="max-width: 600px; margin: 1rem auto 0;">
-            <div class="card-body" style="background-color: #dcfce7; padding: 1rem;">
-                <h5 style="margin-bottom: 0.5rem; font-size: 1.2rem;">Welcome back, {{ user.first_name }}!</h5>
-                <p style="margin-bottom: 0; font-size: 1rem;">You are logged in as a <strong>{{ user.get_user_type_display }}</strong></p>
+        <div class="card" style="max-width: 600px; margin: 0.5rem auto 0;">
+            <div class="card-body" style="background-color: #dcfce7; padding: 0.75rem;">
+                <h5 style="margin-bottom: 0.3rem; font-size: 1rem;">Welcome back, {{ user.first_name }}!</h5>
+                <p style="margin-bottom: 0; font-size: 0.9rem;">You are logged in as a <strong>{{ user.get_user_type_display }}</strong></p>
             </div>
         </div>
     {% endif %}
 </div>
 
 <!-- Features Section -->
-<div style="margin-bottom: 1.5rem;">
-    <h2 class="text-center" style="font-size: 1.75rem; margin-bottom: 1rem; font-weight: 600;">How It Works</h2>
+<div style="margin-bottom: 1rem;">
+    <h2 class="text-center" style="font-size: 1.4rem; margin-bottom: 0.75rem; font-weight: 600;">How It Works</h2>
     <div class="row">
         <!-- Feature 1 -->
         <div class="col-4">
             <div class="card text-center">
-                <div class="card-body" style="padding: 1.25rem 1rem;">
-                    <div style="font-size: 3rem; color: var(--primary-color); margin-bottom: 0.75rem;">
+                <div class="card-body" style="padding: 0.85rem 0.75rem;">
+                    <div style="font-size: 2.2rem; color: var(--primary-color); margin-bottom: 0.5rem;">
                         <i class="fas fa-box-open"></i>
                     </div>
-                    <h4 style="font-size: 1.15rem; margin-bottom: 0.5rem; font-weight: 600;">Report Items</h4>
-                    <p class="text-muted" style="margin-bottom: 0; font-size: 0.95rem; line-height: 1.5;">Teachers report found items with photos and details.</p>
+                    <h4 style="font-size: 1rem; margin-bottom: 0.35rem; font-weight: 600;">Report Items</h4>
+                    <p class="text-muted" style="margin-bottom: 0; font-size: 0.85rem; line-height: 1.4;">Teachers report found items with photos and details.</p>
                 </div>
             </div>
         </div>
@@ -52,12 +52,12 @@
         <!-- Feature 2 -->
         <div class="col-4">
             <div class="card text-center">
-                <div class="card-body" style="padding: 1.25rem 1rem;">
-                    <div style="font-size: 3rem; color: var(--success-color); margin-bottom: 0.75rem;">
+                <div class="card-body" style="padding: 0.85rem 0.75rem;">
+                    <div style="font-size: 2.2rem; color: var(--success-color); margin-bottom: 0.5rem;">
                         <i class="fas fa-search"></i>
                     </div>
-                    <h4 style="font-size: 1.15rem; margin-bottom: 0.5rem; font-weight: 600;">Search & Browse</h4>
-                    <p class="text-muted" style="margin-bottom: 0; font-size: 0.95rem; line-height: 1.5;">Students search to locate their belongings.</p>
+                    <h4 style="font-size: 1rem; margin-bottom: 0.35rem; font-weight: 600;">Search & Browse</h4>
+                    <p class="text-muted" style="margin-bottom: 0; font-size: 0.85rem; line-height: 1.4;">Students search to locate their belongings.</p>
                 </div>
             </div>
         </div>
@@ -65,12 +65,12 @@
         <!-- Feature 3 -->
         <div class="col-4">
             <div class="card text-center">
-                <div class="card-body" style="padding: 1.25rem 1rem;">
-                    <div style="font-size: 3rem; color: var(--warning-color); margin-bottom: 0.75rem;">
+                <div class="card-body" style="padding: 0.85rem 0.75rem;">
+                    <div style="font-size: 2.2rem; color: var(--warning-color); margin-bottom: 0.5rem;">
                         <i class="fas fa-clipboard-check"></i>
                     </div>
-                    <h4 style="font-size: 1.15rem; margin-bottom: 0.5rem; font-weight: 600;">Claim Items</h4>
-                    <p class="text-muted" style="margin-bottom: 0; font-size: 0.95rem; line-height: 1.5;">Submit claims and get items back quickly.</p>
+                    <h4 style="font-size: 1rem; margin-bottom: 0.35rem; font-weight: 600;">Claim Items</h4>
+                    <p class="text-muted" style="margin-bottom: 0; font-size: 0.85rem; line-height: 1.4;">Submit claims and get items back quickly.</p>
                 </div>
             </div>
         </div>
@@ -79,35 +79,35 @@
 
 <!-- Quick Stats -->
 <div class="card bg-light">
-    <div class="card-body" style="padding: 1.5rem 2.5rem;">
+    <div class="card-body" style="padding: 1rem 1.5rem;">
         <div class="row" style="justify-content: space-around;">
-            <div class="col-4" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                <div style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 0.5rem;">
+            <div class="col-4" style="text-align: center; display: flex !important; flex-direction: column !important; align-items: center !important;">
+                <div style="font-size: 2rem; font-weight: bold; color: var(--primary-color); margin-bottom: 0.25rem;">0</div>
+                <div style="font-size: 1.2rem; color: var(--primary-color); margin-bottom: 0.25rem;">
                     <i class="fas fa-box"></i>
                 </div>
-                <h5 style="color: var(--text-dark); font-size: 1.3rem; margin-bottom: 0; font-weight: 600;">Items Found</h5>
+                <h5 style="color: var(--text-dark); font-size: 0.95rem; margin-bottom: 0; font-weight: 600;">Items Found</h5>
             </div>
-            <div class="col-4" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                <div style="font-size: 2.5rem; color: var(--success-color); margin-bottom: 0.5rem;">
+            <div class="col-4" style="text-align: center; display: flex !important; flex-direction: column !important; align-items: center !important;">
+                <div style="font-size: 2rem; font-weight: bold; color: var(--success-color); margin-bottom: 0.25rem;">0</div>
+                <div style="font-size: 1.2rem; color: var(--success-color); margin-bottom: 0.25rem;">
                     <i class="fas fa-check-circle"></i>
                 </div>
-                <h5 style="color: var(--text-dark); font-size: 1.3rem; margin-bottom: 0; font-weight: 600;">Items Returned</h5>
+                <h5 style="color: var(--text-dark); font-size: 0.95rem; margin-bottom: 0; font-weight: 600;">Items Returned</h5>
             </div>
-            <div class="col-4" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                <div style="font-size: 2.5rem; color: #3b82f6; margin-bottom: 0.5rem;">
+            <div class="col-4" style="text-align: center; display: flex !important; flex-direction: column !important; align-items: center !important;">
+                <div style="font-size: 2rem; font-weight: bold; color: #3b82f6; margin-bottom: 0.25rem;">0</div>
+                <div style="font-size: 1.2rem; color: #3b82f6; margin-bottom: 0.25rem;">
                     <i class="fas fa-users"></i>
                 </div>
-                <h5 style="color: var(--text-dark); font-size: 1.3rem; margin-bottom: 0; font-weight: 600;">Users</h5>
+                <h5 style="color: var(--text-dark); font-size: 0.95rem; margin-bottom: 0; font-weight: 600;">Active Users</h5>
             </div>
-        </div>
-        <div class="text-center" style="margin-top: 1rem;">
-            <p style="font-size: 1.1rem; margin-bottom: 0; color: var(--text-muted); font-style: italic;">Coming Soon</p>
         </div>
     </div>
 </div>
 
 <!-- Reviews Marquee -->
-<div class="reviews-marquee" style="margin-top: 1.5rem; padding: 1rem 0;">
+<div class="reviews-marquee" style="margin-top: 1rem; padding: 0.75rem 0;">
     <div class="marquee-content">
         <div class="marquee-item">
             <i class="fas fa-star" style="color: #f59e0b;"></i>
