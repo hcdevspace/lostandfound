@@ -22,7 +22,7 @@ class ItemForm(forms.ModelForm):
                 'class': 'form-control',
                 'placeholder': 'e.g. Cafeteria, Gym, Room 1428'
             }),
-            'date-found': forms.DateInput(attrs={
+            'date_found': forms.DateInput(attrs={
                 'class': 'form-control',
                 'type': 'date'
             }),
@@ -39,3 +39,8 @@ class ItemForm(forms.ModelForm):
             'date_found': 'When was it found?',
             'photo': 'Upload Photo'
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Add empty choice for category
+        self.fields['category'].choices = [('', 'Select a category...')] + list(self.fields['category'].choices)[1:]

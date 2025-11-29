@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.db.models import Q
 from .models import Item
 from .forms import ItemForm
 
@@ -22,6 +23,16 @@ def report_item(request):
 
 def item_list(request):
     items = Item.objects.filter(status='available')
+
+    query = request.GET.get('q')
+    if query:
+        items = items.filter(
+            Q(name__icontains=query) | Q(description__icontains=query)
+        )
+    
+    category = request.GET.get('category')
+    if category:
+        items = items.filter(category=category)
     return render(request, 'items/item_list.html', {'items': items})
 
 def item_detail(request, pk):
@@ -30,5 +41,5 @@ def item_detail(request, pk):
 
 @login_required
 def my_items(request):
-    items = Item.ob.filter(submitted_by=request.user)
+    items = Item.objects.filter(submitted_by=request.user)
     return render(request, 'items/my_items.html', {'items': items})
