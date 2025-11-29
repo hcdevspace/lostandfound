@@ -776,3 +776,30 @@ footer a:hover {
 .marquee-content::after {
     content: attr(data-content);
 }
+
+.itemBox {
+    height:200px;
+    width:225px;
+    font-size:12px;
+    background-color: white;
+    margin-left:5px;
+}
+
+.itemTable > h1 {
+    margin-right:5px;
+}
+
+.itemPicture > img {
+    height: 73px;
+    width: 90px;
+}
+
+.itemBox {
+    padding:5px;
+    border-radius:5%;
+    border-width:10px;
+    border-color: var(--white);
+}
+.itemBox:hover {
+    border-color:black;
+}
