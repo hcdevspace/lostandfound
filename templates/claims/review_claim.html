@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block title %}Review Claim{% endblock %}
+{% block content %}
+
+<div class="form-container" style="max-width: 800px;">
+    <div class="form-header">
+        <h1><i class="fas fa-gavel"></i> Review Claim</h1>
+        <p>Make a decision on this claim submission</p>
+    </div>
+
+    <!-- Item & Claim Info -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem;">
+        <!-- Item Card -->
+        <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px;">
+            <h3 style="margin: 0 0 0.5rem 0; font-size: 1.1rem;">Item Details</h3>
+            {% if claim.item.photo %}
+                <img src="{{ claim.item.photo.url }}" alt="{{ claim.item.name }}" style="width: 100%; max-height: 200px; object-fit: contain; margin-bottom: 0.5rem; border-radius: 4px;">
+            {% endif %}
+            <p style="margin: 0.25rem 0;"><strong>Name:</strong> {{ claim.item.name }}</p>
+            <p style="margin: 0.25rem 0;"><strong>Category:</strong> {{ claim.item.get_category_display }}</p>
+            <p style="margin: 0.25rem 0;"><strong>Location:</strong> {{ claim.item.location_found }}</p>
+            <p style="margin: 0.25rem 0;"><strong>Date Found:</strong> {{ claim.item.date_found|date:"M d, Y" }}</p>
+            <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem;"><strong>Description:</strong> {{ claim.item.description }}</p>
+        </div>
+
+        <!-- Claimant Card -->
+        <div style="background: #e7f3ff; padding: 1rem; border-radius: 8px;">
+            <h3 style="margin: 0 0 0.5rem 0; font-size: 1.1rem;">Claimant Details</h3>
+            <p style="margin: 0.25rem 0;"><strong>Name:</strong> {{ claim.claimant.get_full_name|default:claim.claimant.username }}</p>
+            <p style="margin: 0.25rem 0;"><strong>Email:</strong> {{ claim.claimant.email }}</p>
+            <p style="margin: 0.25rem 0;"><strong>Type:</strong> {{ claim.claimant.user_type|title }}</p>
+            <p style="margin: 0.25rem 0;"><strong>Request Type:</strong> {{ claim.get_claim_type_display }}</p>
+            <p style="margin: 0.25rem 0;"><strong>Contact Method:</strong> {{ claim.contact_method }}</p>
+            <p style="margin: 0.25rem 0;"><strong>Submitted:</strong> {{ claim.created_at|date:"M d, Y g:i A" }}</p>
+        </div>
+    </div>
+
+    <!-- Claim Description -->
+    <div style="background: #fff3cd; padding: 1rem; border-radius: 8px; border-left: 4px solid #ffc107; margin-bottom: 1rem;">
+        <h3 style="margin: 0 0 0.5rem 0; font-size: 1rem;">Claimant's Description / Proof</h3>
+        <p style="margin: 0;">{{ claim.description }}</p>
+    </div>
+
+    {% if claim.additional_proof %}
+    <div style="background: #d1ecf1; padding: 1rem; border-radius: 8px; border-left: 4px solid #17a2b8; margin-bottom: 1rem;">
+        <h3 style="margin: 0 0 0.5rem 0; font-size: 1rem;">Additional Proof</h3>
+        <p style="margin: 0;">{{ claim.additional_proof }}</p>
+    </div>
+    {% endif %}
+
+    <!-- Review Form -->
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label class="form-label">Admin Notes (Optional)</label>
+            <textarea name="admin_notes" class="form-control" rows="3" placeholder="Internal notes about this decision...">{{ claim.admin_notes }}</textarea>
+            <small class="form-text">These notes are only visible to staff</small>
+        </div>
+
+        <div class="form-actions" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <button type="submit" name="action" value="approve" class="btn btn-success">
+                <i class="fas fa-check"></i> Approve Claim
+            </button>
+            <button type="submit" name="action" value="reject" class="btn btn-danger">
+                <i class="fas fa-times"></i> Reject Claim
+            </button>
+            <button type="submit" name="action" value="complete" class="btn btn-primary">
+                <i class="fas fa-check-double"></i> Mark as Returned
+            </button>
+            <a href="{% url 'admin_claims' %}" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left"></i> Back to List
+            </a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

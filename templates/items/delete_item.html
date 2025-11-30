@@ -1,0 +1,48 @@
+<!-- Delete Item Confirmation Page -->
+{% extends 'base.html' %}
+{% block title %}Delete Item - {{ item.name }}{% endblock %}
+{% block content %}
+
+<div class="form-container" style="max-width: 600px; margin: 2rem auto;">
+    <div class="delete-confirmation" style="text-align: center; padding: 2rem; background: #fff3cd; border: 2px solid #ffc107; border-radius: 8px;">
+
+        <!-- Warning Icon -->
+        <i class="fas fa-exclamation-triangle" style="font-size: 64px; color: #ff6b6b; margin-bottom: 1rem;"></i>
+
+        <!-- Confirmation Message -->
+        <h1 style="color: #d63031; margin-bottom: 1rem;">Delete Item?</h1>
+        <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">
+            Are you sure you want to delete <strong>"{{ item.name }}"</strong>?
+        </p>
+
+        <!-- Item Details -->
+        <div style="background: white; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; text-align: left;">
+            <p><strong>Category:</strong> {{ item.get_category_display }}</p>
+            <p><strong>Location Found:</strong> {{ item.location_found }}</p>
+            <p><strong>Date Found:</strong> {{ item.date_found|date:"M d, Y" }}</p>
+            <p style="margin-bottom: 0;"><strong>Status:</strong> {{ item.get_status_display }}</p>
+        </div>
+
+        <!-- Warning Message -->
+        <div style="background: #fff; padding: 1rem; border-left: 4px solid #ff6b6b; margin-bottom: 1.5rem; text-align: left;">
+            <p style="margin: 0; color: #d63031;">
+                <i class="fas fa-info-circle"></i>
+                <strong>Warning:</strong> This action cannot be undone. The item will be permanently removed from the database.
+            </p>
+        </div>
+
+        <!-- Action Buttons -->
+        <form method="POST" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger" style="padding: 12px 24px; font-size: 1.1rem;">
+                <i class="fas fa-trash"></i> Yes, Delete Item
+            </button>
+        </form>
+
+        <a href="{% url 'item_detail' item.pk %}" class="btn btn-secondary" style="padding: 12px 24px; font-size: 1.1rem; margin-left: 10px;">
+            <i class="fas fa-times"></i> Cancel
+        </a>
+    </div>
+</div>
+
+{% endblock %}

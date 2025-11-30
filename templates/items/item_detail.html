@@ -1,1 +1,104 @@
-<!--Html Page of expanded description of an item-->
+<!-- Html Page of expanded description of an item -->
+{% extends 'base.html' %}
+{% block title %}{{ item.name }} - Item Details{% endblock %}
+{% block content %}
+
+<!-- Item Detail Container - Compact Single Screen Layout -->
+<div class="item-detail-container">
+    <div class="item-detail-grid">
+
+        <!-- Left Column: Image -->
+        <div class="item-detail-image-section" style="max-width: 400px;">
+            <div class="item-detail-image-wrapper" style="width: 100%; max-height: 400px; overflow: hidden; border-radius: 8px; background: #f5f5f5; display: flex; align-items: center; justify-content: center;">
+                {% if item.photo %}
+                    <img src="{{ item.photo.url }}" alt="{{ item.name }}" class="item-detail-image" style="max-width: 100%; max-height: 400px; object-fit: contain; border-radius: 8px;">
+                {% else %}
+                    <div class="item-detail-no-image" style="width: 100%; height: 300px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #999;">
+                        <i class="fas fa-image" style="font-size: 64px; margin-bottom: 10px;"></i>
+                        <p>No photo</p>
+                    </div>
+                {% endif %}
+            </div>
+            <span class="status-badge-large status-{{ item.status }}" style="display: inline-block; margin-top: 10px; padding: 8px 16px; border-radius: 20px; font-weight: bold;">
+                <i class="fas fa-circle"></i> {{ item.get_status_display }}
+            </span>
+        </div>
+
+        <!-- Right Column: Details -->
+        <div class="item-detail-info-section">
+
+            <!-- Header -->
+            <div class="item-detail-header">
+                <h1 class="item-detail-title">{{ item.name }}</h1>
+                <span class="item-detail-category">
+                    <i class="fas fa-tag"></i> {{ item.get_category_display }}
+                </span>
+            </div>
+
+            <!-- Compact Info Grid -->
+            <div class="item-info-compact">
+                <div class="info-row">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <strong>Location:</strong> {{ item.location_found }}
+                </div>
+                <div class="info-row">
+                    <i class="fas fa-calendar"></i>
+                    <strong>Date Found:</strong> {{ item.date_found|date:"M d, Y" }}
+                </div>
+                <div class="info-row">
+                    <i class="fas fa-clock"></i>
+                    <strong>Reported:</strong> {{ item.created_at|timesince }} ago
+                </div>
+                <div class="info-row">
+                    <i class="fas fa-user"></i>
+                    <strong>By:</strong> {{ item.submitted_by.get_full_name|default:item.submitted_by.username }}
+                </div>
+            </div>
+
+            <!-- Description -->
+            <div class="item-detail-section">
+                <h3><i class="fas fa-align-left"></i> Description</h3>
+                <p class="item-detail-description">{{ item.description }}</p>
+            </div>
+
+            <!-- Action Buttons - Compact -->
+            <div class="item-detail-actions">
+                {% if item.status == 'available' %}
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'submit_claim' item.pk %}" class="btn btn-primary">
+                            <i class="fas fa-hand-paper"></i> Claim Item
+                        </a>
+                        <a href="{% url 'submit_claim' item.pk %}" class="btn btn-outline-primary">
+                            <i class="fas fa-envelope"></i> Inquire
+                        </a>
+                    {% else %}
+                        <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-primary">
+                            <i class="fas fa-sign-in-alt"></i> Login to Claim
+                        </a>
+                    {% endif %}
+                {% else %}
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        This item is {{ item.get_status_display|lower }}.
+                    </div>
+                {% endif %}
+
+                <a href="{% url 'item_list' %}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left"></i> Back
+                </a>
+
+                {% if user.is_authenticated and user == item.submitted_by or user.is_staff %}
+                    <a href="{% url 'edit_item' item.pk %}" class="btn btn-warning btn-sm">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                    <a href="{% url 'delete_item' item.pk %}" class="btn btn-danger btn-sm">
+                        <i class="fas fa-trash"></i> Delete
+                    </a>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

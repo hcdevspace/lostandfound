@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% block title %}Submit Claim - {{ item.name }}{% endblock %}
+{% block content %}
+
+<div class="form-container">
+    <div class="form-header">
+        <h1><i class="fas fa-hand-paper"></i> Claim or Inquire About Item</h1>
+        <p>Submit a claim to retrieve your item or ask a question about it</p>
+    </div>
+
+    <!-- Item Summary Card -->
+    <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin-bottom: 2rem; border-left: 4px solid #007bff;">
+        <div style="display: flex; gap: 1rem; align-items: center;">
+            {% if item.photo %}
+                <img src="{{ item.photo.url }}" alt="{{ item.name }}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px;">
+            {% else %}
+                <div style="width: 80px; height: 80px; background: #dee2e6; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fas fa-image" style="color: #6c757d;"></i>
+                </div>
+            {% endif %}
+            <div>
+                <h3 style="margin: 0; color: #212529;">{{ item.name }}</h3>
+                <p style="margin: 0.25rem 0; color: #6c757d;">
+                    <i class="fas fa-tag"></i> {{ item.get_category_display }} |
+                    <i class="fas fa-map-marker-alt"></i> {{ item.location_found }} |
+                    <i class="fas fa-calendar"></i> {{ item.date_found|date:"M d, Y" }}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <!-- Claim Type -->
+        <div class="form-group">
+            <label class="form-label">{{ form.claim_type.label }} <span class="required">*</span></label>
+            <div style="display: flex; gap: 2rem; margin-top: 0.5rem;">
+                {% for radio in form.claim_type %}
+                <div class="form-check">
+                    {{ radio.tag }}
+                    <label class="form-check-label" for="{{ radio.id_for_label }}" style="margin-left: 0.5rem;">
+                        {{ radio.choice_label }}
+                    </label>
+                </div>
+                {% endfor %}
+            </div>
+            <small class="form-text">
+                <strong>Claim Item:</strong> You believe this is your item and want to retrieve it (requires proof of ownership)<br>
+                <strong>Inquiry Only:</strong> You have questions about this item or want more information (no proof needed)
+            </small>
+            {% if form.claim_type.errors %}
+                <span class="error-message">{{ form.claim_type.errors.0 }}</span>
+            {% endif %}
+        </div>
+
+        <!-- Description (dynamic based on claim type) -->
+        <div class="form-group">
+            <label class="form-label" for="{{ form.description.id_for_label }}">
+                <span id="description-label">Item Description / Proof of Ownership</span> <span class="required">*</span>
+            </label>
+            {{ form.description }}
+            <small class="form-text" id="description-help">Provide details to prove ownership or state your inquiry</small>
+            {% if form.description.errors %}
+                <span class="error-message">{{ form.description.errors.0 }}</span>
+            {% endif %}
+        </div>
+
+        <!-- Contact Method -->
+        <div class="form-group">
+            <label class="form-label" for="{{ form.contact_method.id_for_label }}">
+                {{ form.contact_method.label }} <span class="required">*</span>
+            </label>
+            {{ form.contact_method }}
+            {% if form.contact_method.errors %}
+                <span class="error-message">{{ form.contact_method.errors.0 }}</span>
+            {% endif %}
+        </div>
+
+        <!-- Additional Proof (only for claims) -->
+        <div class="form-group" id="additional-proof-section">
+            <label class="form-label" for="{{ form.additional_proof.id_for_label }}">
+                {{ form.additional_proof.label }}
+            </label>
+            {{ form.additional_proof }}
+            {% if form.additional_proof.errors %}
+                <span class="error-message">{{ form.additional_proof.errors.0 }}</span>
+            {% endif %}
+        </div>
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-paper-plane"></i> Submit Request
+            </button>
+            <a href="{% url 'item_detail' item.pk %}" class="btn btn-outline-secondary">
+                <i class="fas fa-times"></i> Cancel
+            </a>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Update form based on claim type selection
+    document.addEventListener('DOMContentLoaded', function() {
+        const claimRadio = document.querySelector('input[value="claim"]');
+        const inquiryRadio = document.querySelector('input[value="inquiry"]');
+        const descriptionLabel = document.getElementById('description-label');
+        const descriptionHelp = document.getElementById('description-help');
+        const descriptionTextarea = document.querySelector('#{{ form.description.id_for_label }}');
+        const additionalProofSection = document.getElementById('additional-proof-section');
+
+        function updateForm() {
+            if (claimRadio && claimRadio.checked) {
+                // Claim mode - show proof fields
+                descriptionLabel.textContent = 'Item Description / Proof of Ownership';
+                descriptionHelp.textContent = 'Describe the item in detail to prove ownership. Include color, brand, size, distinguishing features, where you lost it, etc.';
+                descriptionTextarea.placeholder = 'Describe the item in detail. Include color, brand, size, distinguishing features, where you lost it, etc.';
+                additionalProofSection.style.display = 'block';
+            } else if (inquiryRadio && inquiryRadio.checked) {
+                // Inquiry mode - hide proof fields
+                descriptionLabel.textContent = 'Your Question or Inquiry';
+                descriptionHelp.textContent = 'Ask a question about this item or request more information';
+                descriptionTextarea.placeholder = 'e.g., "Does this water bottle have a dent on the side?" or "Can you provide more details about where exactly it was found?"';
+                additionalProofSection.style.display = 'none';
+            }
+        }
+
+        // Listen for changes
+        if (claimRadio) claimRadio.addEventListener('change', updateForm);
+        if (inquiryRadio) inquiryRadio.addEventListener('change', updateForm);
+
+        // Set initial state
+        updateForm();
+    });
+</script>
+
+{% endblock %}

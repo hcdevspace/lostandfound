@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% block title %}Manage Claims{% endblock %}
+{% block content %}
+
+<div class="page-header">
+    <h1><i class="fas fa-tasks"></i> Manage Claims & Inquiries</h1>
+    <p class="text-muted">Review and process student claims</p>
+</div>
+
+<!-- Filter Tabs -->
+<div style="margin-bottom: 2rem;">
+    <div style="border-bottom: 2px solid #dee2e6; display: flex; gap: 1rem;">
+        <a href="?status=pending" class="{% if current_filter == 'pending' %}active-tab{% endif %}" style="padding: 0.5rem 1rem; text-decoration: none;">
+            Pending
+        </a>
+        <a href="?status=approved" class="{% if current_filter == 'approved' %}active-tab{% endif %}" style="padding: 0.5rem 1rem; text-decoration: none;">
+            Approved
+        </a>
+        <a href="?status=rejected" class="{% if current_filter == 'rejected' %}active-tab{% endif %}" style="padding: 0.5rem 1rem; text-decoration: none;">
+            Rejected
+        </a>
+        <a href="?status=completed" class="{% if current_filter == 'completed' %}active-tab{% endif %}" style="padding: 0.5rem 1rem; text-decoration: none;">
+            Completed
+        </a>
+        <a href="?status=all" class="{% if current_filter == 'all' %}active-tab{% endif %}" style="padding: 0.5rem 1rem; text-decoration: none;">
+            All
+        </a>
+    </div>
+</div>
+
+<style>
+    .active-tab {
+        color: #007bff !important;
+        border-bottom: 3px solid #007bff !important;
+        font-weight: bold !important;
+    }
+    .active-tab:not(.active-tab) {
+        color: #6c757d;
+        border-bottom: 3px solid transparent;
+        font-weight: normal;
+    }
+    a[href*="status"] {
+        color: #6c757d;
+        border-bottom: 3px solid transparent;
+        font-weight: normal;
+    }
+</style>
+
+{% if claims %}
+    <div class="claims-list">
+        {% for claim in claims %}
+        <div class="claim-card" style="background: white; border: 1px solid #dee2e6; border-radius: 8px; padding: 1.5rem; margin-bottom: 1rem;">
+            <div style="display: flex; justify-content: space-between; gap: 2rem;">
+                <!-- Left: Claim Info -->
+                <div style="flex: 1;">
+                    <h3 style="margin: 0 0 0.5rem 0;">
+                        {{ claim.item.name }}
+                        <span style="font-size: 0.85rem; color: #6c757d; font-weight: normal;">
+                            ({{ claim.get_claim_type_display }})
+                        </span>
+                    </h3>
+                    <p style="margin: 0.25rem 0; color: #495057;">
+                        <strong>Claimant:</strong> {{ claim.claimant.get_full_name|default:claim.claimant.username }}
+                        ({{ claim.claimant.email }})
+                    </p>
+                    <p style="margin: 0.25rem 0; color: #495057;">
+                        <strong>Contact:</strong> {{ claim.contact_method }}
+                    </p>
+                    <p style="margin: 0.5rem 0; padding: 0.75rem; background: #f8f9fa; border-radius: 4px;">
+                        <strong>Description:</strong> {{ claim.description }}
+                    </p>
+                    {% if claim.additional_proof %}
+                    <p style="margin: 0.5rem 0; padding: 0.75rem; background: #e7f3ff; border-radius: 4px;">
+                        <strong>Additional Proof:</strong> {{ claim.additional_proof }}
+                    </p>
+                    {% endif %}
+                    <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: #6c757d;">
+                        <i class="fas fa-clock"></i> Submitted {{ claim.created_at|timesince }} ago
+                    </p>
+                </div>
+
+                <!-- Right: Status & Actions -->
+                <div style="min-width: 200px; text-align: right;">
+                    <span class="status-badge status-{{ claim.status }}" style="display: inline-block; padding: 6px 12px; border-radius: 20px; font-weight: bold; margin-bottom: 1rem;">
+                        {{ claim.get_status_display }}
+                    </span>
+                    <div>
+                        <a href="{% url 'review_claim' claim.pk %}" class="btn btn-primary" style="display: block; margin-bottom: 0.5rem;">
+                            <i class="fas fa-gavel"></i> Review
+                        </a>
+                        <a href="{% url 'item_detail' claim.item.pk %}" class="btn btn-outline-secondary" style="display: block;">
+                            <i class="fas fa-eye"></i> View Item
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="empty-state">
+        <i class="fas fa-inbox"></i>
+        <h2>No Claims Found</h2>
+        <p>No claims match the selected filter</p>
+    </div>
+{% endif %}
+
+{% endblock %}

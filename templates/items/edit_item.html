@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% block title %}Edit Item - {{ item.name }}{% endblock %}
+{% block content %}
+
+<div class="form-container">
+    <div class="form-header">
+        <h1><i class="fas fa-edit"></i> Edit Item</h1>
+        <p>Update the details for "{{ item.name }}"</p>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Item Name -->
+        <div class="form-group">
+            <label class="form-label" for="{{ form.name.id_for_label }}">
+                {{ form.name.label }} <span class="required">*</span>
+            </label>
+            {{ form.name }}
+            {% if form.name.errors %}
+                <span class="error-message">{{ form.name.errors.0 }}</span>
+            {% endif %}
+        </div>
+
+        <!-- Category -->
+        <div class="form-group">
+            <label class="form-label" for="{{ form.category.id_for_label }}">
+                {{ form.category.label }} <span class="required">*</span>
+            </label>
+            {{ form.category }}
+            {% if form.category.errors %}
+                <span class="error-message">{{ form.category.errors.0 }}</span>
+            {% endif %}
+        </div>
+
+        <!-- Description -->
+        <div class="form-group">
+            <label class="form-label" for="{{ form.description.id_for_label }}">
+                {{ form.description.label }} <span class="required">*</span>
+            </label>
+            {{ form.description }}
+            <small class="form-text">Include color, brand, size, and any distinguishing features</small>
+            {% if form.description.errors %}
+                <span class="error-message">{{ form.description.errors.0 }}</span>
+            {% endif %}
+        </div>
+
+        <!-- Location Found -->
+        <div class="form-group">
+            <label class="form-label" for="{{ form.location_found.id_for_label }}">
+                {{ form.location_found.label }} <span class="required">*</span>
+            </label>
+            {{ form.location_found }}
+            {% if form.location_found.errors %}
+                <span class="error-message">{{ form.location_found.errors.0 }}</span>
+            {% endif %}
+        </div>
+
+        <!-- Date Found -->
+        <div class="form-group">
+            <label class="form-label" for="{{ form.date_found.id_for_label }}">
+                {{ form.date_found.label }} <span class="required">*</span>
+            </label>
+            {{ form.date_found }}
+            {% if form.date_found.errors %}
+                <span class="error-message">{{ form.date_found.errors.0 }}</span>
+            {% endif %}
+        </div>
+
+        <!-- Current Photo Display -->
+        {% if item.photo %}
+        <div class="form-group">
+            <label class="form-label">Current Photo</label>
+            <div style="margin-bottom: 10px;">
+                <img src="{{ item.photo.url }}" alt="{{ item.name }}" style="max-width: 200px; max-height: 200px; object-fit: contain; border: 1px solid #ddd; border-radius: 4px; padding: 5px;">
+            </div>
+            <small class="form-text">Upload a new photo below to replace the current one</small>
+        </div>
+        {% endif %}
+
+        <!-- Photo Upload -->
+        <div class="form-group">
+            <label class="form-label" for="{{ form.photo.id_for_label }}">
+                {% if item.photo %}
+                    Upload New Photo (Optional)
+                {% else %}
+                    {{ form.photo.label }}
+                {% endif %}
+            </label>
+            {{ form.photo }}
+            <small class="form-text">Optional: A photo helps owners identify their items more easily</small>
+            {% if form.photo.errors %}
+                <span class="error-message">{{ form.photo.errors.0 }}</span>
+            {% endif %}
+        </div>
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> Save Changes
+            </button>
+            <a href="{% url 'item_detail' item.pk %}" class="btn btn-outline-secondary">
+                <i class="fas fa-times"></i> Cancel
+            </a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

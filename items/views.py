@@ -43,3 +43,41 @@ def item_detail(request, pk):
 def my_items(request):
     items = Item.objects.filter(submitted_by=request.user)
     return render(request, 'items/my_items.html', {'items': items})
+
+@login_required
+def edit_item(request, pk):
+    item = get_object_or_404(Item, pk=pk)
+
+    # Security check: Only owner or staff can edit
+    if request.user != item.submitted_by and not request.user.is_staff:
+        messages.error(request, 'You do not have permission to edit this item.')
+        return redirect('item_detail', pk=pk)
+
+    if request.method == 'POST':
+        form = ItemForm(request.POST, request.FILES, instance=item)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'Item "{item.name}" has been updated successfully.')
+            return redirect('item_detail', pk=pk)
+    else:
+        form = ItemForm(instance=item)
+
+    return render(request, 'items/edit_item.html', {'form': form, 'item': item})
+
+@login_required
+def delete_item(request, pk):
+    item = get_object_or_404(Item, pk=pk)
+
+    # Security check: Only owner or staff can delete
+    if request.user != item.submitted_by and not request.user.is_staff:
+        messages.error(request, 'You do not have permission to delete this item.')
+        return redirect('item_detail', pk=pk)
+
+    if request.method == 'POST':
+        item_name = item.name
+        item.delete()
+        messages.success(request, f'Item "{item_name}" has been deleted successfully.')
+        return redirect('my_items')
+
+    # If GET request, show confirmation page
+    return render(request, 'items/delete_item.html', {'item': item})
