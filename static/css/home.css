@@ -1,0 +1,327 @@
+/*Home page specific styles */
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    color: white;
+    padding: 1.5rem 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.hero-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.hero-subtitle {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.95;
+}
+
+.hero-description {
+    font-size: 0.85rem;
+    margin-bottom: 0;
+    max-width: 650px;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0.9;
+    line-height: 1.4;
+}
+
+/* How It Works Section */
+.how-it-works-section {
+    margin-bottom: 1rem;
+}
+
+.how-it-works-title {
+    text-align: center;
+    color: var(--text-dark);
+    margin-bottom: 0.75rem;
+    font-size: 1.3rem;
+}
+
+.step-card {
+    height: 100%;
+}
+
+.step-card .card-body {
+    padding: 0.75rem;
+}
+
+.step-number {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0 auto 0.5rem;
+    color: white;
+}
+
+.step-number-primary {
+    background: var(--primary-color);
+}
+
+.step-number-success {
+    background: var(--success-color);
+}
+
+.step-number-warning {
+    background: var(--warning-color);
+}
+
+.step-title {
+    font-size: 0.95rem;
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.step-description {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    line-height: 1.3;
+    margin-bottom: 0;
+}
+
+/* Call to Action */
+.cta-section {
+    background: var(--light-bg);
+    border: none;
+    padding: 1rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.cta-title {
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.cta-description {
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+    font-size: 0.85rem;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+}
+
+.cta-login-btn {
+    font-size: 0.9rem;
+    padding: 0.6rem 1.5rem;
+}
+
+.cta-register-text {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 0;
+}
+
+.cta-register-text a {
+    font-weight: 600;
+}
+
+/* Welcome Message */
+.welcome-message {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 600px;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: none;
+}
+
+.welcome-message .card-body {
+    background-color: #dcfce7;
+    padding: 0.75rem;
+}
+
+.welcome-message h5 {
+    margin-bottom: 0;
+    font-size: 1rem;
+}
+
+/* Quick Actions */
+.quick-actions-section {
+    margin-bottom: 1rem;
+}
+
+.quick-actions-title {
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.quick-action-card {
+    text-decoration: none;
+    color: inherit;
+}
+
+.quick-action-body {
+    padding: 0.85rem 0.75rem;
+}
+
+.quick-action-icon {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.quick-action-icon-primary {
+    color: var(--primary-color);
+}
+
+.quick-action-icon-success {
+    color: var(--success-color);
+}
+
+.quick-action-title {
+    font-size: 1rem;
+    margin-bottom: 0.35rem;
+    font-weight: 600;
+}
+
+.quick-action-description {
+    margin-bottom: 0;
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+/* Recently Found Items */
+.recent-items-card {
+    box-shadow: none;
+    transition: none;
+}
+
+.recent-items-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.recent-items-title {
+    margin: 0;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.recent-items-view-all {
+    background: white;
+    color: var(--primary-color);
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.recent-items-body {
+    padding: 1.5rem;
+}
+
+.recent-item-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.recent-item-card {
+    height: 100%;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.recent-item-body {
+    padding: 1rem;
+}
+
+.recent-item-image {
+    width: 100%;
+    height: 120px;
+    background: var(--light-bg);
+    border-radius: 6px;
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.recent-item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.recent-item-image i {
+    font-size: 2.5rem;
+    color: var(--text-muted);
+}
+
+.recent-item-name {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-dark);
+}
+
+.recent-item-category {
+    font-size: 0.85rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.recent-item-location,
+.recent-item-date {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 0.25rem;
+}
+
+.recent-item-date {
+    margin-bottom: 0;
+}
+
+/* Empty State for Recent Items */
+.recent-items-empty {
+    text-align: center;
+    padding: 2rem;
+}
+
+.recent-items-empty i {
+    font-size: 3rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+}
+
+.recent-items-empty h4 {
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.recent-items-empty p {
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+}
+
+/* Reviews Marquee */
+.reviews-marquee {
+    margin-top: 1rem;
+    padding: 1.5rem 0;
+    font-size: 1.1rem;
+}
+
+.star-icon {
+    color: #f59e0b;
+}

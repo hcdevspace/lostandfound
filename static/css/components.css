@@ -1,0 +1,202 @@
+/* Alerts/Messages */
+
+.alert {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    animation: slideDown 0.3s ease;
+}
+
+.alert-success {
+    background-color: #dcfce7;
+    color: #166534;
+    border: 1px solid #86efac;
+}
+
+.alert-error {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
+}
+
+.alert-warning {
+    background-color: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fcd34d;
+}
+
+.alert-info {
+    background-color: #dbeafe;
+    color: #1e40af;
+    border: 1px solid #93c5fd;
+}
+
+.alert-close {
+    margin-left: auto;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: inherit;
+    opacity: 0.7;
+}
+
+.alert-close:hover {
+    opacity: 1;
+}
+
+/* Cards */
+
+.card {
+    background-color: white;
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-bottom: 0.4rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Feature cards on home page - no transform on hover to prevent layout shift */
+.feature-card:hover {
+    transform: none;
+    box-shadow: var(--shadow-lg);
+}
+
+.card-header {
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.card-header.bg-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.card-header.bg-success {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.card-body {
+    padding: 0.85rem;
+}
+
+/* Badges */
+
+.badge {
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: white;
+}
+
+.badge-pending {
+    background: var(--warning-color);
+}
+
+.badge-approved {
+    background: var(--success-color);
+}
+
+.badge-rejected {
+    background: var(--danger-color);
+}
+
+.badge-completed {
+    background: var(--text-muted);
+}
+
+.status-badge {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    background-color: var(--white);
+    box-shadow: var(--shadow);
+}
+
+.status-available {
+    color: var(--success-color);
+    border: 2px solid var(--success-color);
+}
+
+.status-claimed {
+    color: var(--warning-color);
+    border: 2px solid var(--warning-color);
+}
+
+.status-returned {
+    color: var(--text-muted);
+    border: 2px solid var(--text-muted);
+}
+
+.status-badge-large {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+/* Page header */
+
+.page-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.page-header h1 {
+    color: var(--text-dark);
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.page-header p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+/* Empty state */
+
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--white);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    margin-top: 2rem;
+}
+
+.empty-state i {
+    font-size: 4rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+}
+
+.empty-state h2 {
+    color: var(--text-dark);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+}

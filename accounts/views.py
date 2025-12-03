@@ -2,10 +2,16 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from .models import CustomUser, StudentProfile, TeacherProfile
+from items.models import Item
 
 # Create your views here.
 def home(request):
-    return render(request, 'home.html')
+    # Get 3 most recent items if user is logged in
+    recent_items = None
+    if request.user.is_authenticated:
+        recent_items = Item.objects.filter(status='available').order_by('-created_at')[:3]
+
+    return render(request, 'home.html', {'recent_items': recent_items})
 
 def register_student(request):
     if request.method == 'POST':
@@ -103,8 +109,15 @@ def login_view(request):
 
         if user is not None: # Valid credentials entered
             login(request, user)
-            messages.success(request, f'Welcome back, {user.first_name}!')
-            return redirect('home')
+
+            # Redirect to the 'next' parameter if provided, otherwise go to home
+            next_url = request.GET.get('next') or request.POST.get('next')
+
+            if next_url:
+                return redirect(next_url)
+            else:
+                # Add login parameter when redirecting to home to show welcome message
+                return redirect('/?login=1')
         else: # Invalid credentials
             messages.error(request, 'Invalid username or password.')
 

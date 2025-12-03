@@ -4,13 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}School Lost & Found{% endblock %}</title>
+    <title>{% block title %}Lost & Found{% endblock %}</title>
     
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <!-- CSS - Modular Structure -->
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/layout.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navigation.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components.css' %}">
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'css/buttons.css' %}">
+    <link rel="stylesheet" href="{% static 'css/items.css' %}">
+    <link rel="stylesheet" href="{% static 'css/claims.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/utilities.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animations.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+
+    <!-- JavaScript -->
+    <script src="{% static 'js/main.js' %}" defer></script>
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -32,12 +46,12 @@
                     <li><a href="{% url 'item_list' %}"><i class="fas fa-search"></i> Search Items</a></li>
 
                     <!-- Report Item - Available for ALL logged-in users -->
-                    <li><a href="{% url 'report_item' %}"><i class="fas fa-plus-circle"></i> Report Item</a></li>
+                    <li><a href="{% url 'report_item' %}"><i class="fa-solid fa-clipboard-list"></i> Report Item</a></li>
                     
                     <!-- User Dropdown -->
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle">
-                            <i class="fas fa-user"></i> {{ user.username }}
+                            <i class="fas fa-user"></i> {{ user.first_name }} ({{ user.get_user_type_display }})
                         </a>
                         <ul class="dropdown-menu">
                             <li><a href="#"><i class="fas fa-user-circle"></i> Profile</a></li>
@@ -53,7 +67,7 @@
                                 <li><div class="dropdown-divider"></div></li>
                                 <li><a href="{% url 'admin_claims' %}"><i class="fas fa-tasks"></i> Manage Claims</a></li>
                             {% endif %}
-                            
+
                             <li><div class="dropdown-divider"></div></li>
                             <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                         </ul>
@@ -89,24 +103,17 @@
     {% endif %}
 
     <!-- Main Content -->
-    <main class="container" style="margin-top: 0.5rem; margin-bottom: 0.5rem;">
+    <main class="container mt-2 mb-2">
         {% block content %}{% endblock %}
     </main>
 
     <!-- Footer -->
     <footer>
         <div class="container">
-            <p style="margin-bottom: 0.15rem;">&copy; 2025 School Lost & Found | FBLA Project</p>
-            <p style="font-size: 0.75rem; margin-bottom: 0;">Helping students reunite with their belongings</p>
+            <p class="mb-1">&copy; 2025 School Lost & Found | FBLA Project</p>
+            <p class="footer-tagline mb-0">Helping students reunite with their belongings</p>
         </div>
     </footer>
 
-    <!-- Simple JavaScript -->
-    <script>
-        function toggleMenu() {
-            const menu = document.getElementById('navbarMenu');
-            menu.classList.toggle('active');
-        }
-    </script>
 </body>
 </html>

@@ -99,40 +99,4 @@
         </div>
     </form>
 </div>
-
-<script>
-    // Update form based on claim type selection
-    document.addEventListener('DOMContentLoaded', function() {
-        const claimRadio = document.querySelector('input[value="claim"]');
-        const inquiryRadio = document.querySelector('input[value="inquiry"]');
-        const descriptionLabel = document.getElementById('description-label');
-        const descriptionHelp = document.getElementById('description-help');
-        const descriptionTextarea = document.querySelector('#{{ form.description.id_for_label }}');
-        const additionalProofSection = document.getElementById('additional-proof-section');
-
-        function updateForm() {
-            if (claimRadio && claimRadio.checked) {
-                // Claim mode - show proof fields
-                descriptionLabel.textContent = 'Item Description / Proof of Ownership';
-                descriptionHelp.textContent = 'Describe the item in detail to prove ownership. Include color, brand, size, distinguishing features, where you lost it, etc.';
-                descriptionTextarea.placeholder = 'Describe the item in detail. Include color, brand, size, distinguishing features, where you lost it, etc.';
-                additionalProofSection.style.display = 'block';
-            } else if (inquiryRadio && inquiryRadio.checked) {
-                // Inquiry mode - hide proof fields
-                descriptionLabel.textContent = 'Your Question or Inquiry';
-                descriptionHelp.textContent = 'Ask a question about this item or request more information';
-                descriptionTextarea.placeholder = 'e.g., "Does this water bottle have a dent on the side?" or "Can you provide more details about where exactly it was found?"';
-                additionalProofSection.style.display = 'none';
-            }
-        }
-
-        // Listen for changes
-        if (claimRadio) claimRadio.addEventListener('change', updateForm);
-        if (inquiryRadio) inquiryRadio.addEventListener('change', updateForm);
-
-        // Set initial state
-        updateForm();
-    });
-</script>
-
 {% endblock %}

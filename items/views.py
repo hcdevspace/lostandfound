@@ -19,8 +19,9 @@ def report_item(request):
     else:
         form = ItemForm()
 
-    return render(request, 'items/report_item.html', {'form': form})    
+    return render(request, 'items/report_item.html', {'form': form})
 
+@login_required
 def item_list(request):
     items = Item.objects.filter(status='available')
 
@@ -29,12 +30,13 @@ def item_list(request):
         items = items.filter(
             Q(name__icontains=query) | Q(description__icontains=query)
         )
-    
+
     category = request.GET.get('category')
     if category:
         items = items.filter(category=category)
     return render(request, 'items/item_list.html', {'items': items})
 
+@login_required
 def item_detail(request, pk):
     item = get_object_or_404(Item, pk=pk)
     return render(request, 'items/item_detail.html', {'item': item})

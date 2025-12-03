@@ -3,193 +3,289 @@
 {% block title %}Home - School Lost & Found{% endblock %}
 
 {% block content %}
+
+{% if not user.is_authenticated %}
+<!-- Landing Page for Non-Logged In Users -->
+
 <!-- Hero Section -->
-<div class="text-center" style="margin-top: 0.75rem; margin-bottom: 1rem;">
-    <h1 style="color: var(--primary-color); font-size: 2rem; font-weight: bold; margin-bottom: 0.4rem;">
-        <i class="fas fa-search"></i> School Lost & Found
+<div class="hero-section">
+    <h1 class="hero-title">
+        <i class="fas fa-box-open"></i> Lost Something On Campus?
     </h1>
-    <p style="font-size: 1rem; color: var(--text-muted); margin-bottom: 0.75rem;">Reunite students with their belongings</p>
-
-    {% if not user.is_authenticated %}
-        <div style="display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-top: 0.5rem;">
-            <a href="{% url 'register_student' %}" class="btn btn-primary" style="font-size: 0.9rem; padding: 0.6rem 1.25rem;">
-                <i class="fas fa-user-graduate"></i> Register as Student
-            </a>
-            <a href="{% url 'register_teacher' %}" class="btn btn-success" style="font-size: 0.9rem; padding: 0.6rem 1.25rem;">
-                <i class="fas fa-chalkboard-teacher"></i> Register as Teacher
-            </a>
-        </div>
-        <div style="margin-top: 0.5rem;">
-            <p style="font-size: 0.85rem; margin-bottom: 0;">Already have an account? <a href="{% url 'login' %}">Login here</a></p>
-        </div>
-    {% else %}
-        <div class="card" style="max-width: 600px; margin: 0.5rem auto 0;">
-            <div class="card-body" style="background-color: #dcfce7; padding: 0.75rem;">
-                <h5 style="margin-bottom: 0.3rem; font-size: 1rem;">Welcome back, {{ user.first_name }}!</h5>
-                <p style="margin-bottom: 0; font-size: 0.9rem;">You are logged in as a <strong>{{ user.get_user_type_display }}</strong></p>
-            </div>
-        </div>
-    {% endif %}
+    <p class="hero-subtitle">
+        Let's Help You Find It
+    </p>
+    <p class="hero-description">
+        Searched every corner of the school? Don't stress! Post, search, or report lost and found items in minutes.
+    </p>
 </div>
 
-<!-- Features Section -->
-<div style="margin-bottom: 1rem;">
-    <h2 class="text-center" style="font-size: 1.4rem; margin-bottom: 0.75rem; font-weight: 600;">How It Works</h2>
+<!-- How It Works Section -->
+<div class="how-it-works-section">
+    <h2 class="how-it-works-title">
+        How It Works
+    </h2>
     <div class="row">
-        <!-- Feature 1 -->
+        <!-- Step 1 -->
         <div class="col-4">
-            <div class="card text-center">
-                <div class="card-body" style="padding: 0.85rem 0.75rem;">
-                    <div style="font-size: 2.2rem; color: var(--primary-color); margin-bottom: 0.5rem;">
-                        <i class="fas fa-box-open"></i>
+            <div class="card text-center feature-card step-card">
+                <div class="card-body">
+                    <div class="step-number step-number-primary">
+                        1
                     </div>
-                    <h4 style="font-size: 1rem; margin-bottom: 0.35rem; font-weight: 600;">Report Items</h4>
-                    <p class="text-muted" style="margin-bottom: 0; font-size: 0.85rem; line-height: 1.4;">Teachers report found items with photos and details.</p>
+                    <h4 class="step-title">Report Items</h4>
+                    <p class="step-description">
+                        Report found items with photos and details.
+                    </p>
                 </div>
             </div>
         </div>
 
-        <!-- Feature 2 -->
+        <!-- Step 2 -->
         <div class="col-4">
-            <div class="card text-center">
-                <div class="card-body" style="padding: 0.85rem 0.75rem;">
-                    <div style="font-size: 2.2rem; color: var(--success-color); margin-bottom: 0.5rem;">
-                        <i class="fas fa-search"></i>
+            <div class="card text-center feature-card step-card">
+                <div class="card-body">
+                    <div class="step-number step-number-success">
+                        2
                     </div>
-                    <h4 style="font-size: 1rem; margin-bottom: 0.35rem; font-weight: 600;">Search & Browse</h4>
-                    <p class="text-muted" style="margin-bottom: 0; font-size: 0.85rem; line-height: 1.4;">Students search to locate their belongings.</p>
+                    <h4 class="step-title">Search & Browse</h4>
+                    <p class="step-description">
+                        Search by category, location, or description.
+                    </p>
                 </div>
             </div>
         </div>
 
-        <!-- Feature 3 -->
+        <!-- Step 3 -->
         <div class="col-4">
-            <div class="card text-center">
-                <div class="card-body" style="padding: 0.85rem 0.75rem;">
-                    <div style="font-size: 2.2rem; color: var(--warning-color); margin-bottom: 0.5rem;">
-                        <i class="fas fa-clipboard-check"></i>
+            <div class="card text-center feature-card step-card">
+                <div class="card-body">
+                    <div class="step-number step-number-warning">
+                        3
                     </div>
-                    <h4 style="font-size: 1rem; margin-bottom: 0.35rem; font-weight: 600;">Claim Items</h4>
-                    <p class="text-muted" style="margin-bottom: 0; font-size: 0.85rem; line-height: 1.4;">Submit claims and get items back quickly.</p>
+                    <h4 class="step-title">Claim Your Item</h4>
+                    <p class="step-description">
+                        Submit a claim with proof and arrange pickup.
+                    </p>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Quick Stats -->
-<div class="card bg-light">
-    <div class="card-body" style="padding: 1rem 1.5rem;">
-        <div class="row" style="justify-content: space-around;">
-            <div class="col-4" style="text-align: center; display: flex !important; flex-direction: column !important; align-items: center !important;">
-                <div style="font-size: 2rem; font-weight: bold; color: var(--primary-color); margin-bottom: 0.25rem;">0</div>
-                <div style="font-size: 1.2rem; color: var(--primary-color); margin-bottom: 0.25rem;">
-                    <i class="fas fa-box"></i>
+<!-- Call to Action -->
+<div class="card cta-section">
+    <h3 class="cta-title">Ready to Get Started?</h3>
+    <p class="cta-description">
+        Join our community and help reunite students with their belongings
+    </p>
+    <div class="cta-buttons">
+        <a href="{% url 'login' %}" class="btn btn-primary cta-login-btn">
+            <i class="fas fa-sign-in-alt"></i> Login
+        </a>
+    </div>
+    <p class="cta-register-text">
+        New here? <a href="{% url 'register_student' %}">Register as Student</a> or <a href="{% url 'register_teacher' %}">Teacher</a>
+    </p>
+</div>
+
+{% else %}
+<!-- Dashboard for Logged In Users -->
+
+<!-- Welcome Message -->
+<div class="card welcome-message" id="welcome-message">
+    <div class="card-body">
+        <h5>Welcome back, {{ user.first_name }}!</h5>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="quick-actions-section">
+    <h2 class="quick-actions-title">
+        <i class="fas fa-bolt"></i> Quick Actions
+    </h2>
+    <div class="row">
+        <!-- Action 1: Report Items -->
+        <div class="col-6">
+            <a href="{% url 'report_item' %}" class="quick-action-card">
+                <div class="card text-center feature-card">
+                    <div class="card-body quick-action-body">
+                        <div class="quick-action-icon quick-action-icon-primary">
+                            <i class="fa-solid fa-clipboard-list"></i>
+                        </div>
+                        <h4 class="quick-action-title">Report Items</h4>
+                        <p class="text-muted quick-action-description">Report found items with photos and details.</p>
+                    </div>
                 </div>
-                <h5 style="color: var(--text-dark); font-size: 0.95rem; margin-bottom: 0; font-weight: 600;">Items Found</h5>
-            </div>
-            <div class="col-4" style="text-align: center; display: flex !important; flex-direction: column !important; align-items: center !important;">
-                <div style="font-size: 2rem; font-weight: bold; color: var(--success-color); margin-bottom: 0.25rem;">0</div>
-                <div style="font-size: 1.2rem; color: var(--success-color); margin-bottom: 0.25rem;">
-                    <i class="fas fa-check-circle"></i>
+            </a>
+        </div>
+
+        <!-- Action 2: Search & Browse -->
+        <div class="col-6">
+            <a href="{% url 'item_list' %}" class="quick-action-card">
+                <div class="card text-center feature-card">
+                    <div class="card-body quick-action-body">
+                        <div class="quick-action-icon quick-action-icon-success">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h4 class="quick-action-title">Search</h4>
+                        <p class="text-muted quick-action-description">Search to locate belongings.</p>
+                    </div>
                 </div>
-                <h5 style="color: var(--text-dark); font-size: 0.95rem; margin-bottom: 0; font-weight: 600;">Items Returned</h5>
-            </div>
-            <div class="col-4" style="text-align: center; display: flex !important; flex-direction: column !important; align-items: center !important;">
-                <div style="font-size: 2rem; font-weight: bold; color: #3b82f6; margin-bottom: 0.25rem;">0</div>
-                <div style="font-size: 1.2rem; color: #3b82f6; margin-bottom: 0.25rem;">
-                    <i class="fas fa-users"></i>
-                </div>
-                <h5 style="color: var(--text-dark); font-size: 0.95rem; margin-bottom: 0; font-weight: 600;">Active Users</h5>
-            </div>
+            </a>
         </div>
     </div>
 </div>
 
-<!-- Reviews Marquee -->
-<div class="reviews-marquee" style="margin-top: 1rem; padding: 0.75rem 0;">
+<!-- Recently Found Items (Only for logged-in users) -->
+{% if user.is_authenticated %}
+<div class="card recent-items-card">
+    <div class="card-header bg-primary recent-items-header">
+        <h3 class="recent-items-title"><i class="fas fa-clock"></i> Recently Found Items</h3>
+        <a href="{% url 'item_list' %}" class="btn btn-sm recent-items-view-all">
+            <i class="fas fa-search"></i> View All
+        </a>
+    </div>
+    <div class="card-body recent-items-body">
+        {% if recent_items %}
+            <div class="row">
+                {% for item in recent_items %}
+                <div class="col-4">
+                    <a href="{% url 'item_detail' item.pk %}" class="recent-item-link">
+                        <div class="card recent-item-card">
+                            <div class="card-body recent-item-body">
+                                <!-- Item Image -->
+                                <div class="recent-item-image">
+                                    {% if item.photo %}
+                                        <img src="{{ item.photo.url }}" alt="{{ item.name }}">
+                                    {% else %}
+                                        <i class="fas fa-image"></i>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Item Name -->
+                                <h4 class="recent-item-name">{{ item.name|truncatewords:3 }}</h4>
+
+                                <!-- Category -->
+                                <p class="recent-item-category">
+                                    <i class="fas fa-tag"></i> {{ item.get_category_display }}
+                                </p>
+
+                                <!-- Location & Date -->
+                                <p class="recent-item-location">
+                                    <i class="fas fa-map-marker-alt"></i> {{ item.location_found|truncatewords:3 }}
+                                </p>
+                                <p class="recent-item-date">
+                                    <i class="fas fa-calendar"></i> {{ item.date_found|timesince }} ago
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <!-- Empty State -->
+            <div class="recent-items-empty">
+                <i class="fas fa-inbox"></i>
+                <h4>No Items Found Yet</h4>
+                <p>Be the first to report a found item!</p>
+                <a href="{% url 'report_item' %}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Report Found Item
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+{% endif %}
+
+<!-- Reviews Marquee - Only for non-logged-in users -->
+{% if not user.is_authenticated %}
+<div class="reviews-marquee">
     <div class="marquee-content">
         <div class="marquee-item">
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
             <span>"Found my backpack in just 2 days! This system is amazing!" - Student A</span>
         </div>
         <div class="marquee-item">
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
             <span>"So easy to report found items. Great for teachers!" - Teacher A</span>
         </div>
         <div class="marquee-item">
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
             <span>"Got my calculator back before my test. Thank you!" - Student B</span>
         </div>
         <div class="marquee-item">
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
             <span>"Finally, a simple way to reunite students with their belongings!" - Teacher B</span>
         </div>
         <div class="marquee-item">
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
             <span>"Love how organized and efficient this system is!" - Student C</span>
         </div>
         <!-- Duplicate reviews for seamless loop -->
         <div class="marquee-item">
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
             <span>"Found my backpack in just 2 days! This system is amazing!" - Student A</span>
         </div>
         <div class="marquee-item">
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
             <span>"So easy to report found items. Great for teachers!" - Teacher A</span>
         </div>
         <div class="marquee-item">
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
             <span>"Got my calculator back before my test. Thank you!" - Student B</span>
         </div>
         <div class="marquee-item">
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
             <span>"Finally, a simple way to reunite students with their belongings!" - Teacher B</span>
         </div>
         <div class="marquee-item">
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
-            <i class="fas fa-star" style="color: #f59e0b;"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
+            <i class="fas fa-star star-icon"></i>
             <span>"Love how organized and efficient this system is!" - Student C</span>
         </div>
     </div>
 </div>
+{% endif %}
 {% endblock %}
