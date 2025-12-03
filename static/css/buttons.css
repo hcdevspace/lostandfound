@@ -105,7 +105,7 @@
 }
 
 .btn-sm {
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 1rem !important;
     font-size: 0.875rem;
 }
 

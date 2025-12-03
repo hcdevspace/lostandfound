@@ -61,6 +61,14 @@
                 <p class="item-detail-description">{{ item.description }}</p>
             </div>
 
+            <!-- Status Alert (if not available) -->
+            {% if item.status != 'available' %}
+                <div class="alert alert-info mb-3">
+                    <i class="fas fa-info-circle"></i>
+                    This item is {{ item.get_status_display|lower }}.
+                </div>
+            {% endif %}
+
             <!-- Action Buttons - Compact -->
             <div class="item-detail-actions">
                 {% if item.status == 'available' %}
@@ -76,11 +84,6 @@
                             <i class="fas fa-sign-in-alt"></i> Login to Claim
                         </a>
                     {% endif %}
-                {% else %}
-                    <div class="alert alert-info">
-                        <i class="fas fa-info-circle"></i>
-                        This item is {{ item.get_status_display|lower }}.
-                    </div>
                 {% endif %}
 
                 <a href="{% url 'item_list' %}" class="btn btn-outline-secondary">

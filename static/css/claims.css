@@ -17,16 +17,22 @@
 .claim-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: start;
     margin-bottom: 1rem;
     padding-bottom: 1rem;
     border-bottom: 1px solid var(--border-color);
 }
 
 .claim-item-name {
+    margin: 0;
     font-size: 1.2rem;
     font-weight: 600;
     color: var(--text-dark);
+}
+
+.claim-type-badge {
+    margin: 0.5rem 0 0 0;
+    color: var(--text-muted);
 }
 
 .claim-details {
@@ -57,9 +63,65 @@
 .admin-notes {
     background: #fff3cd;
     border-left: 4px solid var(--warning-color);
+    padding: 0.5rem;
+    border-radius: 4px;
+    margin: 0.5rem 0 0 0;
+}
+
+/* My Claims Page Specific Styles */
+.claims-list {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.claim-item-details {
+    background: var(--light-bg);
     padding: 1rem;
     border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+.claim-item-content {
+    display: flex;
+    gap: 1rem;
+}
+
+.claim-item-photo {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.claim-item-info {
+    flex: 1;
+}
+
+.claim-item-location {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #495057;
+}
+
+.claim-description-preview {
+    margin: 0.5rem 0 0 0;
+    font-size: 0.9rem;
+    color: #495057;
+}
+
+.claim-meta {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.claim-meta-item {
+    margin: 0.25rem 0;
+}
+
+.claim-actions {
     margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
 }
 
 /* Admin Claims Tabs */
