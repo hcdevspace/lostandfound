@@ -8,8 +8,16 @@ class CustomUser(AbstractUser):
         ('teacher', 'Teacher'),
         ('admin', 'Admin'),
     )
+    APPROVAL_STATUS_CHOICES = (
+        ('pending', 'Pending Approval'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+    )
     user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES, default='student')
-    
+    approval_status = models.CharField(max_length=10, choices=APPROVAL_STATUS_CHOICES, default='pending')
+    approved_by = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='approved_users')
+    approval_date = models.DateTimeField(null=True, blank=True)
+
     def __str__(self):
         return self.username
     

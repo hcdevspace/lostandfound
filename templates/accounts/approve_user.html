@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}Review User Registration{% endblock %}
+{% block content %}
+
+<div class="form-container">
+    <div class="form-header">
+        <h1><i class="fas fa-user-check"></i> Review User Registration</h1>
+        <p>Review the registration details for {{ user_to_approve.get_full_name|default:user_to_approve.username }}</p>
+    </div>
+
+    <div class="card" style="margin-bottom: 2rem;">
+        <div class="card-body">
+            <h3 style="margin-top: 0;">Account Information</h3>
+
+            <p style="margin: 0.5rem 0; font-size: 1rem;">
+                <strong><i class="fas fa-user"></i> Full Name:</strong> {{ user_to_approve.first_name }} {{ user_to_approve.last_name }}
+            </p>
+            <p style="margin: 0.5rem 0; font-size: 1rem;">
+                <strong><i class="fas fa-user-circle"></i> Username:</strong> {{ user_to_approve.username }}
+            </p>
+            <p style="margin: 0.5rem 0; font-size: 1rem;">
+                <strong><i class="fas fa-envelope"></i> Email:</strong> {{ user_to_approve.email }}
+            </p>
+            <p style="margin: 0.5rem 0; font-size: 1rem;">
+                <strong><i class="fas fa-id-badge"></i> Account Type:</strong> {{ user_to_approve.get_user_type_display }}
+            </p>
+
+            {% if user_to_approve.user_type == 'student' and user_to_approve.student_profile %}
+            <hr>
+            <h4>Student Information</h4>
+            <p style="margin: 0.5rem 0; font-size: 1rem;">
+                <strong><i class="fas fa-id-card"></i> Student ID:</strong> {{ user_to_approve.student_profile.student_id }}
+            </p>
+            <p style="margin: 0.5rem 0; font-size: 1rem;">
+                <strong><i class="fas fa-graduation-cap"></i> Grade:</strong> {{ user_to_approve.student_profile.get_grade_display }}
+            </p>
+            {% elif user_to_approve.user_type == 'teacher' and user_to_approve.teacher_profile %}
+            <hr>
+            <h4>Teacher Information</h4>
+            <p style="margin: 0.5rem 0; font-size: 1rem;">
+                <strong><i class="fas fa-building"></i> Department:</strong> {{ user_to_approve.teacher_profile.department|default:"Not specified" }}
+            </p>
+            {% endif %}
+
+            <hr>
+            <p style="margin: 0.5rem 0; font-size: 1rem; color: #6c757d;">
+                <i class="fas fa-calendar"></i> Registered {{ user_to_approve.date_joined|date:"F d, Y g:i A" }} ({{ user_to_approve.date_joined|timesince }} ago)
+            </p>
+        </div>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-actions" style="display: flex; gap: 1rem; justify-content: center;">
+            <button type="submit" name="action" value="approve" class="btn btn-success" style="min-width: 150px;">
+                <i class="fas fa-check-circle"></i> Approve User
+            </button>
+            <button type="submit" name="action" value="reject" class="btn btn-danger" style="min-width: 150px;">
+                <i class="fas fa-times-circle"></i> Reject User
+            </button>
+            <a href="{% url 'pending_users' %}" class="btn btn-outline-secondary" style="min-width: 150px;">
+                <i class="fas fa-arrow-left"></i> Cancel
+            </a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% block title %}Manage User Registrations{% endblock %}
+{% block content %}
+
+<div class="page-header">
+    <h1><i class="fas fa-user-check"></i> Manage User Registrations</h1>
+    <p class="text-muted">Review and approve new student and teacher registrations</p>
+</div>
+
+<!-- Filter Tabs -->
+<div style="margin-bottom: 2rem;">
+    <div style="border-bottom: 2px solid #dee2e6; display: flex; gap: 1rem;">
+        <a href="?status=pending" class="{% if current_filter == 'pending' %}active-tab{% endif %}" style="padding: 0.5rem 1rem; text-decoration: none;">
+            <i class="fas fa-clock"></i> Pending
+        </a>
+        <a href="?status=approved" class="{% if current_filter == 'approved' %}active-tab{% endif %}" style="padding: 0.5rem 1rem; text-decoration: none;">
+            <i class="fas fa-check"></i> Approved
+        </a>
+        <a href="?status=rejected" class="{% if current_filter == 'rejected' %}active-tab{% endif %}" style="padding: 0.5rem 1rem; text-decoration: none;">
+            <i class="fas fa-times"></i> Rejected
+        </a>
+        <a href="?status=all" class="{% if current_filter == 'all' %}active-tab{% endif %}" style="padding: 0.5rem 1rem; text-decoration: none;">
+            <i class="fas fa-list"></i> All
+        </a>
+    </div>
+</div>
+
+<style>
+    .active-tab {
+        color: #007bff !important;
+        border-bottom: 3px solid #007bff !important;
+        font-weight: bold !important;
+    }
+    a[href*="status"] {
+        color: #6c757d;
+        border-bottom: 3px solid transparent;
+        font-weight: normal;
+    }
+</style>
+
+{% if users %}
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 1.5rem;">
+        {% for user in users %}
+        <div style="background: white; border: 1px solid #dee2e6; border-radius: 8px; padding: 1.5rem; position: relative;">
+            <!-- Status Badge - Top Right -->
+            <div style="position: absolute; top: 1rem; right: 1rem;">
+                {% if user.approval_status == 'pending' %}
+                <span style="background: #ffc107; color: #000; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: bold;">
+                    <i class="fas fa-clock"></i> Pending
+                </span>
+                {% elif user.approval_status == 'approved' %}
+                <span style="background: #28a745; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: bold;">
+                    <i class="fas fa-check"></i> Approved
+                </span>
+                {% elif user.approval_status == 'rejected' %}
+                <span style="background: #dc3545; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: bold;">
+                    <i class="fas fa-times"></i> Rejected
+                </span>
+                {% endif %}
+            </div>
+
+            <h3 style="margin: 0 0 1rem 0; padding-right: 100px;">{{ user.get_full_name|default:user.username }}</h3>
+
+            <p style="margin: 0.5rem 0; font-size: 0.95rem;">
+                <strong><i class="fas fa-user"></i> Username:</strong> {{ user.username }}
+            </p>
+            <p style="margin: 0.5rem 0; font-size: 0.95rem;">
+                <strong><i class="fas fa-envelope"></i> Email:</strong> {{ user.email }}
+            </p>
+            <p style="margin: 0.5rem 0; font-size: 0.95rem;">
+                <strong><i class="fas fa-id-badge"></i> Account Type:</strong> {{ user.get_user_type_display }}
+            </p>
+
+            {% if user.user_type == 'student' and user.student_profile %}
+            <p style="margin: 0.5rem 0; font-size: 0.95rem;">
+                <strong><i class="fas fa-id-card"></i> Student ID:</strong> {{ user.student_profile.student_id }}
+            </p>
+            <p style="margin: 0.5rem 0; font-size: 0.95rem;">
+                <strong><i class="fas fa-graduation-cap"></i> Grade:</strong> {{ user.student_profile.get_grade_display }}
+            </p>
+            {% elif user.user_type == 'teacher' and user.teacher_profile %}
+            <p style="margin: 0.5rem 0; font-size: 0.95rem;">
+                <strong><i class="fas fa-building"></i> Department:</strong> {{ user.teacher_profile.department|default:"N/A" }}
+            </p>
+            {% endif %}
+
+            <p style="margin: 0.5rem 0; font-size: 0.95rem; color: #6c757d;">
+                <i class="fas fa-calendar"></i> Registered {{ user.date_joined|timesince }} ago
+            </p>
+
+            {% if user.approval_status == 'approved' and user.approved_by %}
+            <p style="margin: 0.5rem 0; padding: 0.75rem; background: #d4edda; border-radius: 4px; font-size: 0.9rem;">
+                <strong style="color: #155724;">Approved by:</strong> {{ user.approved_by.get_full_name|default:user.approved_by.username }}<br>
+                <small style="color: #155724;">{{ user.approval_date|timesince }} ago</small>
+            </p>
+            {% endif %}
+
+            {% if user.approval_status == 'pending' %}
+            <div style="margin-top: 1.5rem; display: flex; gap: 0.5rem;">
+                <a href="{% url 'approve_user' user.pk %}" class="btn btn-success" style="flex: 1;">
+                    <i class="fas fa-check"></i> Review
+                </a>
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="empty-state">
+        <i class="fas fa-user-check"></i>
+        <h2>No Users Found</h2>
+        <p>No user registrations match the selected filter</p>
+    </div>
+{% endif %}
+
+{% endblock %}

@@ -1,4 +1,5 @@
 from django import forms
+from django.utils import timezone
 from .models import Item
 
 class ItemForm(forms.ModelForm):
@@ -24,7 +25,8 @@ class ItemForm(forms.ModelForm):
             }),
             'date_found': forms.DateInput(attrs={
                 'class': 'form-control',
-                'type': 'date'
+                'type': 'date',
+                'max': timezone.now().date().isoformat()
             }),
             'photo': forms.FileInput(attrs={
                 'class': 'form-control',
@@ -44,3 +46,13 @@ class ItemForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         # Add empty choice for category
         self.fields['category'].choices = [('', 'Select a category...')] + list(self.fields['category'].choices)[1:]
+        # Make photo required
+        self.fields['photo'].required = True
+        # Set max date to today for date_found field
+        self.fields['date_found'].widget.attrs['max'] = timezone.now().date().isoformat()
+
+    def clean_date_found(self):
+        date_found = self.cleaned_data.get('date_found')
+        if date_found and date_found > timezone.now().date():
+            raise forms.ValidationError('The date found cannot be in the future.')
+        return date_found

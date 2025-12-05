@@ -33,7 +33,7 @@ class Item(models.Model):
     location_found = models.CharField(max_length=200)
     date_found = models.DateField()
 
-    photo = models.ImageField(upload_to='items/', blank=True, null=True)
+    photo = models.ImageField(upload_to='items/', default='items/default.jpg')
 
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='reported')
 

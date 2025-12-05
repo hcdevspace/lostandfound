@@ -82,13 +82,13 @@
         <div class="form-group">
             <label class="form-label" for="{{ form.photo.id_for_label }}">
                 {% if item.photo %}
-                    Upload New Photo (Optional)
+                    Upload New Photo <span class="required">*</span>
                 {% else %}
-                    {{ form.photo.label }}
+                    {{ form.photo.label }} <span class="required">*</span>
                 {% endif %}
             </label>
             {{ form.photo }}
-            <small class="form-text">Optional: A photo helps owners identify their items more easily</small>
+            <small class="form-text">A photo helps owners identify their items more easily</small>
             {% if form.photo.errors %}
                 <span class="error-message">{{ form.photo.errors.0 }}</span>
             {% endif %}

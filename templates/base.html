@@ -68,6 +68,11 @@
                                 <li><a href="{% url 'admin_claims' %}"><i class="fas fa-tasks"></i> Manage Claims & Inquiries</a></li>
                             {% endif %}
 
+                            <!-- Admin Only - Manage User Registrations -->
+                            {% if user.is_staff or user.user_type == 'admin' %}
+                                <li><a href="{% url 'pending_users' %}"><i class="fas fa-user-check"></i> Manage User Registrations</a></li>
+                            {% endif %}
+
                             <li><div class="dropdown-divider"></div></li>
                             <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                         </ul>

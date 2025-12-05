@@ -1,6 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.utils import timezone
 from .models import CustomUser, StudentProfile, TeacherProfile
 from items.models import Item
 
@@ -66,7 +68,7 @@ def register_student(request):
             grade=grade
         )
 
-        messages.success(request, 'Registration Successful! Please login now.')
+        messages.success(request, 'Registration submitted successfully! Your account is pending approval. An administrator will review your registration soon.')
         return redirect('login')
 
     return render(request, 'accounts/register_student.html')
@@ -106,7 +108,7 @@ def register_teacher(request):
             department=department
         )
 
-        messages.success(request, 'Registration Successful! Please login now.')
+        messages.success(request, 'Registration submitted successfully! Your account is pending approval. An administrator will review your registration soon.')
         return redirect('login')
 
     return render(request, 'accounts/register_teacher.html')
@@ -119,6 +121,16 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
 
         if user is not None: # Valid credentials entered
+            # Check if user is approved (skip check for admins and superusers)
+            if not (user.is_staff or user.is_superuser or user.user_type == 'admin'):
+                if user.approval_status == 'pending':
+                    messages.warning(request, 'Your account is pending approval. Please wait for an administrator to approve your registration.')
+                    return render(request, 'accounts/login.html')
+                elif user.approval_status == 'rejected':
+                    messages.error(request, 'Your account registration was rejected. Please contact an administrator for more information.')
+                    return render(request, 'accounts/login.html')
+
+            # User is approved or is admin, allow login
             login(request, user)
 
             # Redirect to the 'next' parameter if provided, otherwise go to home
@@ -138,3 +150,50 @@ def logout_view(request):
     logout(request)
     messages.success(request, 'You have been logged out.')
     return redirect('login')
+
+@login_required
+def pending_users(request):
+    # Only admins can access this page
+    if not (request.user.is_staff or request.user.user_type == 'admin'):
+        messages.error(request, 'You do not have permission to access this page.')
+        return redirect('home')
+
+    # Get filter status
+    status_filter = request.GET.get('status', 'pending')
+
+    if status_filter == 'all':
+        users = CustomUser.objects.exclude(user_type='admin').order_by('-date_joined')
+    else:
+        users = CustomUser.objects.filter(approval_status=status_filter).exclude(user_type='admin').order_by('-date_joined')
+
+    return render(request, 'accounts/pending_users.html', {
+        'users': users,
+        'current_filter': status_filter
+    })
+
+@login_required
+def approve_user(request, user_id):
+    # Only admins can approve users
+    if not (request.user.is_staff or request.user.user_type == 'admin'):
+        messages.error(request, 'You do not have permission to perform this action.')
+        return redirect('home')
+
+    user_to_approve = get_object_or_404(CustomUser, pk=user_id)
+
+    if request.method == 'POST':
+        action = request.POST.get('action')
+
+        if action == 'approve':
+            user_to_approve.approval_status = 'approved'
+            user_to_approve.approved_by = request.user
+            user_to_approve.approval_date = timezone.now()
+            user_to_approve.save()
+            messages.success(request, f'User {user_to_approve.username} has been approved.')
+        elif action == 'reject':
+            user_to_approve.approval_status = 'rejected'
+            user_to_approve.save()
+            messages.success(request, f'User {user_to_approve.username} has been rejected.')
+
+        return redirect('pending_users')
+
+    return render(request, 'accounts/approve_user.html', {'user_to_approve': user_to_approve})

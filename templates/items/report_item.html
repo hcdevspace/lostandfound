@@ -70,10 +70,9 @@
         <!-- Photo Upload -->
         <div class="form-group">
             <label class="form-label" for="{{ form.photo.id_for_label }}">
-                {{ form.photo.label }}
+                {{ form.photo.label }} <span class="required">*</span>
             </label>
             {{ form.photo }}
-            <small class="form-text">Optional: A photo helps owners identify their items more easily</small>
             {% if form.photo.errors %}
                 <span class="error-message">{{ form.photo.errors.0 }}</span>
             {% endif %}
