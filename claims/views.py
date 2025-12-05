@@ -54,15 +54,26 @@ def admin_claims(request):
     if not (request.user.is_staff or request.user.user_type == 'teacher'):
         messages.error(request, 'You do not have permission to access this page.')
         return redirect('home')
-    
+
     #Filtering options
-    status_filter = request.GET.get('status', 'pending')
-    if status_filter == 'all':
+    status_filter = request.GET.get('status', 'pending_approval')
+
+    # Get items pending approval
+    pending_approval_items = Item.objects.filter(status='reported').order_by('-created_at')
+
+    # Get claims based on filter
+    if status_filter == 'pending_approval':
+        claims = []  # No claims to show on this tab
+    elif status_filter == 'all':
         claims = Claim.objects.all()
     else:
         claims = Claim.objects.filter(status=status_filter)
 
-    return render(request, 'claims/admin_claims.html', {'claims': claims, 'current_filter': status_filter})
+    return render(request, 'claims/admin_claims.html', {
+        'claims': claims,
+        'current_filter': status_filter,
+        'pending_approval_items': pending_approval_items
+    })
 
 #Admin view to review claim detail
 @login_required

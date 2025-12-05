@@ -6,12 +6,23 @@ from items.models import Item
 
 # Create your views here.
 def home(request):
-    # Get 3 most recent items if user is logged in
+    # Get recent items if user is logged in
     recent_items = None
-    if request.user.is_authenticated:
-        recent_items = Item.objects.filter(status='available').order_by('-created_at')[:3]
+    pending_approval_items = None
 
-    return render(request, 'home.html', {'recent_items': recent_items})
+    if request.user.is_authenticated:
+        # For admins/teachers, show items pending approval
+        if request.user.is_staff or request.user.user_type in ['teacher', 'admin']:
+            pending_approval_items = Item.objects.filter(status='reported').order_by('-created_at')[:5]
+            recent_items = Item.objects.filter(status__in=['unclaimed', 'rejected']).order_by('-created_at')[:3]
+        else:
+            # For students, show unclaimed items
+            recent_items = Item.objects.filter(status__in=['unclaimed', 'rejected']).order_by('-created_at')[:3]
+
+    return render(request, 'home.html', {
+        'recent_items': recent_items,
+        'pending_approval_items': pending_approval_items
+    })
 
 def register_student(request):
     if request.method == 'POST':

@@ -16,6 +16,7 @@ class Item(models.Model):
     )
 
     STATUS_CHOICES = (
+        ('reported', 'Reported - Pending Verification'),
         ('unclaimed', 'Unclaimed'),
         ('claimed', 'Claimed'),
         ('rejected', 'Rejected Claim'),
@@ -34,10 +35,15 @@ class Item(models.Model):
 
     photo = models.ImageField(upload_to='items/', blank=True, null=True)
 
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='unclaimed')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='reported')
 
     submitted_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='submitted_items')
     returned_to = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True, related_name='returned_items', help_text="User who received the item")
+
+    # Approval tracking
+    approved_by = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True, related_name='approved_items', help_text="Staff member who approved/received the item")
+    approval_date = models.DateTimeField(null=True, blank=True, help_text="Date when item was approved and received")
+    approval_notes = models.TextField(blank=True, help_text="Notes from staff about receiving the item")
 
     # Discard tracking
     discard_date = models.DateTimeField(null=True, blank=True, help_text="Date when item was discarded/donated")

@@ -15,8 +15,8 @@ def report_item(request):
             item = form.save(commit=False)
             item.submitted_by = request.user
             item.save()
-            messages.success(request, 'Item reported successfully!')
-            return redirect('item_list')
+            messages.success(request, 'Item reported successfully! Please bring the physical item to the Lost & Found office for verification. Once staff approves it, the item will be available for claims.')
+            return redirect('item_detail', pk=item.pk)
     else:
         form = ItemForm()
 
@@ -130,3 +130,37 @@ def discard_item(request, pk):
 
     # If GET request, show confirmation page
     return render(request, 'items/discard_item.html', {'item': item})
+
+@login_required
+def approve_item(request, pk):
+    item = get_object_or_404(Item, pk=pk)
+
+    # Security check: Only teachers or admins can approve
+    is_teacher = request.user.user_type == 'teacher'
+    is_admin = request.user.user_type == 'admin' or request.user.is_staff
+
+    if not (is_teacher or is_admin):
+        messages.error(request, 'You do not have permission to approve items.')
+        return redirect('item_detail', pk=pk)
+
+    # Only approve items with 'reported' status
+    if item.status != 'reported':
+        messages.warning(request, 'This item has already been processed.')
+        return redirect('item_detail', pk=pk)
+
+    if request.method == 'POST':
+        # Get approval notes from form
+        approval_notes = request.POST.get('approval_notes', '')
+
+        # Update item status and approval info
+        item.status = 'unclaimed'
+        item.approval_date = timezone.now()
+        item.approval_notes = approval_notes
+        item.approved_by = request.user
+        item.save()
+
+        messages.success(request, f'Item "{item.name}" has been approved and is now available for claims.')
+        return redirect('item_list')
+
+    # If GET request, show confirmation page
+    return render(request, 'items/approve_item.html', {'item': item})

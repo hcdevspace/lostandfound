@@ -62,7 +62,25 @@
             </div>
 
             <!-- Status Box (based on current status) -->
-            {% if item.status == 'returned' %}
+            {% if item.status == 'reported' %}
+                <div class="status-box" style="background-color: #fff3cd; border-color: #ffc107; color: #856404;">
+                    <div class="status-box-header">
+                        <i class="fas fa-clock"></i>
+                        <h4 class="status-box-title">Pending Admin Verification</h4>
+                    </div>
+                    <div class="status-box-content">
+                        {% if user == item.submitted_by %}
+                            <p style="margin: 0;">Thank you for reporting this item! Please bring the physical item to the Lost & Found office for verification.</p>
+                            <p style="margin: 0.5rem 0 0 0;"><strong>Next Step:</strong> Once staff receives and verifies the item, it will be available for claims.</p>
+                        {% elif user.is_staff or user.user_type == 'teacher' or user.user_type == 'admin' %}
+                            <p style="margin: 0;">This item has been reported but not yet received or verified.</p>
+                            <p style="margin: 0.5rem 0 0 0;"><strong>Action Required:</strong> Confirm receipt of physical item and approve to make it available for claims.</p>
+                        {% else %}
+                            <p style="margin: 0;">This item is pending verification by staff.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            {% elif item.status == 'returned' %}
                 <div class="status-box status-box-returned">
                     <div class="status-box-header">
                         <h4 class="status-box-title">Item Returned</h4>
@@ -170,13 +188,21 @@
                 </a>
 
                 {% if user.is_authenticated %}
+                    {% if item.status == 'reported' %}
+                        {% if user.user_type == 'teacher' or user.user_type == 'admin' or user.is_staff %}
+                            <a href="{% url 'approve_item' item.pk %}" class="btn btn-success">
+                                <i class="fas fa-check-circle"></i> Approve & Receive Item
+                            </a>
+                        {% endif %}
+                    {% endif %}
+
                     {% if user == item.submitted_by or user.user_type == 'teacher' or user.user_type == 'admin' or user.is_staff %}
                         <a href="{% url 'edit_item' item.pk %}" class="btn btn-warning btn-sm">
                             <i class="fas fa-edit"></i> Edit
                         </a>
                     {% endif %}
                     {% if user.user_type == 'teacher' or user.user_type == 'admin' or user.is_staff %}
-                        {% if item.status != 'discarded' and item.status != 'returned' %}
+                        {% if item.status != 'discarded' and item.status != 'returned' and item.status != 'reported' %}
                             <a href="{% url 'discard_item' item.pk %}" class="btn btn-outline-warning btn-sm">
                                 <i class="fas fa-archive"></i> Discard
                             </a>

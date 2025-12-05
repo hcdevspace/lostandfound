@@ -142,6 +142,11 @@
     border: 2px solid var(--success-color);
 }
 
+.status-reported {
+    color: var(--warning-color);
+    border: 2px solid var(--warning-color);
+}
+
 .status-unclaimed {
     color: var(--success-color);
     border: 2px solid var(--success-color);

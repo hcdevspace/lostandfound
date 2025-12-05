@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block title %}Approve Item - {{ item.name }}{% endblock %}
+{% block content %}
+
+<div class="form-container" style="max-width: 700px;">
+    <div class="form-header">
+        <h1><i class="fas fa-check-circle"></i> Approve Reported Item</h1>
+        <p>Confirm receipt of item and make it available for claims</p>
+    </div>
+
+    <!-- Item Info -->
+    <div style="background: #d1ecf1; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #17a2b8; margin-bottom: 1.5rem;">
+        <h3 style="margin: 0 0 1rem 0; font-size: 1.1rem; color: #0c5460;">
+            <i class="fas fa-info-circle"></i> Item Details
+        </h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; color: #0c5460;">
+            <div>
+                <p style="margin: 0.25rem 0;"><strong>Name:</strong> {{ item.name }}</p>
+                <p style="margin: 0.25rem 0;"><strong>Category:</strong> {{ item.get_category_display }}</p>
+                <p style="margin: 0.25rem 0;"><strong>Location Found:</strong> {{ item.location_found }}</p>
+            </div>
+            <div>
+                <p style="margin: 0.25rem 0;"><strong>Date Found:</strong> {{ item.date_found|date:"M d, Y" }}</p>
+                <p style="margin: 0.25rem 0;"><strong>Reported By:</strong> {{ item.submitted_by.get_full_name|default:item.submitted_by.username }}</p>
+                <p style="margin: 0.25rem 0;"><strong>Reported:</strong> {{ item.created_at|date:"M d, Y g:i A" }}</p>
+            </div>
+        </div>
+        {% if item.photo %}
+            <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #bee5eb;">
+                <img src="{{ item.photo.url }}" alt="{{ item.name }}" style="max-width: 100%; max-height: 200px; object-fit: contain; border-radius: 4px;">
+            </div>
+        {% endif %}
+        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #bee5eb;">
+            <p style="margin: 0;"><strong>Description:</strong></p>
+            <p style="margin: 0.5rem 0 0 0;">{{ item.description }}</p>
+        </div>
+    </div>
+
+    <!-- Approval Form -->
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label class="form-label" for="approval_notes">
+                Receipt Confirmation Notes <span class="required">*</span>
+            </label>
+            <textarea
+                name="approval_notes"
+                id="approval_notes"
+                class="form-control"
+                rows="3"
+                placeholder="Confirm item has been received (e.g., 'Item received and stored in Lost & Found office cabinet A3', 'Item secured in main office safe')"
+                required
+            ></textarea>
+            <small class="form-text">Record where the item has been stored and confirm physical receipt</small>
+        </div>
+
+        <div style="background: #d4edda; padding: 1rem; border-radius: 8px; border-left: 4px solid #28a745; margin-bottom: 1.5rem;">
+            <p style="margin: 0; font-size: 0.95rem; color: #155724;">
+                <i class="fas fa-check-circle"></i>
+                <strong>What happens after approval:</strong>
+            </p>
+            <ul style="margin: 0.5rem 0 0 1.5rem; color: #155724; font-size: 0.9rem;">
+                <li>Item status changes from "Reported" to "Unclaimed"</li>
+                <li>Item becomes visible in public search results</li>
+                <li>Students can submit claims for this item</li>
+                <li>Your approval notes are recorded for staff reference</li>
+            </ul>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-success">
+                <i class="fas fa-check-circle"></i> Approve & Receive Item
+            </button>
+            <a href="{% url 'item_detail' item.pk %}" class="btn btn-outline-secondary">
+                <i class="fas fa-times"></i> Cancel
+            </a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
