@@ -148,9 +148,9 @@
     </div>
     <div class="card-body recent-items-body">
         {% if recent_items %}
-            <div class="row">
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;">
                 {% for item in recent_items %}
-                <div class="col-4">
+                <div>
                     <a href="{% url 'item_detail' item.pk %}" class="recent-item-link">
                         <div class="card recent-item-card">
                             <div class="card-body recent-item-body">
