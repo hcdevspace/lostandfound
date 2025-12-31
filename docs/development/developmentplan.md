@@ -139,10 +139,10 @@ Remove:
 
 ---
 
-# 📅 WEEK 3 — RESPONSIVE & VISUAL ACCESSIBILITY  
+# 📅 WEEK 3 — RESPONSIVE, MOBILE & VISUAL ACCESSIBILITY  
 **Jan 16 – Jan 22**
 
-### Focus: *Inclusive design across devices*
+### Focus: *Inclusive design across devices + nice-to-have features*
 
 ---
 
@@ -175,22 +175,35 @@ Remove:
 
 ---
 
-## ⚙️ Backend Support (Lightweight)
+## ⚙️ Backend Support
 - [ ] Search filtering logic
-- [ ] Admin dashboard (simple, accessible tables)
+- [ ] Admin dashboard (accessible tables)
 - [ ] Email notifications (approved/rejected)
 - [ ] CSRF & form validation checks
 
+---
+
+## 🌟 Additional Features (UX-Friendly Implementation)
+- [ ] Password reset functionality
+- [ ] Email verification
+- [ ] Remember me on login
+- [ ] Item archival (90-day auto-archive)
+- [ ] Multiple images per item (image gallery)
+- [ ] Related items suggestions
+- [ ] Print-friendly item pages
+- [ ] Help/FAQ page
+- [ ] Contact form
+- [ ] Site tour for new users (optional)
+
 🎯 **Week 3 Milestone:**  
-✅ Mobile experience feels intentional  
-✅ Visual polish enhances usability  
+✅ Core + extra features integrated without sacrificing UX or accessibility  
 
 ---
 
 # 📅 WEEK 4 — ACCESSIBILITY QA, CLEANUP & DEPLOY  
 **Jan 23 – Jan 30**
 
-### Focus: *Does this feel good for everyone?*
+### Focus: *Ensure accessibility, polish, testing, deployment*
 
 ---
 
@@ -215,6 +228,7 @@ Tools:
 - [ ] Admin actions
 - [ ] Form validation
 - [ ] Search & filters
+- [ ] Nice-to-have features testing (reset, multiple images, help page, etc.)
 
 ---
 
@@ -248,13 +262,10 @@ Tools:
 ---
 
 # ✂️ Deferred (Post-Jan 30)
-- PWA
+- Progressive Web App (PWA)
 - Advanced analytics / charts
 - CSV export
-- Email preferences
-- Password reset
-- Email verification
-- Advanced admin features
+- Advanced admin-only features
 
 ---
 
@@ -264,12 +275,13 @@ Tools:
 - ✅ WCAG-aligned accessibility
 - ✅ Keyboard & screen reader support
 - ✅ Mobile responsive
+- ✅ Core + extra features functional
 - ✅ Secure baseline
 - ✅ Fully demo-ready
 
 ---
 
 ## 💡 Guiding Rule
-> **Cut backend features before cutting UX or accessibility.**
+> **Cut backend features first if necessary; never compromise UX or accessibility.**
 
 **Ship something you’re proud of.**
