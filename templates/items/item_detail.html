@@ -165,10 +165,10 @@
                 {% if item.status == 'unclaimed' or item.status == 'rejected' %}
                     {% if user.is_authenticated %}
                         {% if user != item.submitted_by %}
-                            <a href="{% url 'submit_claim' item.pk %}" class="btn btn-primary">
+                            <a href="{% url 'submit_claim_typed' item.pk 'claim' %}" class="btn btn-primary">
                                 <i class="fas fa-hand-paper"></i> Claim Item
                             </a>
-                            <a href="{% url 'submit_claim' item.pk %}" class="btn btn-outline-primary">
+                            <a href="{% url 'submit_claim_typed' item.pk 'inquiry' %}" class="btn btn-outline-primary">
                                 <i class="fas fa-envelope"></i> Inquire
                             </a>
                         {% else %}

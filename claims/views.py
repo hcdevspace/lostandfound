@@ -10,7 +10,7 @@ from .forms import ClaimForm
 
 #Submission
 @login_required
-def submit_claim(request, item_pk):
+def submit_claim(request, item_pk, claim_type=None):
     item = get_object_or_404(Item, pk=item_pk)
 
     # Prevent the user who reported the item from claiming it
@@ -27,7 +27,7 @@ def submit_claim(request, item_pk):
     if existing_claim:
         messages.warning(request, 'You already have a pending claim for this item.')
         return redirect('my_claims')
-    
+
     if request.method == 'POST':
         form = ClaimForm(request.POST)
         if form.is_valid():
@@ -38,9 +38,13 @@ def submit_claim(request, item_pk):
             messages.success(request, f'Your {claim.get_claim_type_display().lower()} has been submitted successfully!')
             return redirect('my_claims')
     else:
-        form = ClaimForm()
+        # Pre-select claim type if provided
+        if claim_type in ['claim', 'inquiry']:
+            form = ClaimForm(initial={'claim_type': claim_type})
+        else:
+            form = ClaimForm()
 
-    return render(request, 'claims/submit_claim.html', {'form': form, 'item': item})
+    return render(request, 'claims/submit_claim.html', {'form': form, 'item': item, 'claim_type': claim_type})
 
 #View own cliams
 @login_required
