@@ -11,6 +11,7 @@ def home(request):
     # Get recent items if user is logged in
     recent_items = None
     pending_approval_items = None
+    slider_items = Item.objects.filter(status__in=['unclaimed', 'rejected']).order_by('-created_at')[:8]
 
     if request.user.is_authenticated:
         # For admins/teachers, show items pending approval
@@ -23,7 +24,8 @@ def home(request):
 
     return render(request, 'home.html', {
         'recent_items': recent_items,
-        'pending_approval_items': pending_approval_items
+        'pending_approval_items': pending_approval_items,
+        'slider_items': slider_items
     })
 
 def register_student(request):

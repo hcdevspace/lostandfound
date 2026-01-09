@@ -5,200 +5,223 @@
 {% block content %}
 
 {% if not user.is_authenticated %}
-<!-- Landing Page for Non-Logged In Users -->
-
-<!-- Hero Section -->
 <div class="hero-section">
-    <h1 class="hero-title">
-        <i class="fas fa-box-open"></i> Lost Something On Campus?
-    </h1>
-    <p class="hero-subtitle">
-        Let's Help You Find It
-    </p>
-    <p class="hero-description">
-        Searched every corner of the school? Don't stress! Post, search, or report lost and found items in minutes.
-    </p>
+    <div class="hero-grid">
+        <div class="hero-copy">
+            <div class="hero-tagline" data-hero-randomizer>
+                <h1 class="hero-title">
+                    <span class="tagline-text">Lose it?<br>Find it here.</span>
+                </h1>
+            </div>
+            <break></break>
+            <p class="hero-description">Quickly post, search, and claim lost and found items on campus.
+            Reunite with your belongings in minutes.
+            </p>
+        </div>
+        <div class="hero-slider" data-lf-slider>
+            <div class="lf-slider-card">
+                <div class="lf-slider-header">
+                    <div class="lf-slider-title">Recently Found</div>
+                </div>
+                <div class="lf-slider-viewport">
+                    {% if slider_items %}
+                        {% for item in slider_items %}
+                            <div class="lf-slide" data-lf-slide>
+                                <div class="lf-slide-media">
+                                    <img src="{{ item.photo.url }}" alt="{{ item.name }}">
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="lf-slide" data-lf-slide>
+                            <div class="lf-slide-media lf-slide-media-empty">
+                                <i class="fas fa-glasses"></i>
+                            </div>
+                        </div>
+                        <div class="lf-slide" data-lf-slide>
+                            <div class="lf-slide-media lf-slide-media-empty">
+                                <i class="fas fa-book"></i>
+                            </div>
+                        </div>
+                        <div class="lf-slide" data-lf-slide>
+                            <div class="lf-slide-media lf-slide-media-empty">
+                                <i class="fas fa-pen"></i>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                <button type="button" class="lf-slider-btn" data-lf-slider-prev aria-label="Previous">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button type="button" class="lf-slider-btn" data-lf-slider-next aria-label="Next">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
 
-<!-- How It Works Section -->
 <div class="how-it-works-section">
     <h2 class="how-it-works-title">
         How It Works
     </h2>
-    <div class="row">
-        <!-- Step 1 -->
+    <div class="row how-it-works-row">
         <div class="col-4">
             <div class="card text-center feature-card step-card">
                 <div class="card-body">
-                    <div class="step-number step-number-primary">
-                        1
+                    <div class="step-icon step-icon-primary">
+                        <i class="fas fa-upload"></i>
                     </div>
                     <h4 class="step-title">Report Items</h4>
-                    <p class="step-description">
-                        Report found items with photos and details.
-                    </p>
+                    <p class="step-description">Report found items with photos and details.</p>
                 </div>
             </div>
         </div>
 
-        <!-- Step 2 -->
         <div class="col-4">
             <div class="card text-center feature-card step-card">
                 <div class="card-body">
-                    <div class="step-number step-number-success">
-                        2
+                    <div class="step-icon step-icon-success">
+                        <i class="fas fa-search"></i>
                     </div>
                     <h4 class="step-title">Search & Browse</h4>
-                    <p class="step-description">
-                        Search by name, category, or description.
-                    </p>
+                    <p class="step-description">Search by name, category, or description.</p>
                 </div>
             </div>
         </div>
 
-        <!-- Step 3 -->
         <div class="col-4">
             <div class="card text-center feature-card step-card">
                 <div class="card-body">
-                    <div class="step-number step-number-warning">
-                        3
+                    <div class="step-icon step-icon-warning">
+                        <i class="fas fa-check-circle"></i>
                     </div>
                     <h4 class="step-title">Claim Your Item</h4>
-                    <p class="step-description">
-                        Submit a claim with proof to receive your lost item.
-                    </p>
+                    <p class="step-description">Submit a claim with proof to receive your item.</p>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Call to Action -->
-<div class="card cta-section">
+<div class="cta-section">
     <h3 class="cta-title">Ready to Get Started?</h3>
-    <p class="cta-description">
-        Join our community and help reunite students with their belongings
-    </p>
+    <p class="cta-description">Join our community and help reunite students with their belongings</p>
     <div class="cta-buttons">
         <a href="{% url 'login' %}" class="btn btn-primary cta-login-btn">
             <i class="fas fa-sign-in-alt"></i> Login
         </a>
     </div>
-    <p class="cta-register-text">
-        New here? <a href="{% url 'register_student' %}">Register as Student</a> or <a href="{% url 'register_teacher' %}">Teacher</a>
-    </p>
+    <p class="cta-register-text">New here? <a href="{% url 'register_student' %}">Register as Student</a> or <a href="{% url 'register_teacher' %}">Teacher</a></p>
 </div>
 
 {% else %}
-<!-- Dashboard for Logged In Users -->
-
-<!-- Welcome Message -->
-<div class="card welcome-message" id="welcome-message">
-    <div class="card-body">
-        <h5>Welcome back, {{ user.first_name }}!</h5>
-    </div>
-</div>
-
-<!-- Quick Actions -->
-<div class="quick-actions-section">
-    <h2 class="quick-actions-title">
-        Quick Actions
-    </h2>
-    <div class="row">
-        <!-- Action 1: Report Items -->
-        <div class="col-6">
-            <a href="{% url 'report_item' %}" class="quick-action-card">
-                <div class="card text-center feature-card">
-                    <div class="card-body quick-action-body">
-                        <div class="quick-action-icon quick-action-icon-primary">
-                            <i class="fa-solid fa-clipboard-list"></i>
-                        </div>
-                        <h4 class="quick-action-title">Report Items</h4>
-                        <p class="text-muted quick-action-description">Report found items with photos and details.</p>
-                    </div>
+<div class="logged-in-home">
+    <div class="logged-in-hero">
+        <div class="hero-slider logged-in-slider" data-lf-slider>
+            <div class="lf-slider-card">
+                <div class="lf-slider-header">
+                    <div class="lf-slider-title">Recently Found</div>
                 </div>
-            </a>
-        </div>
-
-        <!-- Action 2: Search & Browse -->
-        <div class="col-6">
-            <a href="{% url 'item_list' %}" class="quick-action-card">
-                <div class="card text-center feature-card">
-                    <div class="card-body quick-action-body">
-                        <div class="quick-action-icon quick-action-icon-success">
-                            <i class="fas fa-search"></i>
-                        </div>
-                        <h4 class="quick-action-title">Search</h4>
-                        <p class="text-muted quick-action-description">Search to locate belongings.</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-    </div>
-</div>
-
-<!-- Recently Found Items (Only for logged-in users) -->
-{% if user.is_authenticated %}
-<div class="card recent-items-card">
-    <div class="card-header bg-primary recent-items-header">
-        <h3 class="recent-items-title"><i class="fas fa-clock"></i> Recently Found Items</h3>
-        <a href="{% url 'item_list' %}" class="btn btn-sm recent-items-view-all">
-            <i class="fas fa-search"></i> View All
-        </a>
-    </div>
-    <div class="card-body recent-items-body">
-        {% if recent_items %}
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;">
-                {% for item in recent_items %}
-                <div>
-                    <a href="{% url 'item_detail' item.pk %}" class="recent-item-link">
-                        <div class="card recent-item-card">
-                            <div class="card-body recent-item-body">
-                                <!-- Item Image -->
-                                <div class="recent-item-image">
-                                    {% if item.photo %}
-                                        <img src="{{ item.photo.url }}" alt="{{ item.name }}">
-                                    {% else %}
-                                        <i class="fas fa-image"></i>
-                                    {% endif %}
+                <div class="lf-slider-viewport">
+                    {% if slider_items %}
+                        {% for item in slider_items %}
+                            <div class="lf-slide" data-lf-slide>
+                                <div class="lf-slide-media">
+                                    <img src="{{ item.photo.url }}" alt="{{ item.name }}">
                                 </div>
-
-                                <!-- Item Name -->
-                                <h4 class="recent-item-name">{{ item.name|truncatewords:3 }}</h4>
-
-                                <!-- Category -->
-                                <p class="recent-item-category">
-                                    <i class="fas fa-tag"></i> {{ item.get_category_display }}
-                                </p>
-
-                                <!-- Location & Date -->
-                                <p class="recent-item-location">
-                                    <i class="fas fa-map-marker-alt"></i> {{ item.location_found|truncatewords:3 }}
-                                </p>
-                                <p class="recent-item-date">
-                                    <i class="fas fa-calendar"></i> {{ item.date_found|timesince }} ago
-                                </p>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="lf-slide" data-lf-slide>
+                            <div class="lf-slide-media lf-slide-media-empty">
+                                <i class="fas fa-glasses"></i>
                             </div>
                         </div>
-                    </a>
+                        <div class="lf-slide" data-lf-slide>
+                            <div class="lf-slide-media lf-slide-media-empty">
+                                <i class="fas fa-book"></i>
+                            </div>
+                        </div>
+                        <div class="lf-slide" data-lf-slide>
+                            <div class="lf-slide-media lf-slide-media-empty">
+                                <i class="fas fa-pen"></i>
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
-                {% endfor %}
+                <button type="button" class="lf-slider-btn" data-lf-slider-prev aria-label="Previous">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button type="button" class="lf-slider-btn" data-lf-slider-next aria-label="Next">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
-        {% else %}
-            <!-- Empty State -->
-            <div class="recent-items-empty">
-                <i class="fas fa-inbox"></i>
-                <h4>No Items Found Yet</h4>
-                <p>Be the first to report a found item!</p>
-                <a href="{% url 'report_item' %}" class="btn btn-primary">
-                    <i class="fa-solid fa-clipboard-list"></i> Report Found Item
+        </div>
+    </div>
+
+    <div class="quick-actions-section logged-in-actions">
+        <h2 class="quick-actions-title">Quick Actions</h2>
+        <div class="row logged-in-actions-row">
+            <div class="col-3">
+                <a href="{% url 'report_item' %}" class="quick-action-card">
+                    <div class="card text-center feature-card">
+                        <div class="card-body quick-action-body">
+                            <div class="quick-action-icon quick-action-icon-primary">
+                                <i class="fa-solid fa-clipboard-list"></i>
+                            </div>
+                            <h4 class="quick-action-title">Report Item</h4>
+                            <p class="text-muted quick-action-description">Post a found item with details.</p>
+                        </div>
+                    </div>
                 </a>
             </div>
-        {% endif %}
+
+            <div class="col-3">
+                <a href="{% url 'item_list' %}" class="quick-action-card">
+                    <div class="card text-center feature-card">
+                        <div class="card-body quick-action-body">
+                            <div class="quick-action-icon quick-action-icon-success">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <h4 class="quick-action-title">Search Items</h4>
+                            <p class="text-muted quick-action-description">Browse and search for matches.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-3">
+                <a href="{% url 'my_items' %}" class="quick-action-card">
+                    <div class="card text-center feature-card">
+                        <div class="card-body quick-action-body">
+                            <div class="quick-action-icon quick-action-icon-primary">
+                                <i class="fas fa-box"></i>
+                            </div>
+                            <h4 class="quick-action-title">My Items</h4>
+                            <p class="text-muted quick-action-description">Track items you reported.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-3">
+                <a href="{% url 'my_claims' %}" class="quick-action-card">
+                    <div class="card text-center feature-card">
+                        <div class="card-body quick-action-body">
+                            <div class="quick-action-icon quick-action-icon-success">
+                                <i class="fas fa-clipboard-list"></i>
+                            </div>
+                            <h4 class="quick-action-title">My Claims</h4>
+                            <p class="text-muted quick-action-description">View claim status and updates.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
     </div>
 </div>
-{% endif %}
-{% endif %}
 
+{% endif %}
 
 {% endblock %}

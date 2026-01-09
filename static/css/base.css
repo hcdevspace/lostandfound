@@ -29,17 +29,17 @@ body {
     line-height: 1.3;
     color: var(--text-dark);
     background-color: var(--light-bg);
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 main {
     flex: 1;
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
 }
 
 a {
@@ -79,4 +79,24 @@ footer a:hover {
 
 .footer-tagline {
     font-size: 0.75rem;
+}
+
+/* Background Art */
+.bg-art {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+    background-color: var(--light-bg);
+}
+
+.bg-art svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 1.0;
 }

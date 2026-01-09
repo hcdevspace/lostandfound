@@ -117,3 +117,57 @@ document.addEventListener('DOMContentLoaded', function() {
     // Set initial state
     updateForm();
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    const randomizer = document.querySelector('[data-hero-randomizer]');
+    if (randomizer) {
+        const taglines = [
+            'Lose it?<br>Find it here.',
+            'One stop<br>for lost items.',
+            'Lost things,<br>found solutions.',
+            'A helping hand<br>for lost items.',
+            'Trusted to<br>find your lost items.'
+        ];
+        const randomIndex = Math.floor(Math.random() * taglines.length);
+        const taglineText = randomizer.querySelector('.tagline-text');
+        if (taglineText) {
+            taglineText.innerHTML = taglines[randomIndex];
+        }
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const sliderRoots = document.querySelectorAll('[data-lf-slider]');
+    sliderRoots.forEach(function(sliderRoot) {
+        const slides = Array.from(sliderRoot.querySelectorAll('[data-lf-slide]'));
+        const prevBtn = sliderRoot.querySelector('[data-lf-slider-prev]');
+        const nextBtn = sliderRoot.querySelector('[data-lf-slider-next]');
+        const viewport = sliderRoot.querySelector('.lf-slider-viewport');
+
+        if (!slides.length || !viewport) return;
+
+        let index = 0;
+
+        function setActive(nextIndex) {
+            index = ((nextIndex % slides.length) + slides.length) % slides.length;
+            const scrollLeft = slides[index].offsetLeft - viewport.offsetLeft;
+            viewport.scrollLeft = scrollLeft;
+        }
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                setActive(index - 1);
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                setActive(index + 1);
+            });
+        }
+
+        setActive(0);
+    });
+});

@@ -1,9 +1,9 @@
 /* Navigation bar */
 
 .navbar {
-    background-color: white;
+    background-color: #2C4A9E;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-top: 3px solid var(--primary-color);
+    border-top: none;
     padding: 0.75rem 0;
 }
 
@@ -16,7 +16,7 @@
 .navbar-brand {
     font-size: 1.3rem;
     font-weight: 600;
-    color: var(--text-dark);
+    color: white;
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -24,7 +24,7 @@
 }
 
 .navbar-brand:hover {
-    color: var(--primary-color);
+    color: #e0e0e0;
 }
 
 .navbar-brand i {
@@ -39,7 +39,7 @@
 }
 
 .navbar-menu a {
-    color: var(--text-dark);
+    color: white;
     padding: 0.4rem 0.8rem;
     border-radius: 4px;
     transition: all 0.3s;
@@ -48,7 +48,8 @@
 }
 
 .navbar-menu a:hover {
-    color: var(--primary-color);
+    color: #e0e0e0;
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .btn-register {
@@ -72,7 +73,7 @@
 }
 
 .dropdown-toggle {
-    color: var(--text-dark);
+    color: white;
     padding: 0.4rem 0.8rem;
     border-radius: 4px;
     transition: all 0.3s;
@@ -82,7 +83,8 @@
 }
 
 .dropdown-toggle:hover {
-    color: var(--primary-color);
+    color: #e0e0e0;
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .dropdown-menu {
@@ -138,7 +140,7 @@
     display: none;
     background: none;
     border: none;
-    color: var(--text-dark);
+    color: white;
     font-size: 1.5rem;
     cursor: pointer;
 }
