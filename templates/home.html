@@ -13,22 +13,36 @@
                     <span class="tagline-text">Lose it?<br>Find it here.</span>
                 </h1>
             </div>
-            <break></break>
-            <p class="hero-description">Quickly post, search, and claim lost and found items on campus.
-            Reunite with your belongings in minutes.
+
+            <br>
+
+            <p class="hero-description">
+                Quickly post, search, and claim lost and found items on campus.
+                Reunite with your belongings in minutes.
             </p>
         </div>
+
         <div class="hero-slider" data-lf-slider role="region" aria-label="Recently found items carousel">
             <div class="lf-slider-card">
                 <div class="lf-slider-header">
                     <div class="lf-slider-title" id="slider-title">Recently Found</div>
                 </div>
+
                 <div class="lf-slider-viewport" role="group" aria-labelledby="slider-title" aria-live="polite">
                     {% if slider_items %}
                         {% for item in slider_items %}
-                            <div class="lf-slide" data-lf-slide role="group" aria-label="Item {{ forloop.counter }} of {{ slider_items|length }}">
+                            <div class="lf-slide" data-lf-slide role="group"
+                                 aria-label="Item {{ forloop.counter }} of {{ slider_items|length }}">
                                 <div class="lf-slide-media">
-                                    <img src="{{ item.photo.url }}" alt="{{ item.name }} - {{ item.category }}">
+                                    <img
+                                        src="{{ item.photo.url }}"
+                                        alt="{{ item.name }}"
+                                        data-lf-tooltip
+                                        data-title="{{ item.name|escape }}"
+                                        data-date-found="{{ item.date_found|date:'M j, Y' }}"
+                                        data-category="{{ item.get_category_display|escape }}"
+                                        data-location="{{ item.location_found|escape }}"
+                                    >
                                 </div>
                             </div>
                         {% endfor %}
@@ -50,6 +64,7 @@
                         </div>
                     {% endif %}
                 </div>
+
                 <button type="button" class="lf-slider-btn" data-lf-slider-prev aria-label="View previous item">
                     <i class="fas fa-chevron-left" aria-hidden="true"></i>
                 </button>
@@ -62,10 +77,9 @@
 </div>
 
 <section class="how-it-works-section" aria-labelledby="how-it-works-heading">
-    <h2 class="how-it-works-title" id="how-it-works-heading">
-        How It Works
-    </h2>
+    <h2 class="how-it-works-title" id="how-it-works-heading">How It Works</h2>
     <div class="row how-it-works-row">
+
         <div class="col-4">
             <article class="card text-center feature-card step-card">
                 <div class="card-body">
@@ -112,7 +126,12 @@
             <i class="fas fa-sign-in-alt" aria-hidden="true"></i> Login
         </a>
     </div>
-    <p class="cta-register-text">New here? <a href="{% url 'register_student' %}">Register as Student</a> or <a href="{% url 'register_teacher' %}">Teacher</a></p>
+    <p class="cta-register-text">
+        New here?
+        <a href="{% url 'register_student' %}">Register as Student</a>
+        or
+        <a href="{% url 'register_teacher' %}">Teacher</a>
+    </p>
 </section>
 
 {% else %}
@@ -123,38 +142,49 @@
                 <div class="lf-slider-header">
                     <div class="lf-slider-title" id="slider-title-logged-in">Recently Found</div>
                 </div>
+
                 <div class="lf-slider-viewport" role="group" aria-labelledby="slider-title-logged-in" aria-live="polite">
                     {% if slider_items %}
                         {% for item in slider_items %}
-                            <div class="lf-slide" data-lf-slide role="group" aria-label="Item {{ forloop.counter }} of {{ slider_items|length }}">
+                            <div class="lf-slide" data-lf-slide role="group"
+                                 aria-label="Item {{ forloop.counter }} of {{ slider_items|length }}">
                                 <div class="lf-slide-media">
-                                    <img src="{{ item.photo.url }}" alt="{{ item.name }} - {{ item.category }}">
+                                    <img
+                                        src="{{ item.photo.url }}"
+                                        alt="{{ item.name }}"
+                                        data-lf-tooltip
+                                        data-title="{{ item.name|escape }}"
+                                        data-date-found="{{ item.date_found|date:'M j, Y' }}"
+                                        data-category="{{ item.get_category_display|escape }}"
+                                        data-location="{{ item.location_found|escape }}"
+                                    >
                                 </div>
                             </div>
                         {% endfor %}
                     {% else %}
                         <div class="lf-slide" data-lf-slide role="group" aria-label="Example item 1 of 3">
                             <div class="lf-slide-media lf-slide-media-empty">
-                                <i class="fas fa-glasses" aria-hidden="true"></i>
+                                <i class="fas fa-glasses"></i>
                             </div>
                         </div>
                         <div class="lf-slide" data-lf-slide role="group" aria-label="Example item 2 of 3">
                             <div class="lf-slide-media lf-slide-media-empty">
-                                <i class="fas fa-book" aria-hidden="true"></i>
+                                <i class="fas fa-book"></i>
                             </div>
                         </div>
                         <div class="lf-slide" data-lf-slide role="group" aria-label="Example item 3 of 3">
                             <div class="lf-slide-media lf-slide-media-empty">
-                                <i class="fas fa-pen" aria-hidden="true"></i>
+                                <i class="fas fa-pen"></i>
                             </div>
                         </div>
                     {% endif %}
                 </div>
+
                 <button type="button" class="lf-slider-btn" data-lf-slider-prev aria-label="View previous item">
-                    <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                    <i class="fas fa-chevron-left"></i>
                 </button>
                 <button type="button" class="lf-slider-btn" data-lf-slider-next aria-label="View next item">
-                    <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                    <i class="fas fa-chevron-right"></i>
                 </button>
             </div>
         </div>
@@ -162,13 +192,15 @@
 
     <section class="quick-actions-section logged-in-actions" aria-labelledby="quick-actions-heading">
         <h2 class="quick-actions-title" id="quick-actions-heading">Quick Actions</h2>
+
         <nav class="row logged-in-actions-row" aria-label="Quick action links">
+
             <div class="col-3">
                 <a href="{% url 'report_item' %}" class="quick-action-card" aria-label="Report a found item">
                     <article class="card text-center feature-card">
                         <div class="card-body quick-action-body">
-                            <div class="quick-action-icon quick-action-icon-primary" aria-hidden="true">
-                                <i class="fa-solid fa-clipboard-list"></i>
+                            <div class="quick-action-icon quick-action-icon-primary">
+                                <i class="fas fa-clipboard-list"></i>
                             </div>
                             <h4 class="quick-action-title">Report Item</h4>
                             <p class="text-muted quick-action-description">Post a found item with details.</p>
@@ -181,7 +213,7 @@
                 <a href="{% url 'item_list' %}" class="quick-action-card" aria-label="Search for lost items">
                     <article class="card text-center feature-card">
                         <div class="card-body quick-action-body">
-                            <div class="quick-action-icon quick-action-icon-success" aria-hidden="true">
+                            <div class="quick-action-icon quick-action-icon-success">
                                 <i class="fas fa-search"></i>
                             </div>
                             <h4 class="quick-action-title">Search Items</h4>
@@ -195,10 +227,10 @@
                 <a href="{% url 'my_items' %}" class="quick-action-card" aria-label="View items you reported">
                     <article class="card text-center feature-card">
                         <div class="card-body quick-action-body">
-                            <div class="quick-action-icon quick-action-icon-primary" aria-hidden="true">
+                            <div class="quick-action-icon quick-action-icon-primary">
                                 <i class="fas fa-box"></i>
                             </div>
-                            <h4 class="quick-action-title">My Items</h4>
+                            <h4 class="quick-action-title">My Reported Items</h4>
                             <p class="text-muted quick-action-description">Track items you reported.</p>
                         </div>
                     </article>
@@ -209,7 +241,7 @@
                 <a href="{% url 'my_claims' %}" class="quick-action-card" aria-label="View your claims">
                     <article class="card text-center feature-card">
                         <div class="card-body quick-action-body">
-                            <div class="quick-action-icon quick-action-icon-success" aria-hidden="true">
+                            <div class="quick-action-icon quick-action-icon-success">
                                 <i class="fas fa-clipboard-list"></i>
                             </div>
                             <h4 class="quick-action-title">My Claims</h4>
@@ -218,6 +250,7 @@
                     </article>
                 </a>
             </div>
+
         </nav>
     </section>
 </div>

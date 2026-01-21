@@ -1,72 +1,78 @@
-<!-- List of items the user has reported-->
  {% extends 'base.html' %}
  {% block title %}My Items{% endblock %}
  {% block content %}
-    <div class="page-header">
-        <h1><i class="fas fa-box"></i> My Reported Items</h1>
-        <p class="text-muted">Items you have reported</p>
-    </div>
-
-    {% if items %}
-        <div class="items-grid">
-            {% for item in items %}
-            <div class="item-card">
-                <div class="item-card-image">
-                    {% if item.photo %}
-                        <img src="{{ item.photo.url }}" alt="{{ item.name }}">
-                    {% else %}
-                        <div class="no-image">
-                            <i class="fas fa-image"></i>
-                            <p>No photo</p>
-                        </div>
-                    {% endif %}
-                    <span class="status-badge status-{{ item.status }}">
-                        {{ item.get_status_display }}
-                    </span>
-                </div>
-
-            <div class="item-card-body">
-                <h3 class="item-title">{{ item.name }}</h3>
-                <p class="item-category">
-                    <i class="fas fa-tag"></i> {{ item.get_category_display }}
-                </p>
-
-                <div class="item-details">
-                    <div class="detail-row">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>{{ item.location_found }}</span>
-                    </div>
-                    <div class="detail-row">
-                        <i class="fas fa-calendar"></i>
-                        <span>{{ item.date_found|date:"M d, Y" }}</span>
-                    </div>
-                    {% if item.status == 'returned' and item.returned_to %}
-                    <div class="detail-row">
-                        <i class="fas fa-user-check"></i>
-                        <span>Returned to: {{ item.returned_to.get_full_name|default:item.returned_to.username }}</span>
-                    </div>
-                    {% endif %}
-                </div>
-
-                <p class="item-description">{{ item.description|truncatewords:20 }}</p>
-
-                <div class="item-card-footer">
-                    <a href="{% url 'item_detail' item.pk %}" class="btn btn-sm btn-outline-primary">
-                        <i class="fas fa-eye"></i> View Details
-                    </a>
-                </div>
+    <div class="lf-page lf-my-items-page">
+        <div class="my-items-header-card">
+            <div class="my-items-header-icon">
+                <i class="fas fa-box"></i>
+            </div>
+            <div class="my-items-header-content">
+                <h1>My Reported Items</h1>
+                <p class="my-items-subline">Items you have reported</p>
             </div>
         </div>
-        {% endfor %}
+
+        {% if items %}
+            <div class="items-grid">
+                {% for item in items %}
+                <div class="item-card">
+                    <div class="item-card-image">
+                        {% if item.photo %}
+                            <img src="{{ item.photo.url }}" alt="{{ item.name }}">
+                        {% else %}
+                            <div class="no-image">
+                                <i class="fas fa-image"></i>
+                                <p>No photo</p>
+                            </div>
+                        {% endif %}
+                        <span class="status-badge status-{{ item.status }}">
+                            {{ item.get_status_display }}
+                        </span>
+                    </div>
+
+                    <div class="item-card-body">
+                        <h3 class="item-title">{{ item.name }}</h3>
+                        <p class="item-category">
+                            <i class="fas fa-tag"></i> {{ item.get_category_display }}
+                        </p>
+
+                        <div class="item-details">
+                            <div class="detail-row">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>{{ item.location_found }}</span>
+                            </div>
+                            <div class="detail-row">
+                                <i class="fas fa-calendar"></i>
+                                <span>{{ item.date_found|date:"M d, Y" }}</span>
+                            </div>
+                            {% if item.status == 'returned' and item.returned_to %}
+                            <div class="detail-row">
+                                <i class="fas fa-user-check"></i>
+                                <span>Returned to: {{ item.returned_to.get_full_name|default:item.returned_to.username }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <p class="item-description">{{ item.description|truncatewords:20 }}</p>
+
+                        <div class="item-card-footer">
+                            <a href="{% url 'item_detail' item.pk %}" class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-eye"></i> View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <i class="fas fa-inbox"></i>
+                <h2>No Items Yet</h2>
+                <p>You haven't reported any items</p>
+                <a href="{% url 'report_item' %}" class="btn btn-primary">
+                    <i class="fas fa-plus-circle"></i> Report an Item
+                </a>
+            </div>
+        {% endif %}
     </div>
-    {% else %}
-        <div class="empty-state">
-            <i class="fas fa-inbox"></i>
-            <h2>No Items Yet</h2>
-            <p>You haven't reported any items</p>
-            <a href="{% url 'report_item' %}" class="btn btn-primary">
-                <i class="fas fa-plus-circle" style="color: white;"></i> Report an Item
-            </a>
-        </div>
-    {% endif %}
  {% endblock %}

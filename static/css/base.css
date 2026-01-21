@@ -8,6 +8,12 @@
     box-sizing: border-box;
 }
 
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
 :root {
     --primary-color: #4169E1;      /* Royal Blue (War Eagle Blue) */
     --primary-dark: #2C4A9E;       /* Darker Royal Blue */
@@ -34,6 +40,35 @@ body {
     flex-direction: column;
     overflow-x: hidden;
     overflow-y: auto;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(65, 105, 225, 0.4);
+    border-radius: 5px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+    transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(65, 105, 225, 0.65);
+    background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: rgba(65, 105, 225, 0.8);
+    background-clip: content-box;
 }
 
 main {

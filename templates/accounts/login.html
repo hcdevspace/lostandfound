@@ -3,78 +3,60 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-<div style="max-width: 500px; margin: 0 auto;">
-    <div class="card shadow-lg">
-        <div class="card-header bg-primary text-center">
-            <h2><i class="fas fa-sign-in-alt"></i> Login</h2>
+<div class="registration-container">
+    <div class="registration-card">
+        <div class="registration-header">
+            <div class="registration-icon">
+                <i class="fas fa-sign-in-alt"></i>
+            </div>
+            <h1 class="registration-title">Welcome Back</h1>
+            <p class="registration-subtitle">Log in to your account</p>
         </div>
-        <div class="card-body p-4">
-            <form method="POST">
-                {% csrf_token %}
 
-                <!-- Preserve the 'next' parameter for redirect after login -->
-                {% if request.GET.next %}
-                    <input type="hidden" name="next" value="{{ request.GET.next }}">
-                {% endif %}
+        <form method="POST" class="registration-form">
+            {% csrf_token %}
 
-                <!-- Username -->
-                <div class="form-group">
-                    <label class="form-label">Username <span class="required">*</span></label>
-                    <div class="input-group">
-                        <span class="input-group-text">
-                            <i class="fas fa-user"></i>
-                        </span>
-                        <input type="text" name="username" class="form-control" placeholder="Enter your username" required autofocus>
-                    </div>
-                </div>
-                
-                <!-- Password -->
-                <div class="form-group">
-                    <label class="form-label">Password <span class="required">*</span></label>
-                    <div class="input-group">
-                        <span class="input-group-text">
-                            <i class="fas fa-lock"></i>
-                        </span>
-                        <input type="password" name="password" class="form-control" placeholder="Enter your password" required>
-                    </div>
-                </div>
-                
-                <!-- Remember Me -->
-                <div class="form-group">
-                    <div class="form-check">
-                        <input type="checkbox" id="remember_me" name="remember_me">
-                        <label for="remember_me">Remember me</label>
-                    </div>
-                </div>
-                
-                <!-- Submit Button -->
-                <button type="submit" class="btn btn-primary btn-lg btn-block">
-                    <i class="fas fa-sign-in-alt"></i> Login
-                </button>
-            </form>
+            {% if request.GET.next %}
+                <input type="hidden" name="next" value="{{ request.GET.next }}">
+            {% endif %}
+
+            <div class="form-group">
+                <label class="form-label">Username <span class="required">*</span></label>
+                <input type="text" name="username" class="form-control" placeholder="Enter your username" required autofocus>
+            </div>
             
-            <!-- Divider -->
-            <hr style="margin: 2rem 0;">
+            <div class="form-group">
+                <label class="form-label">Password <span class="required">*</span></label>
+                <input type="password" name="password" class="form-control" placeholder="Enter your password" required>
+            </div>
             
-            <!-- Links -->
-            <div class="text-center">
-                <p class="mb-2">Don't have an account?</p>
-                <div style="display: flex; gap: 0.5rem; justify-content: center;">
-                    <a href="{% url 'register_student' %}" class="btn btn-outline-primary btn-sm">
-                        <i class="fas fa-user-graduate"></i> Register as Student
-                    </a>
-                    <a href="{% url 'register_teacher' %}" class="btn btn-outline-success btn-sm">
-                        <i class="fas fa-chalkboard-teacher"></i> Register as Teacher
-                    </a>
+            <div class="form-group">
+                <div class="form-check">
+                    <input type="checkbox" id="remember_me" name="remember_me">
+                    <label for="remember_me">Remember me</label>
                 </div>
             </div>
             
-            <!-- Forgot Password -->
-            <div class="text-center mt-3">
-                <a href="#" class="small text-muted" style="pointer-events: none; opacity: 0.5;">
-                    <i class="fas fa-question-circle"></i> Forgot Password? (Coming Soon)
+            <button type="submit" class="registration-button">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+        </form>
+        
+        <div class="registration-footer">
+            <p class="login-footer-text">Don't have an account?</p>
+            <div class="login-register-buttons">
+                <a href="{% url 'register_student' %}" class="login-register-btn login-register-btn-primary">
+                    <i class="fas fa-user-graduate"></i> Register as Student
+                </a>
+                <a href="{% url 'register_teacher' %}" class="login-register-btn login-register-btn-success">
+                    <i class="fas fa-chalkboard-teacher"></i> Register as Teacher
                 </a>
             </div>
+            <p class="login-forgot-password">
+                <span class="login-forgot-disabled">
+                    <i class="fas fa-question-circle"></i> Forgot Password? (Coming Soon)
+                </span>
+            </p>
         </div>
     </div>
 </div>

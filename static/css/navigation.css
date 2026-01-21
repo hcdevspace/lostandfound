@@ -3,8 +3,10 @@
 .navbar {
     background-color: #2C4A9E;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-top: none;
+    border: none;
     padding: 0.75rem 0;
+    margin: 0 !important;
+    display: block;
 }
 
 .navbar .container {

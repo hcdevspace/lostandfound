@@ -2,94 +2,92 @@
 {% block title %}My Claims{% endblock %}
 {% block content %}
 
-<div class="page-header">
-    <h1><i class="fas fa-clipboard-list"></i> My Claims & Inquiries</h1>
-    <p class="text-muted">Track your submitted claims and inquiries</p>
-</div>
+<div class="lf-page lf-claims-page">
+    <div class="my-claims-header-card">
+        <div class="my-claims-header-icon">
+            <i class="fas fa-clipboard-list"></i>
+        </div>
+        <div class="my-claims-header-content">
+            <h1>My Claims & Inquiries</h1>
+            <p class="my-claims-subline">Track your submitted claims and inquiries</p>
+        </div>
+    </div>
 
-{% if claims %}
-    <div class="claims-list">
-        {% for claim in claims %}
-        <div class="claim-card">
-            <!-- Claim Header -->
-            <div class="claim-header">
-                <div>
-                    <h3 class="claim-item-name">
-                        <i class="fas fa-box"></i> {{ claim.item.name }}
-                    </h3>
-                    <p class="claim-type-badge">
-                        {% if claim.claim_type == 'claim' %}
-                            <span class="badge badge-approved">
-                                {{ claim.get_claim_type_display }}
-                            </span>
-                        {% else %}
-                            <span class="badge" style="background: #17a2b8;">
-                                {{ claim.get_claim_type_display }}
-                            </span>
-                        {% endif %}
-                    </p>
-                </div>
-                <span class="badge badge-{{ claim.status }}">
-                    {{ claim.get_status_display }}
-                </span>
-            </div>
-
-            <!-- Item Details -->
-            <div class="claim-item-details">
-                <div class="claim-item-content">
-                    {% if claim.item.photo %}
-                        <div style="width: 60px; height: 60px; background: #f5f5f5; border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                            <img src="{{ claim.item.photo.url }}" alt="{{ claim.item.name }}" class="claim-item-photo">
+    {% if claims %}
+        <div class="claims-list">
+            {% for claim in claims %}
+            <div class="claim-card">
+                <div class="claim-header">
+                    <div class="claim-header-main">
+                        <h3 class="claim-item-name">
+                            <i class="fas fa-box"></i> {{ claim.item.name }}
+                        </h3>
+                        <div class="claim-badges">
+                            {% if claim.claim_type == 'claim' %}
+                                <span class="badge badge-approved">{{ claim.get_claim_type_display }}</span>
+                            {% else %}
+                                <span class="badge badge-info">{{ claim.get_claim_type_display }}</span>
+                            {% endif %}
+                            <span class="badge badge-{{ claim.status }}">{{ claim.get_status_display }}</span>
                         </div>
-                    {% endif %}
-                    <div class="claim-item-info">
-                        <p class="claim-item-location">
-                            <i class="fas fa-map-marker-alt"></i> {{ claim.item.location_found }} |
-                            <i class="fas fa-calendar"></i> Found: {{ claim.item.date_found|date:"M d, Y" }}
-                        </p>
-                        <p class="claim-description-preview">
-                            <strong>Your Description:</strong> {{ claim.description|truncatewords:30 }}
-                        </p>
                     </div>
                 </div>
-            </div>
 
-            <!-- Claim Info -->
-            <div class="claim-meta">
-                <p class="claim-meta-item">
-                    <i class="fas fa-clock"></i> Submitted: {{ claim.created_at|date:"M d, Y g:i A" }}
-                </p>
-                {% if claim.reviewed_at %}
-                <p class="claim-meta-item">
-                    <i class="fas fa-user-check"></i> Reviewed: {{ claim.reviewed_at|date:"M d, Y g:i A" }}
-                    {% if claim.reviewed_by %}by {{ claim.reviewed_by.get_full_name|default:claim.reviewed_by.username }}{% endif %}
-                </p>
-                {% endif %}
-                {% if claim.admin_notes and claim.status != 'pending' %}
-                <p class="admin-notes">
-                    <strong>Admin Notes:</strong> {{ claim.admin_notes }}
-                </p>
-                {% endif %}
-            </div>
+                <div class="claim-item-details">
+                    <div class="claim-item-content">
+                        {% if claim.item.photo %}
+                            <div class="claim-photo-frame">
+                                <img src="{{ claim.item.photo.url }}" alt="{{ claim.item.name }}" class="claim-item-photo">
+                            </div>
+                        {% endif %}
+                        <div class="claim-item-info">
+                            <p class="claim-item-location">
+                                <i class="fas fa-map-marker-alt"></i> {{ claim.item.location_found }}
+                                <span class="claim-sep">|</span>
+                                <i class="fas fa-calendar"></i> Found: {{ claim.item.date_found|date:"M d, Y" }}
+                            </p>
+                            <p class="claim-description-preview">
+                                <strong>Your Description:</strong> {{ claim.description|truncatewords:30 }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
 
-            <!-- Actions -->
-            <div class="claim-actions">
-                <a href="{% url 'item_detail' claim.item.pk %}" class="btn btn-sm btn-outline-primary">
-                    <i class="fas fa-eye"></i> View Item
-                </a>
+                <div class="claim-meta">
+                    <p class="claim-meta-item">
+                        <i class="fas fa-clock"></i> Submitted: {{ claim.created_at|date:"M d, Y g:i A" }}
+                    </p>
+                    {% if claim.reviewed_at %}
+                    <p class="claim-meta-item">
+                        <i class="fas fa-user-check"></i> Reviewed: {{ claim.reviewed_at|date:"M d, Y g:i A" }}
+                        {% if claim.reviewed_by %}by {{ claim.reviewed_by.get_full_name|default:claim.reviewed_by.username }}{% endif %}
+                    </p>
+                    {% endif %}
+                    {% if claim.admin_notes and claim.status != 'pending' %}
+                    <p class="admin-notes">
+                        <strong>Admin Notes:</strong> {{ claim.admin_notes }}
+                    </p>
+                    {% endif %}
+                </div>
+
+                <div class="claim-actions">
+                    <a href="{% url 'item_detail' claim.item.pk %}" class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-eye"></i> View Item
+                    </a>
+                </div>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-    </div>
-{% else %}
-    <div class="empty-state">
-        <i class="fas fa-clipboard"></i>
-        <h2>No Claims Yet</h2>
-        <p>You haven't submitted any claims or inquiries</p>
-        <a href="{% url 'item_list' %}" class="btn btn-primary">
-            <i class="fas fa-search"></i> Browse Items
-        </a>
-    </div>
-{% endif %}
+    {% else %}
+        <div class="empty-state">
+            <i class="fas fa-clipboard"></i>
+            <h2>No Claims Yet</h2>
+            <p>You haven't submitted any claims or inquiries</p>
+            <a href="{% url 'item_list' %}" class="btn btn-primary">
+                <i class="fas fa-search"></i> Browse Items
+            </a>
+        </div>
+    {% endif %}
+</div>
 
 {% endblock %}
