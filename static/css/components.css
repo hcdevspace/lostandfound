@@ -100,7 +100,7 @@
 }
 
 /* Feature cards on home page - no transform on hover to prevent layout shift */
-.feature-card:hover {
+.feature-card:not(.step-card):hover {
     transform: none;
     box-shadow: var(--shadow-lg);
 }

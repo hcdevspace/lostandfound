@@ -43,11 +43,11 @@ class ItemForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        instance = kwargs.get('instance')
         super().__init__(*args, **kwargs)
         # Add empty choice for category
         self.fields['category'].choices = [('', 'Select a category...')] + list(self.fields['category'].choices)[1:]
-        # Make photo required
-        self.fields['photo'].required = True
+        self.fields['photo'].required = not (instance and getattr(instance, 'pk', None))
         # Set max date to today for date_found field
         self.fields['date_found'].widget.attrs['max'] = timezone.now().date().isoformat()
 

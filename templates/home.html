@@ -14,8 +14,6 @@
                 </h1>
             </div>
 
-            <br>
-
             <p class="hero-description">
                 Quickly post, search, and claim lost and found items on campus.
                 Reunite with your belongings in minutes.
@@ -34,15 +32,17 @@
                             <div class="lf-slide" data-lf-slide role="group"
                                  aria-label="Item {{ forloop.counter }} of {{ slider_items|length }}">
                                 <div class="lf-slide-media">
-                                    <img
-                                        src="{{ item.photo.url }}"
-                                        alt="{{ item.name }}"
-                                        data-lf-tooltip
-                                        data-title="{{ item.name|escape }}"
-                                        data-date-found="{{ item.date_found|date:'M j, Y' }}"
-                                        data-category="{{ item.get_category_display|escape }}"
-                                        data-location="{{ item.location_found|escape }}"
-                                    >
+                                    <a class="lf-slide-link" href="{% url 'item_detail' item.pk %}" aria-label="View details for {{ item.name|escape }}">
+                                        <img
+                                            src="{{ item.photo.url }}"
+                                            alt="{{ item.name }}"
+                                            data-lf-tooltip
+                                            data-title="{{ item.name|escape }}"
+                                            data-date-found="{{ item.date_found|date:'M j, Y' }}"
+                                            data-category="{{ item.get_category_display|escape }}"
+                                            data-location="{{ item.location_found|escape }}"
+                                        >
+                                    </a>
                                 </div>
                             </div>
                         {% endfor %}
@@ -122,15 +122,16 @@
     <h3 class="cta-title" id="cta-heading">Ready to Get Started?</h3>
     <p class="cta-description">Join our community and help reunite students with their belongings</p>
     <div class="cta-buttons">
-        <a href="{% url 'login' %}" class="btn btn-primary cta-login-btn">
-            <i class="fas fa-sign-in-alt" aria-hidden="true"></i> Login
+        <a href="{% url 'register_student' %}" class="btn btn-primary cta-login-btn">
+            Register as Student
+        </a>
+        <a href="{% url 'register_teacher' %}" class="btn btn-outline-primary cta-login-btn">
+            Register as Teacher
         </a>
     </div>
     <p class="cta-register-text">
-        New here?
-        <a href="{% url 'register_student' %}">Register as Student</a>
-        or
-        <a href="{% url 'register_teacher' %}">Teacher</a>
+        Already have an account?
+        <a href="{% url 'login' %}">Login</a>
     </p>
 </section>
 
@@ -149,15 +150,17 @@
                             <div class="lf-slide" data-lf-slide role="group"
                                  aria-label="Item {{ forloop.counter }} of {{ slider_items|length }}">
                                 <div class="lf-slide-media">
-                                    <img
-                                        src="{{ item.photo.url }}"
-                                        alt="{{ item.name }}"
-                                        data-lf-tooltip
-                                        data-title="{{ item.name|escape }}"
-                                        data-date-found="{{ item.date_found|date:'M j, Y' }}"
-                                        data-category="{{ item.get_category_display|escape }}"
-                                        data-location="{{ item.location_found|escape }}"
-                                    >
+                                    <a class="lf-slide-link" href="{% url 'item_detail' item.pk %}" aria-label="View details for {{ item.name|escape }}">
+                                        <img
+                                            src="{{ item.photo.url }}"
+                                            alt="{{ item.name }}"
+                                            data-lf-tooltip
+                                            data-title="{{ item.name|escape }}"
+                                            data-date-found="{{ item.date_found|date:'M j, Y' }}"
+                                            data-category="{{ item.get_category_display|escape }}"
+                                            data-location="{{ item.location_found|escape }}"
+                                        >
+                                    </a>
                                 </div>
                             </div>
                         {% endfor %}

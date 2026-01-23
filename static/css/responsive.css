@@ -1,0 +1,124 @@
+:root {
+    --lf-container-padding: clamp(12px, 3.5vw, 20px);
+}
+
+.container {
+    padding-left: var(--lf-container-padding);
+    padding-right: var(--lf-container-padding);
+}
+
+main.container {
+    padding-top: clamp(0.25rem, 1vw, 0.35rem);
+    padding-bottom: clamp(0.25rem, 1vw, 0.35rem);
+}
+
+main.container.mt-2 {
+    margin-top: clamp(0.25rem, 1vw, 0.5rem);
+}
+
+main.container.mb-2 {
+    margin-bottom: clamp(0.25rem, 1vw, 0.5rem);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.hero-title {
+    font-size: clamp(2.1rem, 5.5vw, 3.5rem);
+}
+
+.hero-title i {
+    font-size: clamp(1.6rem, 4vw, 2.3rem);
+}
+
+.cta-section {
+    margin-left: clamp(0rem, 6vw, 12rem);
+    margin-right: clamp(0rem, 6vw, 12rem);
+}
+
+@media (max-width: 1100px) {
+    .navbar .container {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .navbar-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .navbar-menu {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        align-items: stretch;
+        gap: 0.25rem;
+        padding-top: 0.5rem;
+    }
+
+    .navbar-menu.active {
+        display: flex;
+    }
+
+    .navbar-menu a,
+    .dropdown-toggle {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .dropdown-menu {
+        position: static;
+        width: 100%;
+        min-width: 0;
+        box-shadow: none;
+    }
+}
+
+@media (max-width: 900px) {
+    .row {
+        margin-left: -8px;
+        margin-right: -8px;
+    }
+
+    .col,
+    .col-4,
+    .col-6,
+    .col-8,
+    .col-12 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .how-it-works-row {
+        flex-wrap: wrap;
+    }
+
+    .logged-in-actions-row {
+        flex-wrap: wrap;
+    }
+
+    .logged-in-actions-row .col-3 {
+        flex: 1 1 240px;
+    }
+}
+
+@media (max-width: 600px) {
+    .how-it-works-row {
+        flex-direction: column;
+    }
+
+    .logged-in-actions-row .col-3 {
+        flex-basis: 100%;
+    }
+}
+
+@media (hover: none) and (pointer: coarse) {
+    .dropdown:hover .dropdown-menu {
+        display: none;
+    }
+}

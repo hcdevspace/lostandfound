@@ -4,7 +4,7 @@
 .hero-section {
     background: var(--white);
     color: var(--text-dark);
-    padding: 1.2rem 1rem;
+    padding: 0.95rem 1rem;
     border-radius: 4px;
     margin-bottom: 0;
     text-align: left;
@@ -46,7 +46,7 @@
 
 .hero-description {
     font-size: 1.1rem;
-    margin-top: 1.2rem;
+    margin-top: 0.85rem;
     margin-bottom: 0;
     max-width: 520px;
     opacity: 0.85;
@@ -149,6 +149,16 @@
     justify-content: center;
 }
 
+.lf-slide-link {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: inherit;
+}
+
 .lf-slide-media img {
     width: auto;
     height: 100%;
@@ -227,6 +237,10 @@
         margin-left: auto;
         margin-right: auto;
     }
+
+    .how-it-works-row {
+        flex-wrap: wrap;
+    }
 }
 
 @media (max-width: 600px) {
@@ -235,14 +249,14 @@
 
 /* How It Works Section */
 .how-it-works-section {
-    margin-bottom: 3rem;
-    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
 }
 
 .how-it-works-title {
     text-align: center;
     color: var(--text-dark);
-    margin-bottom: 2rem;
+    margin-bottom: 1.25rem;
     font-size: 1.8rem;
     font-weight: 600;
 }
@@ -260,7 +274,7 @@
 }
 
 .step-card {
-    min-height: 180px;
+    min-height: 165px;
     border-radius: 12px;
     border: 1px solid var(--border-color);
     background: var(--white);
@@ -269,6 +283,18 @@
     align-items: center;
     justify-content: center;
     text-align: center;
+    box-shadow: none;
+    transform: none;
+    transition: none;
+    cursor: default;
+}
+
+.how-it-works-section .step-card:hover,
+.how-it-works-section .step-card:active,
+.how-it-works-section .step-card:focus,
+.how-it-works-section .step-card:focus-within {
+    box-shadow: none !important;
+    transform: none !important;
 }
 
 .step-card .card-body {
@@ -344,11 +370,11 @@
 .cta-section {
     background: rgba(255, 255, 255, 0.7);
     border: 1px solid rgba(0, 0, 0, 0.15);
-    padding: 4rem 1rem;
+    padding: 2.25rem 1rem;
     text-align: center;
-    margin-right:12rem;
-    margin-left:12rem;
-    margin-bottom: 2rem;
+    margin-right: clamp(0rem, 6vw, 12rem);
+    margin-left: clamp(0rem, 6vw, 12rem);
+    margin-bottom: 1rem;
     border-radius: 12px;
 }
 
@@ -361,7 +387,7 @@
 
 .cta-description {
     color: var(--text-muted);
-    margin-bottom: 2rem;
+    margin-bottom: 1.25rem;
     font-size: 1.1rem;
     max-width: 600px;
     margin-left: auto;
@@ -372,14 +398,21 @@
     display: flex;
     gap: 1rem;
     justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: 1.5rem;
+    flex-wrap: nowrap;
+    margin-bottom: 1rem;
 }
 
 .cta-login-btn {
     font-size: 1rem;
     padding: 0.8rem 2.5rem;
     border-radius: 8px;
+    white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+    .cta-buttons {
+        flex-wrap: wrap;
+    }
 }
 
 .cta-register-text {
@@ -416,14 +449,14 @@
 
 /* Quick Actions */
 .quick-actions-section {
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
 }
 
 /* Logged-in home*/
 .logged-in-home {
     max-width: 980px;
     margin: 0 auto;
-    padding: 1.25rem 1rem 0;
+    padding: 0.85rem 1rem 0;
 }
 
 .logged-in-slider {
@@ -432,7 +465,7 @@
 }
 
 .logged-in-actions {
-    margin-top: 1.75rem;
+    margin-top: 1.25rem;
 }
 
 .logged-in-actions .quick-actions-title {

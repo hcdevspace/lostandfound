@@ -2,108 +2,185 @@
 {% block title %}Edit Item - {{ item.name }}{% endblock %}
 {% block content %}
 
-<div class="form-container">
-    <div class="form-header">
-        <h1><i class="fas fa-edit"></i> Edit Item</h1>
-        <p>Update the details for "{{ item.name }}"</p>
+
+<div class="lf-page lf-report-page">
+    <div class="report-header-card">
+        <div class="report-header-icon">
+            <i class="fas fa-edit"></i>
+        </div>
+        <div class="report-header-content">
+            <h1>Edit Item</h1>
+            <p class="report-subline">Update the details for</p>
+            <p class="report-subline">"{{ item.name }}"</p>
+        </div>
     </div>
 
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
+    <div class="report-form-card">
+        <form method="POST" enctype="multipart/form-data" class="report-form-grid">
+            {% csrf_token %}
 
-        <!-- Item Name -->
-        <div class="form-group">
-            <label class="form-label" for="{{ form.name.id_for_label }}">
-                {{ form.name.label }} <span class="required">*</span>
-            </label>
-            {{ form.name }}
-            {% if form.name.errors %}
-                <span class="error-message">{{ form.name.errors.0 }}</span>
-            {% endif %}
-        </div>
+            <div class="report-form-left">
+                <div class="report-field-row">
+                    <label class="report-field-label" for="{{ form.name.id_for_label }}">
+                        {{ form.name.label }} <span class="required">*</span>
+                    </label>
+                    <div class="report-field-input">
+                        {{ form.name }}
+                        {% if form.name.errors %}
+                            <span class="error-message">{{ form.name.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+                </div>
 
-        <!-- Category -->
-        <div class="form-group">
-            <label class="form-label" for="{{ form.category.id_for_label }}">
-                {{ form.category.label }} <span class="required">*</span>
-            </label>
-            {{ form.category }}
-            {% if form.category.errors %}
-                <span class="error-message">{{ form.category.errors.0 }}</span>
-            {% endif %}
-        </div>
+                <div class="report-field-row">
+                    <label class="report-field-label" for="{{ form.category.id_for_label }}">
+                        {{ form.category.label }} <span class="required">*</span>
+                    </label>
+                    <div class="report-field-input">
+                        {{ form.category }}
+                        {% if form.category.errors %}
+                            <span class="error-message">{{ form.category.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+                </div>
 
-        <!-- Description -->
-        <div class="form-group">
-            <label class="form-label" for="{{ form.description.id_for_label }}">
-                {{ form.description.label }} <span class="required">*</span>
-            </label>
-            {{ form.description }}
-            <small class="form-text">Include color, brand, size, and any distinguishing features</small>
-            {% if form.description.errors %}
-                <span class="error-message">{{ form.description.errors.0 }}</span>
-            {% endif %}
-        </div>
+                <div class="report-field-row">
+                    <label class="report-field-label" for="{{ form.location_found.id_for_label }}">
+                        {{ form.location_found.label }} <span class="required">*</span>
+                    </label>
+                    <div class="report-field-input">
+                        {{ form.location_found }}
+                        {% if form.location_found.errors %}
+                            <span class="error-message">{{ form.location_found.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+                </div>
 
-        <!-- Location Found -->
-        <div class="form-group">
-            <label class="form-label" for="{{ form.location_found.id_for_label }}">
-                {{ form.location_found.label }} <span class="required">*</span>
-            </label>
-            {{ form.location_found }}
-            {% if form.location_found.errors %}
-                <span class="error-message">{{ form.location_found.errors.0 }}</span>
-            {% endif %}
-        </div>
+                <div class="report-field-row">
+                    <label class="report-field-label" for="{{ form.date_found.id_for_label }}">
+                        {{ form.date_found.label }} <span class="required">*</span>
+                    </label>
+                    <div class="report-field-input">
+                        {{ form.date_found }}
+                        {% if form.date_found.errors %}
+                            <span class="error-message">{{ form.date_found.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+                </div>
 
-        <!-- Date Found -->
-        <div class="form-group">
-            <label class="form-label" for="{{ form.date_found.id_for_label }}">
-                {{ form.date_found.label }} <span class="required">*</span>
-            </label>
-            {{ form.date_found }}
-            {% if form.date_found.errors %}
-                <span class="error-message">{{ form.date_found.errors.0 }}</span>
-            {% endif %}
-        </div>
-
-        <!-- Current Photo Display -->
-        {% if item.photo %}
-        <div class="form-group">
-            <label class="form-label">Current Photo</label>
-            <div style="margin-bottom: 10px;">
-                <img src="{{ item.photo.url }}" alt="{{ item.name }}" style="max-width: 200px; max-height: 200px; object-fit: contain; border: 1px solid #ddd; border-radius: 4px; padding: 5px;">
+                <div class="report-field-row report-description-row">
+                    <label class="report-field-label" for="{{ form.description.id_for_label }}">
+                        {{ form.description.label }} <span class="required">*</span>
+                    </label>
+                    <div class="report-field-input">
+                        {{ form.description }}
+                        <small class="form-text">Include color, brand, size, and any distinguishing features</small>
+                        {% if form.description.errors %}
+                            <span class="error-message">{{ form.description.errors.0 }}</span>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-            <small class="form-text">Upload a new photo below to replace the current one</small>
-        </div>
-        {% endif %}
 
-        <!-- Photo Upload -->
-        <div class="form-group">
-            <label class="form-label" for="{{ form.photo.id_for_label }}">
-                {% if item.photo %}
-                    Upload New Photo <span class="required">*</span>
-                {% else %}
-                    {{ form.photo.label }} <span class="required">*</span>
+            <div class="report-form-right">
+                <div class="report-upload-box" id="uploadBox" data-initial-src="{% if item.photo %}{{ item.photo.url }}{% endif %}">
+                    <button type="button" class="report-upload-remove" id="removeImageBtn" style="display: none;" aria-label="Remove image">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <img id="previewImage" class="report-upload-preview" src="{% if item.photo %}{{ item.photo.url }}{% endif %}" alt="Preview" {% if item.photo %}style="display: block;"{% else %}style="display: none;"{% endif %}>
+                    <div class="report-upload-empty" id="uploadEmpty" {% if item.photo %}style="display: none;"{% endif %}>
+                        <div class="report-upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <div class="report-upload-text">
+                            <p class="report-upload-main">Drop a new image here</p>
+                            <p class="report-upload-sub">or click to select an image</p>
+                        </div>
+                    </div>
+                    <input type="file" id="photoInput" name="photo" accept="image/*" {% if form.photo.field.required %}required{% endif %} hidden>
+                </div>
+                <small class="form-text">Upload a new photo to replace the current one</small>
+                {% if form.photo.errors %}
+                    <span class="error-message">{{ form.photo.errors.0 }}</span>
                 {% endif %}
-            </label>
-            {{ form.photo }}
-            <small class="form-text">A photo helps owners identify their items more easily</small>
-            {% if form.photo.errors %}
-                <span class="error-message">{{ form.photo.errors.0 }}</span>
-            {% endif %}
-        </div>
 
-        <!-- Form Actions -->
-        <div class="form-actions">
-            <button type="submit" class="btn btn-primary">
-                <i class="fas fa-save"></i> Save Changes
-            </button>
-            <a href="{% url 'item_detail' item.pk %}" class="btn btn-outline-secondary">
-                <i class="fas fa-times"></i> Cancel
-            </a>
-        </div>
-    </form>
+                <div class="report-form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                    <a href="{% url 'item_detail' item.pk %}" class="btn btn-outline-primary">
+                        <i class="fas fa-times"></i> Cancel
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
+
+<script>
+    const uploadBox = document.getElementById('uploadBox');
+    const photoInput = document.getElementById('photoInput');
+    const previewImage = document.getElementById('previewImage');
+    const removeImageBtn = document.getElementById('removeImageBtn');
+    const uploadEmpty = document.getElementById('uploadEmpty');
+    const initialSrc = uploadBox.getAttribute('data-initial-src');
+
+    uploadBox.addEventListener('click', () => photoInput.click());
+
+    uploadBox.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadBox.classList.add('dragover');
+    });
+
+    uploadBox.addEventListener('dragleave', () => {
+        uploadBox.classList.remove('dragover');
+    });
+
+    uploadBox.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadBox.classList.remove('dragover');
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            handleFileSelect(files[0]);
+        }
+    });
+
+    photoInput.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) {
+            handleFileSelect(e.target.files[0]);
+        }
+    });
+
+    function handleFileSelect(file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            previewImage.src = e.target.result;
+            previewImage.style.display = 'block';
+            removeImageBtn.style.display = 'inline-flex';
+            uploadEmpty.style.display = 'none';
+            uploadBox.classList.add('has-image');
+        };
+        reader.readAsDataURL(file);
+    }
+
+    removeImageBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        photoInput.value = '';
+
+        if (initialSrc) {
+            previewImage.src = initialSrc;
+            previewImage.style.display = 'block';
+            uploadEmpty.style.display = 'none';
+        } else {
+            previewImage.src = '';
+            previewImage.style.display = 'none';
+            uploadEmpty.style.display = 'flex';
+        }
+
+        removeImageBtn.style.display = 'none';
+        uploadBox.classList.remove('has-image');
+    });
+</script>
 
 {% endblock %}

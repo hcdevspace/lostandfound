@@ -72,16 +72,14 @@
 /* Claims styles */
 
 .claim-card {
-    background: var(--light-bg);
+    background: var(--white);
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    box-shadow: none;
+    box-shadow: var(--shadow);
     padding: 1.5rem;
-    margin-bottom: 1rem;
-}
-
-.claim-card:last-child {
     margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .claim-card:hover {
@@ -171,6 +169,9 @@
     border-radius: 8px;
     box-shadow: var(--shadow);
     box-sizing: border-box;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
 }
 
 .claim-item-details {
@@ -243,6 +244,7 @@
     margin-top: 1rem;
     padding-top: 1rem;
     border-top: 1px solid var(--border-color);
+    margin-top: auto;
 }
 
 /* Admin Claims Tabs */
