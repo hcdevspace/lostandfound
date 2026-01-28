@@ -7,12 +7,6 @@ A Django web application to help students and staff report found items, search f
 - Harshit, Aaryan, Himaghna
 
 ## Setup Instructions
-
-### Prerequisites
-- Python 3.10+
-- pip
-- Virtual environment
-
 ### Installation
 
 1. Clone the repository
