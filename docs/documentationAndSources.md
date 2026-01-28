@@ -21,7 +21,7 @@ This document lists all external resources, libraries, tutorials, and references
 - **URL:** https://fontawesome.com/
 - **License:** Font Awesome Free License
 - **Purpose:** Icons throughout the application
-- **Citation:** Fonticons, Inc. (2024). Font Awesome. Retrieved from https://fontawesome.com/
+- **Citation:** Fonticons, Inc. (2025). Font Awesome. Retrieved from https://fontawesome.com/
 
 ### Pillow (PIL)
 - **Name:** Pillow
@@ -29,7 +29,7 @@ This document lists all external resources, libraries, tutorials, and references
 - **URL:** https://python-pillow.org/
 - **License:** HPND License
 - **Purpose:** Image processing and validation
-- **Citation:** Clark, A. (2024). Pillow: The friendly PIL fork. Retrieved from https://python-pillow.org/
+- **Citation:** Clark, A. (2025). Pillow: The friendly PIL fork. Retrieved from https://python-pillow.org/
 
 ---
 
@@ -42,7 +42,7 @@ This document lists all external resources, libraries, tutorials, and references
   - File uploads
   - Forms and validation
   - Database models
-- **Citation:** Django Software Foundation. (2024). Django documentation. Retrieved from https://docs.djangoproject.com/
+- **Citation:** Django Software Foundation. (2025). Django documentation. Retrieved from https://docs.djangoproject.com/
 
 ### Python Official Documentation
 - **URL:** https://docs.python.org/3/
@@ -50,7 +50,7 @@ This document lists all external resources, libraries, tutorials, and references
   - datetime module
   - os module
   - File handling
-- **Citation:** Python Software Foundation. (2024). Python documentation. Retrieved from https://docs.python.org/3/
+- **Citation:** Python Software Foundation. (2025). Python documentation. Retrieved from https://docs.python.org/3/
 
 ---
 
@@ -60,7 +60,7 @@ This document lists all external resources, libraries, tutorials, and references
 - **Title:** Django Web Framework (Python)
 - **URL:** https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django
 - **Purpose:** Learning Django basics
-- **Citation:** Mozilla Contributors. (2024). Django Web Framework. MDN Web Docs. Retrieved from https://developer.mozilla.org/
+- **Citation:** Mozilla Contributors. (2025). Django Web Framework. MDN Web Docs. Retrieved from https://developer.mozilla.org/
 
 ### Real Python - Django Tutorials
 - **URL:** https://realpython.com/tutorials/django/
@@ -68,7 +68,7 @@ This document lists all external resources, libraries, tutorials, and references
   - "Get Started With Django"
   - "Django Migrations"
   - "Django User Authentication"
-- **Citation:** Real Python Team. (2024). Django tutorials. Real Python. Retrieved from https://realpython.com/
+- **Citation:** Real Python Team. (2025). Django tutorials. Real Python. Retrieved from https://realpython.com/
 
 ---
 
@@ -78,7 +78,7 @@ This document lists all external resources, libraries, tutorials, and references
 - **Tool:** Coolors.co
 - **URL:** https://coolors.co/
 - **Purpose:** Color scheme selection
-- **Citation:** Coolors. (2024). Color scheme generator. Retrieved from https://coolors.co/
+- **Citation:** Coolors. (2025). Color scheme generator. Retrieved from https://coolors.co/
 
 ### UI/UX Inspiration
 - **Source:** Dribbble
@@ -138,7 +138,7 @@ This document lists all external resources, libraries, tutorials, and references
   - OWASP Top 10
   - Authentication cheat sheet
   - File upload cheat sheet
-- **Citation:** OWASP Foundation. (2024). OWASP Top 10. Retrieved from https://owasp.org/
+- **Citation:** OWASP Foundation. (2025). OWASP Top 10. Retrieved from https://owasp.org/
 
 ### Django Security Documentation
 - **URL:** https://docs.djangoproject.com/en/5.0/topics/security/
@@ -159,12 +159,12 @@ This document lists all external resources, libraries, tutorials, and references
 ### GitHub Documentation
 - **URL:** https://docs.github.com/
 - **Purpose:** Version control best practices
-- **Citation:** GitHub, Inc. (2024). GitHub Docs. Retrieved from https://docs.github.com/
+- **Citation:** GitHub, Inc. (2025). GitHub Docs. Retrieved from https://docs.github.com/
 
 ### Markdown Guide
 - **URL:** https://www.markdownguide.org/
 - **Purpose:** Documentation formatting
-- **Citation:** Cone, M. (2024). Markdown Guide. Retrieved from https://www.markdownguide.org/
+- **Citation:** Cone, M. (2025). Markdown Guide. Retrieved from https://www.markdownguide.org/
 
 ---
 
@@ -172,7 +172,7 @@ This document lists all external resources, libraries, tutorials, and references
 
 ### FBLA Competitive Events Guidelines
 - **Title:** Coding & Programming Event Guidelines
-- **Year:** 2024-2025
+- **Year:** 2025-2025
 - **Publisher:** Future Business Leaders of America - Phi Beta Lambda
 - **URL:** https://www.fbla.org/
 - **Purpose:** Project requirements and judging criteria
@@ -216,4 +216,4 @@ Any code adapted from external sources has been modified to fit our specific use
 
 **Last Updated:** January 28, 2025
 **Project:** School Lost & Found Management System
-**Event:** FBLA Coding & Programming 2024-2025
+**Event:** FBLA Coding & Programming 2025-2025
