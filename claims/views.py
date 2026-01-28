@@ -80,7 +80,11 @@ def admin_claims(request):
         'approved': Claim.objects.filter(status='approved').count(),
         'rejected': Claim.objects.filter(status='rejected').count(),
         'completed': Claim.objects.filter(status='completed').count(),
-        'all': Claim.objects.count()
+        'all': Claim.objects.count(),
+        'all_actionable': (
+            Item.objects.filter(status='reported').count() +
+            Claim.objects.filter(status__in=['pending', 'approved', 'rejected']).count()
+        )
     }
 
     return render(request, 'claims/admin_claims.html', {

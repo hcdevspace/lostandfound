@@ -1,6 +1,4 @@
-/* ========================================
-   ALERTS / MESSAGES
-   ======================================== */
+/* Alerts and Messages*/
 
 /* Flash Messages Container - Floating Overlay */
 .flash-messages-container {
@@ -145,9 +143,7 @@
     display: none !important;
 }
 
-/* ========================================
-   CARDS
-   ======================================== */
+/* CARDS */
 
 .card {
     background-color: white;
@@ -199,9 +195,7 @@
     padding: 0.85rem;
 }
 
-/* ========================================
-   BADGES
-   ======================================== */
+/* BADGES */
 
 .badge {
     padding: 0.4rem 0.8rem;
@@ -295,9 +289,7 @@
     font-weight: bold;
 }
 
-/* ========================================
-   PAGE HEADER
-   ======================================== */
+/* PAGE HEADER */
 
 .page-header {
     text-align: center;
@@ -319,9 +311,7 @@
     font-size: 0.95rem;
 }
 
-/* ========================================
-   EMPTY STATE
-   ======================================== */
+/* EMPTY STATE */
 
 .empty-state {
     text-align: center;
@@ -364,9 +354,7 @@
     font-size: 1rem;
 }
 
-/* ========================================
-   RESPONSIVE - FLASH MESSAGES
-   ======================================== */
+/* Responsive and flash messages */
 
 @media (max-width: 768px) {
     .flash-messages-container {
@@ -381,9 +369,7 @@
     }
 }
 
-/* ========================================
-   ACCESSIBILITY ENHANCEMENTS
-   ======================================== */
+/* ACCESSIBILITY ENHANCEMENTS */
 
 /* High contrast mode support */
 @media (prefers-contrast: high) {

@@ -1,6 +1,4 @@
-/* ============================================
-   ADMIN PANEL STYLES
-   ============================================ */
+/* ADMIN PANEL STYLES */
 
 /* Tab Navigation */
 .admin-tabs-container {
@@ -62,9 +60,7 @@
     margin-left: 0.5rem;
 }
 
-/* ============================================
-   ADMIN ITEMS GRID (Pending Approval)
-   ============================================ */
+/* ADMIN ITEMS GRID */
 
 .admin-items-grid {
     display: grid;
@@ -145,9 +141,7 @@
     flex: 1;
 }
 
-/* ============================================
-   CLAIMS LIST
-   ============================================ */
+/* CLAIMS LIST*/
 
 .claims-list {
     display: flex;
@@ -304,9 +298,7 @@
     width: 100%;
 }
 
-/* ============================================
-   REVIEW CLAIM PAGE
-   ============================================ */
+/* REVIEW CLAIM PAGE */
 
 .review-claim-container {
     max-width: 800px;
@@ -513,9 +505,7 @@
     flex-wrap: wrap;
 }
 
-/* ============================================
-   RESPONSIVE
-   ============================================ */
+/* RESPONSIVE */
 
 @media (max-width: 768px) {
     .admin-items-grid {

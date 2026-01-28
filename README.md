@@ -6,12 +6,12 @@ A Django web application to help students and staff report found items, search f
 ## Team Members
 - Harshit, Aaryan, Himaghna
 
-## Setup Instructions
+## Technologies Used
+- Django 5.2.8
+- Python 3.14
+- PostgreSQL
 
-### Prerequisites
-- Python 3.10+
-- pip
-- Virtual environment
+## Setup Instructions
 
 ### Installation
 

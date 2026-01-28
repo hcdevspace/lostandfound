@@ -11,7 +11,7 @@
 <div class="admin-tabs-container">
     <div class="admin-tabs">
         <a href="?status=pending_approval" class="admin-tab {% if current_filter == 'pending_approval' %}active-tab{% endif %}">
-            <i class="fas fa-exclamation-triangle"></i> Pending Approval
+            Pending Reports
             {% if counts.pending_approval > 0 %}
             <span class="count-badge">{{ counts.pending_approval }}</span>
             {% endif %}
@@ -34,17 +34,14 @@
             <span class="count-badge">{{ counts.rejected }}</span>
             {% endif %}
         </a>
-        <a href="?status=completed" class="admin-tab {% if current_filter == 'completed' %}active-tab{% endif %}">
-            Completed
-            {% if counts.completed > 0 %}
-            <span class="count-badge">{{ counts.completed }}</span>
+        <a href="?status=all" class="admin-tab {% if current_filter == 'all' %}active-tab{% endif %}">
+            All Pending
+            {% if counts.all_actionable > 0 %}
+            <span class="count-badge">{{ counts.all_actionable }}</span>
             {% endif %}
         </a>
-        <a href="?status=all" class="admin-tab {% if current_filter == 'all' %}active-tab{% endif %}">
-            All
-            {% if counts.all > 0 %}
-            <span class="count-badge">{{ counts.all }}</span>
-            {% endif %}
+        <a href="?status=completed" class="admin-tab {% if current_filter == 'completed' %}active-tab{% endif %}">
+            Completed
         </a>
     </div>
 </div>
@@ -52,65 +49,87 @@
 {% if current_filter == 'pending_approval' %}
     <!-- Pending Approval Items Section -->
     {% if pending_approval_items %}
-        <div class="admin-items-grid">
-            {% for item in pending_approval_items %}
-            <div class="admin-item-card pending-item">
-                <div class="item-status-badge">
-                    <span class="status-badge status-reported">
-                        <i class="fas fa-exclamation-triangle"></i> Pending
-                    </span>
-                </div>
-
-                {% if item.photo %}
-                <div class="item-photo-container">
-                    <img src="{{ item.photo.url }}" alt="{{ item.name }}" class="item-photo">
-                </div>
-                {% endif %}
-
-                <h3 class="item-title">
-                    {{ item.name }}
-                    <span class="item-id-badge">ID: {{ item.id }}</span>
-                </h3>
-
-                <div class="item-details">
-                    <p class="item-detail-row">
-                        <strong><i class="fas fa-tag"></i> Category:</strong> {{ item.get_category_display }}
-                    </p>
-                    <p class="item-detail-row">
-                        <strong><i class="fas fa-map-marker-alt"></i> Location:</strong> {{ item.location_found }}
-                    </p>
-                    <p class="item-detail-row">
-                        <strong><i class="fas fa-calendar"></i> Date Found:</strong> {{ item.date_found }}
-                    </p>
-                    <p class="item-detail-row">
-                        <strong><i class="fas fa-user"></i> Reported by:</strong> {{ item.submitted_by.get_full_name|default:item.submitted_by.username }}
-                    </p>
-                    <p class="item-detail-row item-time">
-                        <i class="fas fa-clock"></i> {{ item.created_at|timesince }} ago
-                    </p>
-                </div>
-
-                {% if item.description %}
-                <div class="item-description-box">
-                    <strong>Description:</strong><br>{{ item.description }}
-                </div>
-                {% endif %}
-
-                <div class="item-actions">
-                    <a href="{% url 'item_detail' item.pk %}" class="btn btn-primary btn-flex">
-                        <i class="fas fa-eye"></i> View Details
-                    </a>
-                    <a href="{% url 'approve_item' item.pk %}" class="btn btn-success btn-flex">
-                        <i class="fas fa-check-circle"></i> Approve
-                    </a>
-                </div>
-            </div>
-            {% endfor %}
+        <div class="admin-items-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Photo</th>
+                        <th>Item</th>
+                        <th>Details</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in pending_approval_items %}
+                    <tr>
+                        <!-- Photo -->
+                        <td class="item-photo-cell">
+                            {% if item.photo %}
+                                <img src="{{ item.photo.url }}" alt="{{ item.name }}" class="item-photo-thumbnail">
+                            {% else %}
+                                <div class="item-photo-placeholder">
+                                    <i class="fas fa-image"></i>
+                                </div>
+                            {% endif %}
+                        </td>
+                        
+                        <!-- Item Name -->
+                        <td class="item-name-cell">
+                            {{ item.name }}
+                            <span class="item-id-badge">ID: {{ item.id }}</span>
+                            <div class="item-detail-line" style="font-weight: normal; font-size: 0.85rem; color: #6c757d; margin-top: 0.25rem;">
+                                <i class="fas fa-user"></i> {{ item.submitted_by.get_full_name|default:item.submitted_by.username }}
+                            </div>
+                        </td>
+                        
+                        <!-- Details -->
+                        <td class="item-details-cell">
+                            <div class="item-detail-line">
+                                <i class="fas fa-tag"></i>
+                                <span>{{ item.get_category_display }}</span>
+                            </div>
+                            <div class="item-detail-line">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>{{ item.location_found }}</span>
+                            </div>
+                            <div class="item-detail-line">
+                                <i class="fas fa-calendar"></i>
+                                <span>{{ item.date_found }}</span>
+                            </div>
+                            <div class="item-detail-line">
+                                <i class="fas fa-clock"></i>
+                                <span>{{ item.created_at|timesince }} ago</span>
+                            </div>
+                        </td>
+                        
+                        <!-- Status -->
+                        <td class="item-status-cell">
+                            <span class="status-badge status-reported">
+                                <i class="fas fa-exclamation-triangle"></i> Pending
+                            </span>
+                        </td>
+                        
+                        <!-- Actions -->
+                        <td class="item-actions-cell">
+                            <div class="item-action-buttons">
+                                <a href="{% url 'item_detail' item.pk %}" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-eye"></i> View
+                                </a>
+                                <a href="{% url 'approve_item' item.pk %}" class="btn btn-success btn-sm">
+                                    <i class="fas fa-check"></i> Approve
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     {% else %}
         <div class="empty-state">
             <i class="fas fa-check-circle"></i>
-            <h2>No Items Pending Approval</h2>
+            <h2>No Reports Pending Approval</h2>
             <p>All reported items have been processed</p>
         </div>
     {% endif %}
@@ -150,6 +169,20 @@
                             <strong><i class="fas fa-user-check"></i> Returned to:</strong>
                             <span>{{ claim.item.returned_to.get_full_name|default:claim.item.returned_to.username }}</span>
                             <br><small>{{ claim.item.returned_to.email }}</small>
+                        </div>
+                        {% endif %}
+                        
+                        {% if claim.status == 'approved' and claim.item.verified_date %}
+                        <div class="claim-countdown-box">
+                            <i class="fas fa-hourglass-half"></i>
+                            <strong>Discard Countdown:</strong>
+                            {% if claim.item.is_ready_for_discard %}
+                                <span class="countdown-badge countdown-ready">Ready to discard</span>
+                            {% elif claim.item.days_until_discard <= 7 %}
+                                <span class="countdown-badge countdown-warning">{{ claim.item.days_until_discard }}d remaining</span>
+                            {% else %}
+                                <span class="countdown-badge countdown-active">{{ claim.item.days_until_discard }}d remaining</span>
+                            {% endif %}
                         </div>
                         {% endif %}
                     </div>
