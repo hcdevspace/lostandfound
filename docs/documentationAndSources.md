@@ -146,14 +146,6 @@ This document lists all external resources, libraries, tutorials, and references
 
 ---
 
-## Hosting & Deployment
-
-### PythonAnywhere Documentation (if applicable)
-- **URL:** https://help.pythonanywhere.com/
-- **Purpose:** Web hosting and deployment guidance
-
----
-
 ## Additional Resources
 
 ### GitHub Documentation
