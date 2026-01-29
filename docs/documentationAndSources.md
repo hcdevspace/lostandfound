@@ -164,8 +164,8 @@ This document lists all external resources, libraries, tutorials, and references
 
 ### FBLA Competitive Events Guidelines
 - **Title:** Coding & Programming Event Guidelines
-- **Year:** 2025-2025
-- **Publisher:** Future Business Leaders of America - Phi Beta Lambda
+- **Year:** 2025-2026
+- **Publisher:** Future Business Leaders of America 
 - **URL:** https://www.fbla.org/
 - **Purpose:** Project requirements and judging criteria
 
