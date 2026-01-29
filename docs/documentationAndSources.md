@@ -16,7 +16,7 @@ This document lists all external resources, libraries, tutorials, and references
 
 ### Font Awesome
 - **Name:** Font Awesome
-- **Version:** 6.4.0
+- **Version:** 7.1.0
 - **URL:** https://fontawesome.com/
 - **License:** Font Awesome Free License
 - **Purpose:** Icons throughout the application
@@ -24,7 +24,7 @@ This document lists all external resources, libraries, tutorials, and references
 
 ### Pillow (PIL)
 - **Name:** Pillow
-- **Version:** 10.x
+- **Version:** 12.1
 - **URL:** https://python-pillow.org/
 - **License:** HPND License
 - **Purpose:** Image processing and validation
