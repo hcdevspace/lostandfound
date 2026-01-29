@@ -56,7 +56,6 @@
                         <th>Photo</th>
                         <th>Item</th>
                         <th>Details</th>
-                        <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -103,13 +102,6 @@
                             </div>
                         </td>
                         
-                        <!-- Status -->
-                        <td class="item-status-cell">
-                            <span class="status-badge status-reported">
-                                <i class="fas fa-exclamation-triangle"></i> Pending
-                            </span>
-                        </td>
-                        
                         <!-- Actions -->
                         <td class="item-actions-cell">
                             <div class="item-action-buttons">
@@ -133,8 +125,169 @@
             <p>All reported items have been processed</p>
         </div>
     {% endif %}
+
+{% elif current_filter == 'all' %}
+    <!-- All Pending Section - Shows both pending items AND claims -->
+    {% if pending_approval_items or claims %}
+        
+        <!-- Pending Approval Items -->
+        {% if pending_approval_items %}
+        <div style="margin-bottom: 2rem;">
+            <h2 style="color: #495057; margin-bottom: 1rem; font-size: 1.25rem;">
+                <i class="fas fa-exclamation-triangle"></i> Pending Reports ({{ pending_approval_items|length }})
+            </h2>
+            <div class="admin-items-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Photo</th>
+                            <th>Item</th>
+                            <th>Details</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in pending_approval_items %}
+                        <tr>
+                            <!-- Photo -->
+                            <td class="item-photo-cell">
+                                {% if item.photo %}
+                                    <img src="{{ item.photo.url }}" alt="{{ item.name }}" class="item-photo-thumbnail">
+                                {% else %}
+                                    <div class="item-photo-placeholder">
+                                        <i class="fas fa-image"></i>
+                                    </div>
+                                {% endif %}
+                            </td>
+                            
+                            <!-- Item Name -->
+                            <td class="item-name-cell">
+                                {{ item.name }}
+                                <span class="item-id-badge">ID: {{ item.id }}</span>
+                                <div class="item-detail-line" style="font-weight: normal; font-size: 0.85rem; color: #6c757d; margin-top: 0.25rem;">
+                                    <i class="fas fa-user"></i> {{ item.submitted_by.get_full_name|default:item.submitted_by.username }}
+                                </div>
+                            </td>
+                            
+                            <!-- Details -->
+                            <td class="item-details-cell">
+                                <div class="item-detail-line">
+                                    <i class="fas fa-tag"></i>
+                                    <span>{{ item.get_category_display }}</span>
+                                </div>
+                                <div class="item-detail-line">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>{{ item.location_found }}</span>
+                                </div>
+                                <div class="item-detail-line">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>{{ item.date_found }}</span>
+                                </div>
+                                <div class="item-detail-line">
+                                    <i class="fas fa-clock"></i>
+                                    <span>{{ item.created_at|timesince }} ago</span>
+                                </div>
+                            </td>
+                            
+                            <!-- Actions -->
+                            <td class="item-actions-cell">
+                                <div class="item-action-buttons">
+                                    <a href="{% url 'item_detail' item.pk %}" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-eye"></i> View
+                                    </a>
+                                    <a href="{% url 'approve_item' item.pk %}" class="btn btn-success btn-sm">
+                                        <i class="fas fa-check"></i> Approve
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+        
+        <!-- Pending/Approved/Rejected Claims -->
+        {% if claims %}
+        <div>
+            <h2 style="color: #495057; margin-bottom: 1rem; font-size: 1.25rem;">
+                <i class="fas fa-clipboard-list"></i> Claims Needing Attention ({{ claims|length }})
+            </h2>
+            <div class="claims-list">
+                {% for claim in claims %}
+                <div class="claim-card">
+                    <div class="claim-content">
+                        <div class="claim-info">
+                            <h3 class="claim-title">
+                                {{ claim.item.name }}
+                                <span class="item-id-badge">ID: {{ claim.item.id }}</span>
+                                <span class="claim-type-label">({{ claim.get_claim_type_display }})</span>
+                            </h3>
+                            <p class="claim-detail">
+                                <strong>Claimant:</strong> {{ claim.claimant.get_full_name|default:claim.claimant.username }}
+                                ({{ claim.claimant.email }})
+                            </p>
+                            <p class="claim-detail">
+                                <strong>Contact:</strong> {{ claim.contact_method }}
+                            </p>
+                            <div class="claim-description-box">
+                                <strong>Description:</strong> {{ claim.description }}
+                            </div>
+                            {% if claim.additional_proof %}
+                            <div class="claim-proof-box">
+                                <strong>Additional Proof:</strong> {{ claim.additional_proof }}
+                            </div>
+                            {% endif %}
+                            <p class="claim-time">
+                                <i class="fas fa-clock"></i> Submitted {{ claim.created_at|timesince }} ago
+                            </p>
+                            
+                            {% if claim.status == 'approved' and claim.item.verified_date %}
+                            <div class="claim-countdown-box">
+                                <i class="fas fa-hourglass-half"></i>
+                                <strong>Discard Countdown:</strong>
+                                {% if claim.item.is_ready_for_discard %}
+                                    <span class="countdown-badge countdown-ready">Ready to discard</span>
+                                {% elif claim.item.days_until_discard <= 7 %}
+                                    <span class="countdown-badge countdown-warning">{{ claim.item.days_until_discard }}d remaining</span>
+                                {% else %}
+                                    <span class="countdown-badge countdown-active">{{ claim.item.days_until_discard }}d remaining</span>
+                                {% endif %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="claim-actions-panel">
+                            <span class="status-badge status-{{ claim.status }}">
+                                {{ claim.get_status_display }}
+                            </span>
+                            <div class="claim-buttons">
+                                <a href="{% url 'review_claim' claim.pk %}" class="btn btn-primary btn-block">
+                                    <i class="fas fa-gavel"></i> Review
+                                </a>
+                                <a href="{% url 'item_detail' claim.item.pk %}" class="btn btn-outline-secondary btn-block">
+                                    <i class="fas fa-eye"></i> View Item
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        
+    {% else %}
+        <div class="empty-state">
+            <i class="fas fa-check-circle"></i>
+            <h2>All Caught Up!</h2>
+            <p>No pending items or claims require attention</p>
+        </div>
+    {% endif %}
+
 {% else %}
-    <!-- Claims Section -->
+    <!-- Claims Section (for specific status filters) -->
     {% if claims %}
         <div class="claims-list">
             {% for claim in claims %}

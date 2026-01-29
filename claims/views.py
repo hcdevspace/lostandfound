@@ -69,9 +69,13 @@ def admin_claims(request):
     if status_filter == 'pending_approval':
         claims = []  # No claims to show on this tab
     elif status_filter == 'all':
-        claims = Claim.objects.all()
+        # Show ALL claims that need attention (pending, approved, rejected)
+        claims = Claim.objects.filter(status__in=['pending', 'approved', 'rejected']).order_by('-created_at')
+    elif status_filter == 'completed':
+        claims = Claim.objects.filter(status='completed').order_by('-created_at')
     else:
-        claims = Claim.objects.filter(status=status_filter)
+        # For specific status filters (pending, approved, rejected)
+        claims = Claim.objects.filter(status=status_filter).order_by('-created_at')
 
     # Calculate counts for each category
     counts = {
@@ -80,7 +84,7 @@ def admin_claims(request):
         'approved': Claim.objects.filter(status='approved').count(),
         'rejected': Claim.objects.filter(status='rejected').count(),
         'completed': Claim.objects.filter(status='completed').count(),
-        'all': Claim.objects.count(),
+        'all': Claim.objects.filter(status__in=['pending', 'approved', 'rejected']).count(),
         'all_actionable': (
             Item.objects.filter(status='reported').count() +
             Claim.objects.filter(status__in=['pending', 'approved', 'rejected']).count()
