@@ -173,7 +173,7 @@ This document lists all external resources, libraries, tutorials, and references
 
 ## Image Assets
 
-### Stock Photos (if used)
+### Stock Photos
 - **Source:** Unsplash
 - **URL:** https://unsplash.com/
 - **License:** Unsplash License (Free to use)
