@@ -93,8 +93,8 @@ This document lists all external resources, libraries, tutorials, and references
 - **URL:** https://stackoverflow.com/questions/2472422/django-file-upload-size-limit
 - **Date Accessed:** January 2025
 - **Purpose:** Learning how to validate file sizes in Django
-- **Modified:** Yes, adapted for our specific requirements
-
+- **Modified for our specific needs**
+  
 ### Image Processing
 - **URL:** https://stackoverflow.com/questions/6350602/django-how-to-resize-uploaded-images
 - **Date Accessed:** January 2025
