@@ -1,445 +1,187 @@
-/* Alerts and Messages*/
+/* ITEM CARD STATUS BADGE FIX */
 
-/* Flash Messages Container - Floating Overlay */
-.flash-messages-container {
-    position: fixed;
-    top: 80px; /* Below navbar */
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 9999;
-    width: 90%;
-    max-width: 600px;
-    pointer-events: none; /* Allow clicks through container */
-}
-
-.flash-message {
-    pointer-events: auto; /* But allow clicks on messages */
-    margin-bottom: 1rem;
-    /* Enhanced shadow for floating effect */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 
-                0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Auto-dismiss animation */
-.flash-message {
-    animation: flashSlideDown 0.3s ease-out, 
-               flashFadeIn 0.3s ease-out, 
-               flashFadeOut 0.5s ease-out 4.5s forwards;
-}
-
-/* Hover to pause auto-dismiss */
-.flash-message:hover {
-    animation-play-state: paused;
-}
-
-/* Flash message animations */
-@keyframes flashSlideDown {
-    from {
-        transform: translateY(-100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-@keyframes flashFadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes flashFadeOut {
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-}
-
-/* Make sure messages stack nicely */
-.flash-messages-container > .flash-message:not(:last-child) {
-    margin-bottom: 0.75rem;
-}
-
-/* Alert Base Styles */
-.alert {
-    padding: 1rem;
-    margin-bottom: 1rem;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    animation: slideDown 0.3s ease;
-    /* ACCESSIBILITY: Ensure sufficient contrast */
-    border-left: 4px solid currentColor;
-}
-
-.alert-success {
-    background-color: #dcfce7;
-    color: #166534;
-    border: 1px solid #86efac;
-}
-
-.alert-error {
-    background-color: #fee2e2;
-    color: #991b1b;
-    border: 1px solid #fca5a5;
-}
-
-.alert-warning {
-    background-color: #fef3c7;
-    color: #92400e;
-    border: 1px solid #fcd34d;
-}
-
-.alert-info {
-    background-color: #dbeafe;
-    color: #1e40af;
-    border: 1px solid #93c5fd;
-}
-
-.alert-close {
-    margin-left: auto;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: inherit;
-    opacity: 0.7;
-    padding: 0.25rem;
-    border-radius: 4px;
-    transition: opacity 0.2s, background-color 0.2s;
-}
-
-.alert-close:hover {
-    opacity: 1;
-    background-color: rgba(0, 0, 0, 0.05);
-}
-
-/* ACCESSIBILITY: Focus state for close button */
-.alert-close:focus {
-    outline: 2px solid currentColor;
-    outline-offset: 2px;
-    opacity: 1;
-}
-
-/* Static alerts - never dismissible, always visible */
-.static-alert {
-    opacity: 1 !important;
-    visibility: visible !important;
-    display: flex !important;
-    pointer-events: auto !important;
-}
-
-/* Ensure static alerts don't have close buttons */
-.static-alert .alert-close {
-    display: none !important;
-}
-
-/* CARDS */
-
-.card {
-    background-color: white;
-    border-radius: 6px;
-    box-shadow: var(--shadow);
+/* Ensure the image container is positioned relatively so the absolute badge works */
+.item-card-image {
+    position: relative;
+    width: 100%;
+    height: 200px; /* Adjust as needed */
     overflow: hidden;
-    margin-bottom: 0.4rem;
-    /* ACCESSIBILITY: Add subtle border for definition */
-    border: 1px solid var(--border-color);
+    background: var(--light-bg);
+    border-radius: 6px 6px 0 0; /* Rounded top corners */
 }
 
-/* ACCESSIBILITY: Cards with links should indicate interactivity */
-.card:has(a) {
-    transition: box-shadow 0.3s;
+.item-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
-.card:has(a):hover {
-    box-shadow: var(--shadow-lg);
-}
-
-/* Feature cards on home page - no transform on hover to prevent layout shift */
-.feature-card:not(.step-card):hover {
-    transform: none;
-    box-shadow: var(--shadow-lg);
-}
-
-/* ACCESSIBILITY: Focus within card */
-.card:focus-within {
-    box-shadow: 0 0 0 3px rgba(65, 105, 225, 0.2);
-}
-
-.card-header {
-    padding: 0.75rem;
-    font-size: 1rem;
-    font-weight: 600;
-}
-
-.card-header.bg-primary {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-.card-header.bg-success {
-    background-color: var(--success-color);
-    color: white;
-}
-
-.card-body {
-    padding: 0.85rem;
-}
-
-/* BADGES */
-
-.badge {
-    padding: 0.4rem 0.8rem;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    color: white;
-    /* ACCESSIBILITY: Ensure text is readable */
-    line-height: 1.2;
-}
-
-.badge-pending {
-    background: var(--warning-color);
-    /* ACCESSIBILITY: Ensure contrast on warning color */
-    color: #000;
-}
-
-.badge-approved {
-    background: var(--success-color);
-}
-
-.badge-rejected {
-    background: var(--danger-color);
-}
-
-.badge-completed {
-    background: var(--text-muted);
-}
-
-.status-badge {
-    position: absolute;
-    top: 0.75rem;
-    right: 0.75rem;
-    padding: 0.4rem 0.8rem;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    background-color: var(--white);
-    box-shadow: var(--shadow);
-    /* ACCESSIBILITY: Ensure contrast */
-    line-height: 1.2;
-}
-
-.status-available {
-    color: var(--success-color);
-    border: 2px solid var(--success-color);
-}
-
-.status-reported {
-    color: var(--warning-color);
-    border: 2px solid var(--warning-color);
-}
-
-.status-unclaimed {
-    color: var(--success-color);
-    border: 2px solid var(--success-color);
-}
-
-.status-claimed {
-    color: #17a2b8;
-    border: 2px solid #17a2b8;
-}
-
-.status-verified {
-    color: #1abc9c;
-    border: 2px solid #1abc9c;
-}
-
-.status-rejected {
-    color: var(--warning-color);
-    border: 2px solid var(--warning-color);
-}
-
-.status-returned {
-    color: #28a745;
-    border: 2px solid #28a745;
-}
-
-.status-discarded {
+.item-card-image .no-image {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     color: var(--text-muted);
+    background: var(--light-bg);
+}
+
+.item-card-image .no-image i {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+.item-card-image .no-image p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* Fix status badge positioning - ensure it appears over the image */
+.item-card-image .status-badge {
+    position: absolute !important;
+    top: 0.75rem !important;
+    right: 0.75rem !important;
+    /* Ensure it's above the image */
+    z-index: 10;
+    /* Reset any potential conflicting styles */
+    display: inline-block;
+    margin: 0;
+}
+
+/* Status badge color styles */
+.status-badge.status-available {
+    color: var(--success-color);
+    background-color: var(--white);
+    border: 2px solid var(--success-color);
+}
+
+.status-badge.status-reported {
+    color: var(--warning-color);
+    background-color: var(--white);
+    border: 2px solid var(--warning-color);
+}
+
+.status-badge.status-unclaimed {
+    color: var(--success-color);
+    background-color: var(--white);
+    border: 2px solid var(--success-color);
+}
+
+.status-badge.status-claimed {
+    color: var(--primary-color);
+    background-color: var(--white);
+    border: 2px solid var(--primary-color);
+}
+
+.status-badge.status-verified {
+    color: var(--success-color);
+    background-color: var(--white);
+    border: 2px solid var(--success-color);
+}
+
+.status-badge.status-rejected {
+    color: var(--warning-color);
+    background-color: var(--white);
+    border: 2px solid var(--warning-color);
+}
+
+.status-badge.status-returned {
+    color: var(--success-color);
+    background-color: var(--white);
+    border: 2px solid var(--success-color);
+}
+
+.status-badge.status-discarded {
+    color: var(--text-muted);
+    background-color: var(--white);
     border: 2px solid var(--text-muted);
 }
 
-.status-badge-large {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-weight: bold;
-}
-
-/* PAGE HEADER */
-
-.page-header {
-    text-align: center;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid var(--border-color);
-}
-
-.page-header h1 {
-    color: var(--text-dark);
-    font-size: 1.8rem;
-    margin-bottom: 0.5rem;
-    /* ACCESSIBILITY: Ensure proper heading hierarchy */
-    line-height: 1.2;
-}
-
-.page-header p {
-    color: var(--text-muted);
-    font-size: 0.95rem;
-}
-
-/* EMPTY STATE */
-
-.empty-state {
-    text-align: center;
-    padding: 4rem 2rem;
+/* Item card structure */
+.item-card {
     background: var(--white);
     border-radius: 8px;
+    overflow: hidden;
     box-shadow: var(--shadow);
-    margin-top: 2rem;
-    /* ACCESSIBILITY: Add border for definition */
-    border: 1px solid var(--border-color);
+    transition: box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
 }
 
-.empty-state > i {
-    font-size: 4rem;
-    color: var(--text-muted);
-    margin-bottom: 1rem;
-    /* ACCESSIBILITY: Decorative icons should be aria-hidden in HTML */
+.item-card:hover {
+    box-shadow: var(--shadow-lg);
 }
 
-.empty-state h2 {
+.item-card-body {
+    padding: 1rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.item-title {
+    font-size: 1.1rem;
+    font-weight: 600;
     color: var(--text-dark);
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-    line-height: 1.3;
+    margin: 0 0 0.5rem 0;
 }
 
-.empty-state p {
+.item-category {
     color: var(--text-muted);
-    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+    margin: 0 0 0.75rem 0;
+}
+
+.item-category i {
+    margin-right: 0.25rem;
+}
+
+.item-details {
+    margin-bottom: 0.75rem;
+}
+
+.detail-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-dark);
+    font-size: 0.85rem;
+    margin: 0.25rem 0;
+}
+
+.detail-row i {
+    color: var(--text-muted);
+    width: 16px;
+}
+
+.item-description {
+    color: var(--text-muted);
+    font-size: 0.9rem;
     line-height: 1.5;
+    margin: 0 0 1rem 0;
+    flex: 1;
 }
 
-.empty-state .btn {
-    /* ACCESSIBILITY: Ensure buttons have sufficient touch target */
-    min-height: 44px;
-    min-width: 44px;
+.item-card-footer {
+    margin-top: auto;
 }
 
-.empty-state .btn i {
-    font-size: 1rem;
+/* Items grid layout */
+.items-grid-container {
+    margin-top: 2rem;
 }
 
-/* Responsive and flash messages */
+.items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
 
 @media (max-width: 768px) {
-    .flash-messages-container {
-        top: 70px;
-        width: 95%;
-        max-width: none;
-        padding: 0 0.5rem;
-    }
-    
-    .flash-message {
-        font-size: 0.9rem;
-    }
-}
-
-/* ACCESSIBILITY ENHANCEMENTS */
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-    .card,
-    .alert,
-    .empty-state {
-        border-width: 2px;
-    }
-    
-    .status-badge,
-    .badge {
-        border-width: 3px;
-    }
-    
-    .alert-close:focus {
-        outline-width: 3px;
-    }
-    
-    .flash-message {
-        border: 2px solid currentColor;
-    }
-}
-
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-    .alert,
-    .flash-message {
-        animation: none;
-    }
-    
-    .card,
-    .feature-card,
-    .alert-close {
-        transition: none;
-    }
-}
-
-/* Print styles */
-@media print {
-    .alert-close {
-        display: none;
-    }
-    
-    .flash-messages-container {
-        display: none;
-    }
-    
-    .card,
-    .alert,
-    .empty-state {
-        box-shadow: none;
-        border: 1px solid #000;
-    }
-    
-    .status-badge,
-    .badge {
-        border: 1px solid #000;
-    }
-}
-
-/* Touch device optimizations */
-@media (hover: none) and (pointer: coarse) {
-    /* ACCESSIBILITY: Larger touch targets on mobile */
-    .alert-close {
-        padding: 0.5rem;
-        font-size: 1.75rem;
-    }
-    
-    .empty-state .btn {
-        min-height: 48px;
-        padding: 0.75rem 1.5rem;
+    .items-grid {
+        grid-template-columns: 1fr;
     }
 }
