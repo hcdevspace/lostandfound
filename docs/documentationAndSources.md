@@ -3,7 +3,6 @@
 ## Overview
 This document lists all external resources, libraries, tutorials, and references used in the development of this project.
 
----
 
 ## Frameworks & Libraries
 
@@ -14,10 +13,11 @@ This document lists all external resources, libraries, tutorials, and references
 - **License:** BSD-3-Clause
 - **Purpose:** Main web framework for backend development
 - **Citation:** Django Software Foundation. (2025). Django: The Web framework for perfectionists with deadlines. Retrieved from https://www.djangoproject.com/
+- Used **Python 3.14** to develop with this framework
 
 ### Font Awesome
 - **Name:** Font Awesome
-- **Version:** 6.4.0
+- **Version:** 7.1.0
 - **URL:** https://fontawesome.com/
 - **License:** Font Awesome Free License
 - **Purpose:** Icons throughout the application
@@ -25,7 +25,7 @@ This document lists all external resources, libraries, tutorials, and references
 
 ### Pillow (PIL)
 - **Name:** Pillow
-- **Version:** 10.x
+- **Version:** 12.1
 - **URL:** https://python-pillow.org/
 - **License:** HPND License
 - **Purpose:** Image processing and validation
@@ -94,8 +94,8 @@ This document lists all external resources, libraries, tutorials, and references
 - **URL:** https://stackoverflow.com/questions/2472422/django-file-upload-size-limit
 - **Date Accessed:** January 2025
 - **Purpose:** Learning how to validate file sizes in Django
-- **Modified:** Yes, adapted for our specific requirements
-
+- **Modified for our specific needs**
+  
 ### Image Processing
 - **URL:** https://stackoverflow.com/questions/6350602/django-how-to-resize-uploaded-images
 - **Date Accessed:** January 2025
@@ -164,8 +164,8 @@ This document lists all external resources, libraries, tutorials, and references
 
 ### FBLA Competitive Events Guidelines
 - **Title:** Coding & Programming Event Guidelines
-- **Year:** 2025-2025
-- **Publisher:** Future Business Leaders of America - Phi Beta Lambda
+- **Year:** 2025-2026
+- **Publisher:** Future Business Leaders of America 
 - **URL:** https://www.fbla.org/
 - **Purpose:** Project requirements and judging criteria
 
@@ -173,7 +173,7 @@ This document lists all external resources, libraries, tutorials, and references
 
 ## Image Assets
 
-### Stock Photos (if used)
+### Stock Photos
 - **Source:** Unsplash
 - **URL:** https://unsplash.com/
 - **License:** Unsplash License (Free to use)
@@ -185,15 +185,7 @@ This document lists all external resources, libraries, tutorials, and references
 
 ---
 
-## Acknowledgments
 
-Special thanks to:
-- FBLA organization for project guidelines
-- Django community for excellent documentation
-- Teachers and mentors for guidance
-- Beta testers for feedback
-
----
 
 **Last Updated:** January 28, 2025
 **Project:** School Lost & Found Management System
