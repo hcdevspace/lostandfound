@@ -75,12 +75,6 @@ py manage.py runserver 0.0.0.0:8000
    - From other devices on the network: http://YOUR_IP_ADDRESS:8000
    - Example: http://192.168.1.100:8000
 
-4. **Important Security Notes:**
-   - The `ALLOWED_HOSTS` setting is configured to accept all hosts (`['*']`) for development
-   - For production deployment, update `ALLOWED_HOSTS` in `settings.py` to include only your specific domain/IP
-   - Ensure your firewall allows incoming connections on port 8000
-   - This setup is for development/testing only - use a proper web server (like Gunicorn + Nginx) for production
-
 ## Technology Stack
 - Django 5.0
 - SQLite (development)
