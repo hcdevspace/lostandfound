@@ -57,3 +57,224 @@ main.container {
     max-width: 100%;
     padding: 0 10px;
 }
+
+/* ==========================================
+   Shared Page Layout — lf-page-*
+   ========================================== */
+
+.lf-page-hero {
+    padding: 3.5rem 1.5rem 2.5rem;
+    background: transparent;
+    position: relative;
+}
+
+.lf-page-hero-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.lf-page-label {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--primary-color);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin: 0 0 0.75rem;
+}
+
+.lf-page-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 300;
+    color: var(--text-dark);
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+    margin: 0 0 0.75rem;
+}
+
+.lf-page-sub {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 300;
+    color: var(--text-muted);
+    margin: 0;
+    line-height: 1.6;
+}
+
+.lf-page-content {
+    background: var(--white);
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 2.5rem 1.5rem 3.5rem;
+}
+
+.lf-page-content-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.lf-empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.lf-empty-state i {
+    font-size: 3rem;
+    color: #cbd5e1;
+    display: block;
+    margin-bottom: 1.25rem;
+}
+
+.lf-empty-state h2 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--text-dark);
+    margin: 0 0 0.5rem;
+}
+
+.lf-empty-state p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin: 0 0 1.5rem;
+}
+
+.lf-results-bar {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+}
+
+/* Status badges */
+.lf-status {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 500;
+    padding: 0.2rem 0.6rem;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.lf-status--available {
+    background: rgba(16, 185, 129, 0.1);
+    color: #059669;
+}
+
+.lf-status--claimed {
+    background: rgba(65, 105, 225, 0.1);
+    color: var(--primary-color);
+}
+
+.lf-status--returned {
+    background: rgba(16, 185, 129, 0.08);
+    color: #059669;
+}
+
+.lf-status--discarded {
+    background: rgba(100, 116, 139, 0.1);
+    color: var(--text-muted);
+}
+
+.lf-status--pending_approval {
+    background: rgba(245, 158, 11, 0.1);
+    color: #d97706;
+}
+
+.lf-status--pending {
+    background: rgba(245, 158, 11, 0.1);
+    color: #d97706;
+}
+
+.lf-status--approved {
+    background: rgba(16, 185, 129, 0.1);
+    color: #059669;
+}
+
+.lf-status--rejected {
+    background: rgba(220, 38, 38, 0.1);
+    color: var(--danger-color);
+}
+
+.lf-status--completed {
+    background: rgba(65, 105, 225, 0.1);
+    color: var(--primary-color);
+}
+
+/* Tab bar */
+.lf-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.lf-tab {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    padding: 0.65rem 1.1rem;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color 0.15s, border-color 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+}
+
+.lf-tab:hover {
+    color: var(--text-dark);
+}
+
+.lf-tab--active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+    font-weight: 500;
+}
+
+.lf-count-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.3rem;
+    height: 1.3rem;
+    padding: 0 0.3rem;
+    background: var(--primary-color);
+    color: white;
+    font-size: 0.68rem;
+    font-weight: 600;
+    border-radius: 50px;
+}
+
+/* Section subheadings inside content */
+.lf-section-heading {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    margin: 0 0 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.lf-section-heading + .lf-section-heading {
+    margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    .lf-page-hero {
+        padding: 2.5rem 1rem 1.75rem;
+    }
+
+    .lf-page-content {
+        padding: 2rem 1rem 2.5rem;
+    }
+}

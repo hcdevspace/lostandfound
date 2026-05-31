@@ -2,20 +2,20 @@
 {% block title %}Report an Item{% endblock %}
 {% block content %}
 
-<div class="lf-page lf-report-page">
-    <div class="report-header-card">
-        <div class="report-header-icon">
-            <i class="fa-solid fa-clipboard-list"></i>
-        </div>
-        <div class="report-header-content">
-            <h1>Report Found Item</h1>
-            <p class="report-subline">Help reunite items with their owners</p>
-            <p class="report-subline">by reporting what you found</p>
-        </div>
-    </div>
+<div class="lf-grid-bg lf-grid-bg--flat" aria-hidden="true"></div>
 
-    <div class="report-form-card">
-        <form method="POST" enctype="multipart/form-data" class="report-form-grid" id="reportForm">
+<section class="lf-page-hero" aria-label="Report Found Item">
+    <div class="lf-page-hero-inner">
+        <p class="lf-page-label">Lost & Found</p>
+        <h1 class="lf-page-title">Report Found Item.</h1>
+        <p class="lf-page-sub">Help reunite items with their owners by reporting what you found.</p>
+    </div>
+</section>
+
+<div class="lf-page-content">
+    <div class="lf-page-content-inner">
+        <div class="lf-form-card">
+            <form method="POST" enctype="multipart/form-data" class="report-form-grid" id="reportForm">
             {% csrf_token %}
 
             <div class="report-form-left">
@@ -112,6 +112,7 @@
                 </div>
             </div>
         </form>
+        </div>
     </div>
 </div>
 

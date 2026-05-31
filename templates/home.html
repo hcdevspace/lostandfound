@@ -179,124 +179,136 @@
 </script>
 
 {% else %}
-<div class="logged-in-home">
-    <div class="logged-in-hero">
-        <div class="hero-slider logged-in-slider" data-lf-slider role="region" aria-label="Recently found items carousel">
-            <div class="lf-slider-card">
-                <div class="lf-slider-header">
-                    <div class="lf-slider-title" id="slider-title-logged-in">Found Recently</div>
-                </div>
+<div class="lf-grid-bg lf-grid-bg--flat" aria-hidden="true"></div>
 
-                <div class="lf-slider-viewport" role="group" aria-labelledby="slider-title-logged-in" aria-live="polite">
-                    {% if slider_items %}
-                        {% for item in slider_items %}
-                            <div class="lf-slide" data-lf-slide role="group"
-                                 aria-label="Item {{ forloop.counter }} of {{ slider_items|length }}">
-                                <div class="lf-slide-media">
-                                    <a class="lf-slide-link" href="{% url 'item_detail' item.pk %}" aria-label="View details for {{ item.name|escape }}">
-                                        <img
-                                            src="{{ item.photo.url }}"
-                                            alt="{{ item.name }}"
-                                            data-lf-tooltip
-                                            data-title="{{ item.name|escape }}"
-                                            data-date-found="{{ item.date_found|date:'M j, Y' }}"
-                                            data-category="{{ item.get_category_display|escape }}"
-                                            data-location="{{ item.location_found|escape }}"
-                                        >
-                                    </a>
+<section class="lf-li-main" aria-label="Dashboard">
+    <div class="lf-li-main-inner">
+        <div class="lf-li-left">
+            <p class="lf-li-label">Dashboard</p>
+            <h1 class="lf-li-greeting">Welcome back,<br><span class="lf-li-greeting-name">{{ user.first_name|default:user.username }}</span>.</h1>
+            {% if user.is_staff or user.user_type == 'teacher' or user.user_type == 'admin' %}
+                {% if pending_approval_items %}
+                    <p class="lf-li-sub"><span class="lf-li-badge">{{ pending_approval_items|length }}</span> item{{ pending_approval_items|length|pluralize }} pending your approval.</p>
+                {% else %}
+                    <p class="lf-li-sub">All caught up — no items pending approval.</p>
+                {% endif %}
+            {% else %}
+                <p class="lf-li-sub">Here's what's been found recently on campus.</p>
+            {% endif %}
+        </div>
+        <div class="lf-li-right">
+            <p class="lf-li-carousel-caption">Found Recently</p>
+            <div class="lf-li-carousel" data-lf-slider role="region" aria-label="Recently found items carousel">
+                <div class="lf-viewport-wrap">
+                    <div class="lf-slider-viewport" role="group" aria-live="polite">
+                        {% if slider_items %}
+                            {% for item in slider_items %}
+                                <div class="lf-slide" data-lf-slide role="group" aria-label="Item {{ forloop.counter }} of {{ slider_items|length }}">
+                                    <div class="lf-slide-media">
+                                        <a class="lf-slide-link" href="{% url 'item_detail' item.pk %}" aria-label="View details for {{ item.name|escape }}">
+                                            <img src="{{ item.photo.url }}" alt="{{ item.name }}"
+                                                data-lf-tooltip
+                                                data-title="{{ item.name|escape }}"
+                                                data-date-found="{{ item.date_found|date:'M j, Y' }}"
+                                                data-category="{{ item.get_category_display|escape }}"
+                                                data-location="{{ item.location_found|escape }}">
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
-                        {% endfor %}
-                    {% else %}
-                        <div class="lf-slide" data-lf-slide role="group" aria-label="Example item 1 of 3">
-                            <div class="lf-slide-media lf-slide-media-empty">
-                                <i class="fas fa-glasses"></i>
-                            </div>
-                        </div>
-                        <div class="lf-slide" data-lf-slide role="group" aria-label="Example item 2 of 3">
-                            <div class="lf-slide-media lf-slide-media-empty">
-                                <i class="fas fa-book"></i>
-                            </div>
-                        </div>
-                        <div class="lf-slide" data-lf-slide role="group" aria-label="Example item 3 of 3">
-                            <div class="lf-slide-media lf-slide-media-empty">
-                                <i class="fas fa-pen"></i>
-                            </div>
-                        </div>
-                    {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <div class="lf-slide" data-lf-slide role="group" aria-label="Placeholder 1 of 4"><div class="lf-slide-media lf-slide-media-empty"><i class="fas fa-glasses" aria-hidden="true"></i></div></div>
+                            <div class="lf-slide" data-lf-slide role="group" aria-label="Placeholder 2 of 4"><div class="lf-slide-media lf-slide-media-empty"><i class="fas fa-book" aria-hidden="true"></i></div></div>
+                            <div class="lf-slide" data-lf-slide role="group" aria-label="Placeholder 3 of 4"><div class="lf-slide-media lf-slide-media-empty"><i class="fas fa-pen" aria-hidden="true"></i></div></div>
+                            <div class="lf-slide" data-lf-slide role="group" aria-label="Placeholder 4 of 4"><div class="lf-slide-media lf-slide-media-empty"><i class="fas fa-bag-shopping" aria-hidden="true"></i></div></div>
+                        {% endif %}
+                    </div>
+                    <button type="button" class="lf-slider-btn" data-lf-slider-prev aria-label="View previous item"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
+                    <button type="button" class="lf-slider-btn" data-lf-slider-next aria-label="View next item"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
                 </div>
-
-                <button type="button" class="lf-slider-btn" data-lf-slider-prev aria-label="View previous item">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-                <button type="button" class="lf-slider-btn" data-lf-slider-next aria-label="View next item">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
+                <div class="lf-dots-wrap" aria-hidden="true"></div>
             </div>
         </div>
     </div>
+</section>
 
-    <section class="quick-actions-section logged-in-actions" aria-labelledby="quick-actions-heading">
+<div class="lf-white-band">
+    <section class="lf-li-actions" aria-labelledby="lf-li-actions-heading">
+        <div class="lf-li-actions-inner">
+            <h2 class="lf-li-actions-heading" id="lf-li-actions-heading">Quick Actions</h2>
+            <div class="lf-li-grid">
 
-        <nav class="row logged-in-actions-row" aria-label="Quick links">
+                {% if user.is_staff or user.user_type == 'teacher' or user.user_type == 'admin' %}
 
-            <div class="col-3">
-                <a href="{% url 'report_item' %}" class="quick-action-card" aria-label="Report a found item">
-                    <article class="card text-center feature-card">
-                        <div class="card-body quick-action-body">
-                            <div class="quick-action-icon quick-action-icon-primary">
-                                <i class="fas fa-clipboard-list"></i>
-                            </div>
-                            <h4 class="quick-action-title">Report Item</h4>
-                            <p class="text-muted quick-action-description">Post a found item with details.</p>
-                        </div>
-                    </article>
-                </a>
+                    <a href="{% url 'item_list' %}" class="lf-li-card" aria-label="Browse all items">
+                        <div class="lf-li-card-icon lf-hiw-icon-green"><i class="fas fa-magnifying-glass" aria-hidden="true"></i></div>
+                        <p class="lf-li-card-title">Search Items</p>
+                        <p class="lf-li-card-desc">Browse and search the full item registry.</p>
+                    </a>
+
+                    <a href="{% if pending_approval_items %}{% url 'approve_item' pending_approval_items.0.pk %}{% else %}{% url 'item_list' %}{% endif %}" class="lf-li-card" aria-label="Approve pending items">
+                        {% if pending_approval_items %}<span class="lf-li-card-badge">{{ pending_approval_items|length }}</span>{% endif %}
+                        <div class="lf-li-card-icon lf-hiw-icon-orange"><i class="fas fa-circle-check" aria-hidden="true"></i></div>
+                        <p class="lf-li-card-title">Approve Items</p>
+                        <p class="lf-li-card-desc">Review and approve submitted found items.</p>
+                    </a>
+
+                    <a href="{% url 'admin_claims' %}" class="lf-li-card" aria-label="Review claims">
+                        <div class="lf-li-card-icon lf-hiw-icon-blue"><i class="fas fa-clipboard-check" aria-hidden="true"></i></div>
+                        <p class="lf-li-card-title">Review Claims</p>
+                        <p class="lf-li-card-desc">Approve or deny ownership claims.</p>
+                    </a>
+
+                    <a href="{% url 'report_item' %}" class="lf-li-card" aria-label="Report a found item">
+                        <div class="lf-li-card-icon lf-hiw-icon-blue"><i class="fas fa-arrow-up-from-bracket" aria-hidden="true"></i></div>
+                        <p class="lf-li-card-title">Report Item</p>
+                        <p class="lf-li-card-desc">Log a newly found item with photos and details.</p>
+                    </a>
+
+                    {% if user.is_staff or user.user_type == 'admin' %}
+                    <a href="{% url 'pending_users' %}" class="lf-li-card" aria-label="Manage pending users">
+                        <div class="lf-li-card-icon lf-hiw-icon-orange"><i class="fas fa-user-clock" aria-hidden="true"></i></div>
+                        <p class="lf-li-card-title">Pending Users</p>
+                        <p class="lf-li-card-desc">Approve or reject new account registrations.</p>
+                    </a>
+                    {% endif %}
+
+                    <a href="{% url 'my_items' %}" class="lf-li-card" aria-label="View your reported items">
+                        <div class="lf-li-card-icon lf-hiw-icon-blue"><i class="fas fa-box" aria-hidden="true"></i></div>
+                        <p class="lf-li-card-title">My Reported Items</p>
+                        <p class="lf-li-card-desc">Track items you've submitted.</p>
+                    </a>
+
+                {% else %}
+
+                    <a href="{% url 'report_item' %}" class="lf-li-card" aria-label="Report a found item">
+                        <div class="lf-li-card-icon lf-hiw-icon-blue"><i class="fas fa-arrow-up-from-bracket" aria-hidden="true"></i></div>
+                        <p class="lf-li-card-title">Report Item</p>
+                        <p class="lf-li-card-desc">Log a newly found item with photos and details.</p>
+                    </a>
+
+                    <a href="{% url 'item_list' %}" class="lf-li-card" aria-label="Search for items">
+                        <div class="lf-li-card-icon lf-hiw-icon-green"><i class="fas fa-magnifying-glass" aria-hidden="true"></i></div>
+                        <p class="lf-li-card-title">Search Items</p>
+                        <p class="lf-li-card-desc">Browse and search for matches to what you lost.</p>
+                    </a>
+
+                    <a href="{% url 'my_items' %}" class="lf-li-card" aria-label="View your reported items">
+                        <div class="lf-li-card-icon lf-hiw-icon-blue"><i class="fas fa-box" aria-hidden="true"></i></div>
+                        <p class="lf-li-card-title">My Reported Items</p>
+                        <p class="lf-li-card-desc">Track items you've submitted.</p>
+                    </a>
+
+                    <a href="{% url 'my_claims' %}" class="lf-li-card" aria-label="View your claims">
+                        <div class="lf-li-card-icon lf-hiw-icon-green"><i class="fas fa-circle-check" aria-hidden="true"></i></div>
+                        <p class="lf-li-card-title">My Claims</p>
+                        <p class="lf-li-card-desc">View claim status and updates.</p>
+                    </a>
+
+                {% endif %}
+
             </div>
-
-            <div class="col-3">
-                <a href="{% url 'item_list' %}" class="quick-action-card" aria-label="Search for lost items">
-                    <article class="card text-center feature-card">
-                        <div class="card-body quick-action-body">
-                            <div class="quick-action-icon quick-action-icon-success">
-                                <i class="fas fa-search"></i>
-                            </div>
-                            <h4 class="quick-action-title">Search Items</h4>
-                            <p class="text-muted quick-action-description">Browse and search for matches.</p>
-                        </div>
-                    </article>
-                </a>
-            </div>
-
-            <div class="col-3">
-                <a href="{% url 'my_items' %}" class="quick-action-card" aria-label="View items you reported">
-                    <article class="card text-center feature-card">
-                        <div class="card-body quick-action-body">
-                            <div class="quick-action-icon quick-action-icon-primary">
-                                <i class="fas fa-box"></i>
-                            </div>
-                            <h4 class="quick-action-title">My Reported Items</h4>
-                            <p class="text-muted quick-action-description">Track items you reported.</p>
-                        </div>
-                    </article>
-                </a>
-            </div>
-
-            <div class="col-3">
-                <a href="{% url 'my_claims' %}" class="quick-action-card" aria-label="View your claims">
-                    <article class="card text-center feature-card">
-                        <div class="card-body quick-action-body">
-                            <div class="quick-action-icon quick-action-icon-success">
-                                <i class="fa-solid fa-check"></i>
-                            </div>
-                            <h4 class="quick-action-title">My Claims</h4>
-                            <p class="text-muted quick-action-description">View claim status and updates.</p>
-                        </div>
-                    </article>
-                </a>
-            </div>
-
-        </nav>
+        </div>
     </section>
 </div>
 

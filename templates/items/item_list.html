@@ -2,139 +2,99 @@
 {% block title %}Search Items{% endblock %}
 {% block content %}
 
-<div class="lf-page lf-items-page">
-    <div class="search-header-card lf-search-header">
-        <div class="search-header-icon">
-            <i class="fas fa-search"></i>
-        </div>
-        <div class="search-header-content">
-            <h1>Search Lost & Found</h1>
-            <p class="search-subline">Search for your lost belongings</p>
-        </div>
+<div class="lf-grid-bg lf-grid-bg--flat" aria-hidden="true"></div>
+
+<section class="lf-page-hero" aria-label="Search Items">
+    <div class="lf-page-hero-inner">
+        <p class="lf-page-label">Lost & Found</p>
+        <h1 class="lf-page-title">Search Items.</h1>
+        <p class="lf-page-sub">Browse items that have been found on campus.</p>
     </div>
+</section>
 
-    <div class="search-container lf-panel">
-        <form action="{% url 'item_list' %}" method="get" class="search-form">
-            <div class="search-row">
-                <div class="search-input-group">
-                    <i class="fas fa-search search-icon"></i>
-                    <input
-                        type="text"
-                        name="q"
-                        class="form-control search-input"
-                        placeholder="Search by item name or description..."
-                        value="{{ request.GET.q }}"
-                    >
-                </div>
+<div class="lf-page-content">
+    <div class="lf-page-content-inner">
 
-                <div class="category-filter-group">
-                    <i class="fas fa-filter filter-icon"></i>
-                    <select name="category" class="form-select category-select">
-                        <option value="">All Categories</option>
-                        {% for value, label in categories %}
-                        <option value="{{ value }}" {% if request.GET.category == value %}selected{% endif %}>{{ label }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-
-                <button type="submit" class="btn btn-primary search-btn">
-                    <i class="fas fa-search"></i> Search
-                </button>
-
-                {% if request.GET.q or request.GET.category %}
-                <a href="{% url 'item_list' %}" class="btn btn-outline-secondary clear-btn">
-                    <i class="fas fa-times"></i> Clear
-                </a>
-                {% endif %}
-            </div>
-        </form>
-    </div>
-
-    {% if request.GET.q or request.GET.category %}
-    <div class="lf-info-bar">
-        <i class="fas fa-info-circle" aria-hidden="true"></i>
-        <div class="lf-info-bar-text">
-            Showing results
-            {% if request.GET.q %}
-                for "<strong>{{ request.GET.q }}</strong>"
-            {% endif %}
-            {% if request.GET.category %}
-                in <strong>{% for value, label in categories %}{% if value == request.GET.category %}{{ label }}{% endif %}{% endfor %}</strong>
-            {% endif %}
-            - <strong>{{ items|length }}</strong> item{{ items|length|pluralize }} found
-        </div>
-    </div>
-    {% endif %}
-
-    {% if items %}
-        <div class="items-grid-container">
-            <div class="items-grid">
-                {% for item in items %}
-                <div class="item-card">
-                    <div class="item-card-image">
-                        {% if item.photo %}
-                            <img src="{{ item.photo.url }}" alt="{{ item.name }}">
-                        {% else %}
-                            <div class="no-image">
-                                <i class="fas fa-image"></i>
-                                <p>No photo</p>
-                            </div>
-                        {% endif %}
-                        <span class="status-badge status-{{ item.status }}">
-                            {{ item.get_status_display }}
-                        </span>
+        <div class="lf-search-card">
+            <form action="{% url 'item_list' %}" method="get" class="lf-search-form">
+                <div class="lf-search-row">
+                    <div class="lf-search-input-wrap">
+                        <i class="fas fa-search" aria-hidden="true"></i>
+                        <input type="text" name="q" class="lf-search-input"
+                               placeholder="Search by name or description..."
+                               value="{{ request.GET.q }}">
                     </div>
-
-                    <div class="item-card-body">
-                        <h3 class="item-title">{{ item.name }}</h3>
-                        <p class="item-category">
-                            <i class="fas fa-tag"></i> {{ item.get_category_display }}
-                        </p>
-
-                        <div class="item-details">
-                            <div class="detail-row">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <span>{{ item.location_found }}</span>
-                            </div>
-                            <div class="detail-row">
-                                <i class="fas fa-calendar"></i>
-                                <span>{{ item.date_found|date:"M d, Y" }}</span>
-                            </div>
-                        </div>
-
-                        <p class="item-description">{{ item.description|truncatewords:20 }}</p>
-
-                        <div class="item-card-footer">
-                            <a href="{% url 'item_detail' item.pk %}" class="btn btn-sm btn-outline-primary">
-                                <i class="fas fa-eye"></i> View Details
-                            </a>
-                        </div>
+                    <div class="lf-search-select-wrap">
+                        <i class="fas fa-filter" aria-hidden="true"></i>
+                        <select name="category" class="lf-search-select">
+                            <option value="">All Categories</option>
+                            {% for value, label in categories %}
+                            <option value="{{ value }}" {% if request.GET.category == value %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
+                    <button type="submit" class="btn btn-primary lf-search-btn">
+                        <i class="fas fa-search" aria-hidden="true"></i> Search
+                    </button>
+                    {% if request.GET.q or request.GET.category %}
+                    <a href="{% url 'item_list' %}" class="btn btn-outline-primary lf-search-btn">
+                        <i class="fas fa-times" aria-hidden="true"></i> Clear
+                    </a>
+                    {% endif %}
                 </div>
-                {% endfor %}
-            </div>
+            </form>
         </div>
-    {% else %}
-        <div class="empty-state">
+
+        {% if request.GET.q or request.GET.category %}
+        <p class="lf-results-bar">
+            <strong>{{ items|length }}</strong> result{{ items|length|pluralize }}
+            {% if request.GET.q %} for "<strong>{{ request.GET.q }}</strong>"{% endif %}
+            {% if request.GET.category %} in <strong>{% for value, label in categories %}{% if value == request.GET.category %}{{ label }}{% endif %}{% endfor %}</strong>{% endif %}
+        </p>
+        {% endif %}
+
+        {% if items %}
+        <div class="lf-items-grid">
+            {% for item in items %}
+            <a href="{% url 'item_detail' item.pk %}" class="lf-item-card" aria-label="View {{ item.name }}">
+                <div class="lf-item-card-img">
+                    {% if item.photo %}
+                        <img src="{{ item.photo.url }}" alt="{{ item.name }}">
+                    {% else %}
+                        <div class="lf-item-card-noimg"><i class="fas fa-image" aria-hidden="true"></i></div>
+                    {% endif %}
+                    <span class="lf-status lf-status--{{ item.status }}">{{ item.get_status_display }}</span>
+                </div>
+                <div class="lf-item-card-body">
+                    <p class="lf-item-card-cat"><i class="fas fa-tag" aria-hidden="true"></i> {{ item.get_category_display }}</p>
+                    <h3 class="lf-item-card-name">{{ item.name }}</h3>
+                    <p class="lf-item-card-meta"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> {{ item.location_found }}</p>
+                    <p class="lf-item-card-meta"><i class="fas fa-calendar" aria-hidden="true"></i> {{ item.date_found|date:"M d, Y" }}</p>
+                    <p class="lf-item-card-desc">{{ item.description|truncatewords:20 }}</p>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+
+        {% else %}
+        <div class="lf-empty-state">
             {% if request.GET.q or request.GET.category %}
-                <i class="fas fa-search"></i>
+                <i class="fas fa-search" aria-hidden="true"></i>
                 <h2>No Items Found</h2>
-                <p>No items match your search criteria. Try adjusting your filters.</p>
-                <a href="{% url 'item_list' %}" class="btn btn-primary">
-                    <i class="fas fa-list"></i> View All Items
-                </a>
+                <p>No items match your search. Try different filters.</p>
+                <a href="{% url 'item_list' %}" class="btn btn-primary" style="border-radius:50px;">View All Items</a>
             {% else %}
-                <i class="fas fa-inbox"></i>
-                <h2>No Items Available</h2>
-                <p>There are currently no items in the lost and found.</p>
+                <i class="fas fa-inbox" aria-hidden="true"></i>
+                <h2>No Items Yet</h2>
+                <p>There are no items in the lost and found.</p>
                 {% if user.is_authenticated %}
-                <a href="{% url 'report_item' %}" class="btn btn-primary">
-                    <i class="fa-solid fa-clipboard-list"></i> Report Item
-                </a>
+                <a href="{% url 'report_item' %}" class="btn btn-primary" style="border-radius:50px;">Report an Item</a>
                 {% endif %}
             {% endif %}
         </div>
-    {% endif %}
+        {% endif %}
+
+    </div>
 </div>
 
 {% endblock %}
