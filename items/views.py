@@ -5,6 +5,12 @@ from django.db.models import Q
 from django.utils import timezone
 from .models import Item
 from .forms import ItemForm
+from accounts.emails import (
+    send_item_reported_email,
+    send_item_approved_email,
+    send_item_rejected_email,
+    send_item_discarded_email,
+)
 
 # Create your views here.
 @login_required
@@ -15,6 +21,7 @@ def report_item(request):
             item = form.save(commit=False)
             item.submitted_by = request.user
             item.save()
+            send_item_reported_email(request.user, item)
             messages.success(request, 'Item reported successfully! Please bring the physical item to the Lost & Found office for verification. Once staff approves it, the item will be available for claims.')
             return redirect('item_detail', pk=item.pk)
     else:
@@ -125,6 +132,18 @@ def discard_item(request, pk):
         item.discarded_by = request.user
         item.save()
 
+        # Notify the original reporter
+        if item.submitted_by and item.submitted_by.email:
+            send_item_discarded_email(item.submitted_by, item)
+
+        # Also notify any claimant whose claim was pending/approved
+        from claims.models import Claim
+        active_claim = Claim.objects.filter(
+            item=item, status__in=['pending', 'approved']
+        ).select_related('claimant').first()
+        if active_claim and active_claim.claimant != item.submitted_by and active_claim.claimant.email:
+            send_item_discarded_email(active_claim.claimant, item)
+
         messages.success(request, f'Item "{item.name}" has been marked as discarded/donated.')
         return redirect('item_list')
 
@@ -159,8 +178,49 @@ def approve_item(request, pk):
         item.approved_by = request.user
         item.save()
 
+        # Notify the reporter
+        if item.submitted_by and item.submitted_by.email:
+            send_item_approved_email(item.submitted_by, item)
+
         messages.success(request, f'Item "{item.name}" has been approved and is now available for claims.')
         return redirect('item_list')
 
     # If GET request, show confirmation page
     return render(request, 'items/approve_item.html', {'item': item})
+
+
+@login_required
+def reject_item(request, pk):
+    item = get_object_or_404(Item, pk=pk)
+
+    # Security check: Only teachers or admins can reject
+    is_teacher = request.user.user_type == 'teacher'
+    is_admin = request.user.user_type == 'admin' or request.user.is_staff
+
+    if not (is_teacher or is_admin):
+        messages.error(request, 'You do not have permission to reject items.')
+        return redirect('item_detail', pk=pk)
+
+    # Only reject items with 'reported' status
+    if item.status != 'reported':
+        messages.warning(request, 'This item has already been processed.')
+        return redirect('item_detail', pk=pk)
+
+    if request.method == 'POST':
+        rejection_notes = request.POST.get('rejection_notes', '')
+
+        item.status = 'discarded'
+        item.discard_date = timezone.now()
+        item.discard_reason = 'Item report rejected by staff'
+        item.discard_notes = rejection_notes
+        item.discarded_by = request.user
+        item.save()
+
+        # Notify the reporter
+        if item.submitted_by and item.submitted_by.email:
+            send_item_rejected_email(item.submitted_by, item, notes=rejection_notes)
+
+        messages.success(request, f'Item "{item.name}" report has been rejected.')
+        return redirect('admin_claims')
+
+    return render(request, 'items/reject_item.html', {'item': item})
