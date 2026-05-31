@@ -33,12 +33,13 @@
 
     
     <script src="{% static 'js/main.js' %}?v=1.1" defer></script>
+    <script src="{% static 'developer/engine.js' %}" defer></script>
 </head>
 <body class="{% block body_class %}{% endblock %}">
     
     <nav class="navbar">
         <div class="container">
-            <a href="{% url 'home' %}" class="navbar-brand">
+            <a href="{% url 'home' %}" class="navbar-brand" id="navbar-brand-link"{% if user.is_staff or dev_simulate %} data-admin-user="1"{% endif %}>
                 <i class="fas fa-box-open"></i> Lost & Found
             </a>
             
@@ -87,7 +88,7 @@
                         <ul class="dropdown-menu">
                             <li><a href="#"><i class="fas fa-user-circle"></i> Profile</a></li>
                             <li><div class="dropdown-divider"></div></li>
-                            <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                            <li><a href="{% url 'logout' %}" id="navbar-logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                         </ul>
                     </li>
                 {% else %}

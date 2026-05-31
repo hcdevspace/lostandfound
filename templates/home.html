@@ -185,7 +185,7 @@
     <div class="lf-li-main-inner">
         <div class="lf-li-left">
             <p class="lf-li-label">Dashboard</p>
-            <h1 class="lf-li-greeting">Welcome back,<br><span class="lf-li-greeting-name">{{ user.first_name|default:user.username }}</span>.</h1>
+            <h1 class="lf-li-greeting">Welcome back,<br><span class="lf-li-greeting-name" id="lf-greeting-name">{{ user.first_name|default:user.username }}</span>.</h1>
             {% if user.is_staff or user.user_type == 'teacher' or user.user_type == 'admin' %}
                 {% if pending_approval_items %}
                     <p class="lf-li-sub"><span class="lf-li-badge">{{ pending_approval_items|length }}</span> item{{ pending_approval_items|length|pluralize }} pending your approval.</p>
