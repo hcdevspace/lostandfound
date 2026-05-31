@@ -111,6 +111,26 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# ---------------------------------------------------------------------------
+# Cloud media storage (production)
+# ---------------------------------------------------------------------------
+# On Render (or any host where DEBUG=False), Django does NOT serve MEDIA files.
+# Options:
+#   1. Use Cloudinary: pip install cloudinary django-cloudinary-storage
+#      Then set DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+#      and add CLOUDINARY_STORAGE = {'CLOUD_NAME': ..., 'API_KEY': ..., 'API_SECRET': ...}
+#   2. Use AWS S3: pip install boto3 django-storages
+#      Then set DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# Set CLOUD_MEDIA = True in your .env to activate (example below uses Cloudinary).
+CLOUD_MEDIA = config('CLOUD_MEDIA', default=False, cast=bool)
+if CLOUD_MEDIA:
+    DEFAULT_FILE_STORAGE = config('DEFAULT_FILE_STORAGE', default='cloudinary_storage.storage.MediaCloudinaryStorage')
+    CLOUDINARY_STORAGE = {
+        'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME', default=''),
+        'API_KEY': config('CLOUDINARY_API_KEY', default=''),
+        'API_SECRET': config('CLOUDINARY_API_SECRET', default=''),
+    }
+
 # Custom User model
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
@@ -120,3 +140,20 @@ LOGOUT_REDIRECT_URL = 'home'
 
 # School verification code for instant account creation (set in .env)
 SCHOOL_VERIFICATION_CODE = config('SCHOOL_VERIFICATION_CODE', default='SCHOOL2024')
+
+# ---------------------------------------------------------------------------
+# Email configuration
+# ---------------------------------------------------------------------------
+# Set EMAIL_BACKEND to 'django.core.mail.backends.smtp.EmailBackend' in production.
+# During development, 'django.core.mail.backends.console.EmailBackend' prints
+# emails to the terminal instead of sending them — great for testing.
+EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.console.EmailBackend')
+EMAIL_HOST = config('EMAIL_HOST', default='smtp.gmail.com')
+EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='Lost & Found <noreply@school.edu>')
+
+# Password reset token expiry (in seconds). Default: 3600 = 1 hour.
+PASSWORD_RESET_TIMEOUT = 3600

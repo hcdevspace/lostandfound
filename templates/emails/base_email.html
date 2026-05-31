@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block subject %}Lost & Found{% endblock %}</title>
+  <style>
+    body { margin: 0; padding: 0; background-color: #f4f6fb; font-family: 'Segoe UI', Arial, sans-serif; color: #333; }
+    .wrapper { max-width: 600px; margin: 32px auto; background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(65,105,225,0.08); }
+    .header { background: linear-gradient(135deg, #4169e1 0%, #2f4fb8 100%); padding: 32px 40px; text-align: center; }
+    .header h1 { margin: 0; color: #fff; font-size: 22px; font-weight: 700; letter-spacing: 0.5px; }
+    .header p { margin: 6px 0 0; color: rgba(255,255,255,0.8); font-size: 13px; }
+    .icon-circle { width: 56px; height: 56px; background: rgba(255,255,255,0.15); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px; font-size: 24px; }
+    .body { padding: 36px 40px; }
+    .body p { margin: 0 0 16px; line-height: 1.6; font-size: 15px; }
+    .body p.greeting { font-size: 16px; font-weight: 600; color: #222; }
+    .item-card { background: #f4f6fb; border-left: 4px solid #4169e1; border-radius: 8px; padding: 16px 20px; margin: 20px 0; }
+    .item-card .item-name { font-size: 17px; font-weight: 700; color: #222; margin: 0 0 8px; }
+    .item-card .item-meta { font-size: 13px; color: #666; margin: 3px 0; }
+    .item-card .item-meta span { font-weight: 600; color: #444; }
+    .status-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+    .badge-success { background: #e6f9f0; color: #1a7a4a; }
+    .badge-danger  { background: #fdecea; color: #b91c1c; }
+    .badge-warning { background: #fff8e1; color: #b45309; }
+    .badge-info    { background: #e8efff; color: #2f4fb8; }
+    .cta-btn { display: inline-block; margin: 8px 0 20px; padding: 12px 28px; background: #4169e1; color: #fff !important; text-decoration: none; border-radius: 8px; font-size: 14px; font-weight: 700; }
+    .divider { border: none; border-top: 1px solid #e8ecf5; margin: 24px 0; }
+    .footer { background: #f4f6fb; padding: 20px 40px; text-align: center; }
+    .footer p { margin: 0; font-size: 12px; color: #999; line-height: 1.6; }
+    .footer a { color: #4169e1; text-decoration: none; }
+    .notes-box { background: #fff8e1; border: 1px solid #fce08a; border-radius: 8px; padding: 14px 18px; margin: 16px 0; font-size: 14px; color: #7a5c00; }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="header">
+      <div class="icon-circle">{% block header_icon %}📦{% endblock %}</div>
+      <h1>Lost & Found</h1>
+      <p>{% block header_sub %}School Lost & Found System{% endblock %}</p>
+    </div>
+    <div class="body">
+      {% block body %}{% endblock %}
+    </div>
+    <hr class="divider">
+    <div class="footer">
+      <p>This is an automated message from your school's Lost & Found system.<br>
+      Please do not reply directly to this email.<br>
+      &copy; Lost &amp; Found System</p>
+    </div>
+  </div>
+</body>
+</html>
