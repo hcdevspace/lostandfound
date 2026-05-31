@@ -3,71 +3,67 @@
 {% block title %}Teacher Registration{% endblock %}
 
 {% block content %}
-<div class="registration-container">
-    <div class="registration-card registration-teacher-card">
-        <div class="registration-header registration-header-teacher">
-            <div class="registration-icon registration-icon-teacher">
+<div class="lf-grid-bg" aria-hidden="true"></div>
+
+<div class="lf-auth-outer">
+    <div class="lf-auth-card lf-auth-card--teacher">
+        <div class="lf-auth-header">
+            <div class="lf-auth-icon">
                 <i class="fas fa-chalkboard-teacher"></i>
             </div>
-            <h1 class="registration-title">Teacher Registration</h1>
-            <p class="registration-subtitle">Join the Lost & Found community</p>
+            <h1 class="lf-auth-title">Teacher Registration</h1>
+            <p class="lf-auth-sub">Join the Lost &amp; Found community</p>
         </div>
 
-        <form method="POST" class="registration-form">
+        <form method="POST" class="lf-auth-form">
             {% csrf_token %}
-            
-            <div class="form-row">
-                <div class="form-col">
-                    <div class="form-group">
-                        <label class="form-label">First Name <span class="required">*</span></label>
-                        <input type="text" name="first_name" class="form-control" required>
-                    </div>
+
+            <div class="lf-auth-row">
+                <div class="lf-auth-field">
+                    <label class="lf-auth-label">First Name <span class="lf-auth-required">*</span></label>
+                    <input type="text" name="first_name" class="lf-auth-input" required>
                 </div>
-                <div class="form-col">
-                    <div class="form-group">
-                        <label class="form-label">Last Name <span class="required">*</span></label>
-                        <input type="text" name="last_name" class="form-control" required>
-                    </div>
+                <div class="lf-auth-field">
+                    <label class="lf-auth-label">Last Name <span class="lf-auth-required">*</span></label>
+                    <input type="text" name="last_name" class="lf-auth-input" required>
                 </div>
             </div>
-            
-            <div class="form-group">
-                <label class="form-label">Username <span class="required">*</span></label>
-                <input type="text" name="username" class="form-control" placeholder="Choose a unique username" required>
-                <small class="form-text">Letters, numbers, and underscores only</small>
+
+            <div class="lf-auth-field">
+                <label class="lf-auth-label">Username <span class="lf-auth-required">*</span></label>
+                <input type="text" name="username" class="lf-auth-input" placeholder="Choose a unique username" required>
+                <small class="lf-auth-hint">Letters, numbers, and underscores only</small>
             </div>
-            
-            <div class="form-group">
-                <label class="form-label">Email <span class="required">*</span></label>
-                <input type="email" name="email" class="form-control" placeholder="teacher@school.edu" required>
-                <small class="form-text">Use your school email address</small>
+
+            <div class="lf-auth-field">
+                <label class="lf-auth-label">Email <span class="lf-auth-required">*</span></label>
+                <input type="email" name="email" class="lf-auth-input" placeholder="teacher@school.edu" required>
+                <small class="lf-auth-hint">Use your school email address</small>
             </div>
-            
-            <div class="form-group">
-                <label class="form-label">Department <span class="text-muted">(Optional)</span></label>
-                <input type="text" name="department" class="form-control" placeholder="e.g., Mathematics, Science, English">
-                <small class="form-text">What subject or department do you teach?</small>
+
+            <div class="lf-auth-field">
+                <label class="lf-auth-label">Department <span style="color: var(--text-muted); font-weight: 300;">(Optional)</span></label>
+                <input type="text" name="department" class="lf-auth-input" placeholder="e.g., Mathematics, Science, English">
+                <small class="lf-auth-hint">What subject or department do you teach?</small>
             </div>
-            
-            <div class="form-group">
-                <label class="form-label">Password <span class="required">*</span></label>
-                <input type="password" name="password" class="form-control" required>
-                <small class="form-text">Minimum 8 characters</small>
+
+            <div class="lf-auth-field">
+                <label class="lf-auth-label">Password <span class="lf-auth-required">*</span></label>
+                <input type="password" name="password" class="lf-auth-input" required>
+                <small class="lf-auth-hint">Minimum 8 characters</small>
             </div>
-            
-            <div class="form-group">
-                <label class="form-label">Confirm Password <span class="required">*</span></label>
-                <input type="password" name="confirm_password" class="form-control" required>
+
+            <div class="lf-auth-field">
+                <label class="lf-auth-label">Confirm Password <span class="lf-auth-required">*</span></label>
+                <input type="password" name="confirm_password" class="lf-auth-input" required>
             </div>
-            
-            <button type="submit" class="registration-button registration-button-teacher">
-                <i class="fas fa-user-plus"></i> Register as Teacher
-            </button>
+
+            <button type="submit" class="lf-auth-btn">Register as Teacher</button>
         </form>
-        
-        <div class="registration-footer registration-footer-teacher">
-            <p>Already have an account? <a href="{% url 'login' %}" class="registration-link">Login here</a></p>
-            <p>Are you a student? <a href="{% url 'register_student' %}" class="registration-link">Register as Student</a></p>
+
+        <div class="lf-auth-footer">
+            <p class="lf-auth-link-row">Already have an account? <a href="{% url 'login' %}" class="lf-auth-link">Log in</a></p>
+            <p class="lf-auth-link-row">Are you a student? <a href="{% url 'register_student' %}" class="lf-auth-link">Register as Student</a></p>
         </div>
     </div>
 </div>

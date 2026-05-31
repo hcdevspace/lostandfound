@@ -42,6 +42,7 @@ img {
     .navbar .container {
         flex-wrap: wrap;
         gap: 0.5rem;
+        border-radius: 14px;
     }
 
     .navbar-toggle {

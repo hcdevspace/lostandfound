@@ -1,5 +1,3 @@
-/* Reset Browser Styling and Base Styles */
-
 * {
     margin: 0;
     padding: 0;
@@ -13,15 +11,15 @@ html {
 }
 
 :root {
-    --primary-color: #4169E1;      /* Royal Blue (War Eagle Blue) */
-    --primary-dark: #2C4A9E;       /* Darker Royal Blue */
-    --secondary-color: #C0C0C0;    /* Silver */
-    --success-color: #10b981;      /* Green (for success messages) */
-    --danger-color: #dc2626;       /* Red (for errors) */
-    --warning-color: #f59e0b;      /* Amber (for warnings) */
+    --primary-color: #4169E1;      
+    --primary-dark: #2C4A9E;       
+    --secondary-color: #C0C0C0;    
+    --success-color: #10b981;      
+    --danger-color: #dc2626;       
+    --warning-color: #f59e0b;      
     --light-bg: #f8fafc;
     --white: #ffffff;
-    --text-dark: #000000;          /* Black (school color) */
+    --text-dark: #000000;          
     --text-muted: #64748b;
     --border-color: #e2e8f0;
     --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -90,7 +88,6 @@ small.form-text {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
 }
 
-/* Footer */
 footer {
     background-color: var(--text-dark);
     color: white;
@@ -114,30 +111,6 @@ footer a:hover {
     font-size: 0.75rem;
 }
 
-/* Background Art */
-.bg-art {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    pointer-events: none;
-    overflow: hidden;
-    background-color: var(--light-bg);
-    user-select: none;
-}
-
-.bg-art svg {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 1.0;
-}
-
-/* ACCESSIBILITY FEATURES*/
-
-/* Skip to main content link (appears on Tab) */
 .skip-link {
     position: absolute;
     top: -40px;
@@ -158,7 +131,6 @@ footer a:hover {
     outline-offset: 2px;
 }
 
-/* Screen reader only content (visible to assistive tech, hidden visually) */
 .sr-only {
     position: absolute;
     width: 1px;
@@ -171,7 +143,6 @@ footer a:hover {
     border: 0;
 }
 
-/* Focus indicators for keyboard navigation */
 a:focus,
 button:focus,
 input:focus,
@@ -182,13 +153,11 @@ textarea:focus,
     outline-offset: 2px;
 }
 
-/* Enhanced focus for buttons */
 .btn:focus {
     outline: 3px solid var(--primary-dark);
     box-shadow: 0 0 0 3px rgba(65, 105, 225, 0.3);
 }
 
-/* Focus visible only for keyboard users (works with main.js) */
 :focus:not([data-focus-visible]) {
     outline: none;
 }
@@ -198,7 +167,6 @@ textarea:focus,
     outline-offset: 2px;
 }
 
-/* High contrast mode support (for users who need extra contrast) */
 @media (prefers-contrast: high) {
     .skip-link,
     a:focus,
@@ -209,13 +177,12 @@ textarea:focus,
         outline-width: 4px;
         outline-color: currentColor;
     }
-    
+
     :root {
-        --text-muted: #475569; /* Darker gray for better contrast */
+        --text-muted: #475569; 
     }
 }
 
-/* Reduced motion support (for users sensitive to animations) */
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -225,19 +192,17 @@ textarea:focus,
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
     }
-    
+
     .skip-link {
         transition: none;
     }
 }
 
-/* Dark mode support (respects user's system preference) */
 @media (prefers-color-scheme: dark) {
-    /* Optional: Add dark mode styles if you want to support it in the future */
-    /* Currently keeping light mode for consistency */
+
+    
 }
 
-/* Print styles (for accessibility when printing) */
 @media print {
     .skip-link,
     .navbar,
@@ -245,17 +210,17 @@ textarea:focus,
     footer {
         display: none;
     }
-    
+
     body {
         background: white;
         color: black;
     }
-    
+
     a {
         text-decoration: underline;
         color: black;
     }
-    
+
     a[href^="http"]:after {
         content: " (" attr(href) ")";
         font-size: 0.8em;

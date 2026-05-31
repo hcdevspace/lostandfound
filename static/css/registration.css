@@ -1,301 +1,250 @@
-.registration-container {
-    max-width: 550px;
-    margin: 2rem auto;
-    padding: 1rem;
-}
-
-.registration-card {
-    background: var(--white);
-    border-radius: 8px;
-    box-shadow: var(--shadow-lg);
-    overflow: hidden;
-}
-
-.registration-header {
-    background: var(--white);
-    padding: 2rem 2rem 1.5rem;
-    text-align: center;
-    border-bottom: 2px solid var(--border-color);
-}
-
-.registration-icon {
-    width: 60px;
-    height: 60px;
-    background: rgba(65, 105, 225, 0.1);
-    border-radius: 8px;
+﻿.lf-auth-outer {
+    min-height: calc(100vh - var(--lf-navbar-h, 5rem));
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 1rem;
-    font-size: 1.8rem;
-    color: var(--primary-color);
+    padding: 2.5rem 1rem;
 }
 
-.registration-title {
-    font-size: 1.8rem;
-    font-weight: 600;
+.lf-auth-card {
+    background: var(--white);
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    width: 100%;
+    max-width: 500px;
+}
+
+.lf-auth-header {
+    padding: 2.5rem 2.5rem 1.75rem;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.lf-auth-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    background: rgba(65, 105, 225, 0.1);
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+    margin: 0 auto 1.25rem;
+}
+
+.lf-auth-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    font-weight: 300;
     color: var(--text-dark);
+    letter-spacing: -0.04em;
+    line-height: 1.1;
     margin-bottom: 0.5rem;
 }
 
-.registration-subtitle {
-    font-size: 1rem;
-    color: var(--text-muted);
-    margin-bottom: 0;
-}
-
-.registration-form {
-    padding: 2rem;
-}
-
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
-}
-
-.form-col {
-    min-width: 0;
-}
-
-.form-group {
-    margin-bottom: 1.5rem;
-}
-
-.form-label {
-    display: block;
-    margin-bottom: 0.6rem;
-    font-weight: 500;
-    color: var(--text-dark);
+.lf-auth-sub {
     font-size: 0.95rem;
-}
-
-.required {
-    color: var(--danger-color);
-}
-
-.form-control,
-.form-select {
-    width: 100%;
-    padding: 0.85rem;
-    border: 2px solid var(--border-color);
-    border-radius: 6px;
-    font-size: 1rem;
-    font-family: inherit;
-    transition: all 0.3s ease;
-    background-color: var(--white);
-}
-
-.form-control:focus,
-.form-select:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(65, 105, 225, 0.1);
-}
-
-.form-control::placeholder {
     color: var(--text-muted);
+    margin: 0;
 }
 
-.form-select {
-    cursor: pointer;
+.lf-auth-form {
+    padding: 2rem 2.5rem;
 }
 
-.form-text {
-    display: block;
-    margin-top: 0.4rem;
-    font-size: 0.85rem;
-    color: var(--text-muted);
-}
-
-.registration-button {
-    width: 100%;
-    padding: 0.95rem;
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 1.05rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.6rem;
-}
-
-.registration-button:hover {
-    background-color: var(--primary-dark);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(65, 105, 225, 0.3);
-}
-
-.registration-button:active {
-    transform: translateY(0);
-}
-
-.registration-footer {
-    padding: 1.5rem 2rem;
-    background: var(--light-bg);
-    text-align: center;
-    border-top: 1px solid var(--border-color);
-}
-
-.registration-footer p {
-    font-size: 0.95rem;
-    color: var(--text-dark);
-    margin-bottom: 0.75rem;
-}
-
-.registration-footer p:last-child {
-    margin-bottom: 0;
-}
-
-.registration-link {
-    color: var(--primary-color);
-    font-weight: 600;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.registration-link:hover {
-    color: var(--primary-dark);
-    text-decoration: underline;
-}
-
-.login-footer-text {
-    font-size: 0.95rem;
-    color: var(--text-dark);
-    margin-bottom: 1.2rem;
-    font-weight: 500;
-}
-
-.login-register-buttons {
+.lf-auth-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
-    margin-bottom: 1.2rem;
+    margin-bottom: 0;
 }
 
-.login-register-btn {
-    padding: 0.75rem 1rem;
-    border-radius: 6px;
+.lf-auth-field {
+    margin-bottom: 1.25rem;
+}
+
+.lf-auth-label {
+    display: block;
+    margin-bottom: 0.45rem;
     font-size: 0.9rem;
-    font-weight: 600;
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+.lf-auth-required {
+    color: var(--danger-color);
+    margin-left: 2px;
+}
+
+.lf-auth-input,
+.lf-auth-select {
+    width: 100%;
+    padding: 0.75rem 0.9rem;
+    border: 1.5px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    background: var(--white);
+    color: var(--text-dark);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+}
+
+.lf-auth-input:focus,
+.lf-auth-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(65, 105, 225, 0.08);
+}
+
+.lf-auth-input::placeholder {
+    color: var(--text-muted);
+    font-weight: 300;
+}
+
+.lf-auth-select {
+    cursor: pointer;
+}
+
+.lf-auth-hint {
+    display: block;
+    margin-top: 0.35rem;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+}
+
+.lf-auth-check {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    cursor: pointer;
+}
+
+.lf-auth-check input[type="checkbox"] {
+    accent-color: var(--primary-color);
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+}
+
+.lf-auth-btn {
+    width: 100%;
+    padding: 0.85rem;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 400;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    margin-top: 0.25rem;
+}
+
+.lf-auth-btn:hover {
+    opacity: 0.85;
+}
+
+.lf-auth-footer {
+    padding: 1.5rem 2.5rem;
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+}
+
+.lf-auth-footer-text {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 0.85rem;
+}
+
+.lf-auth-alt-btns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.lf-auth-alt-btn {
+    padding: 0.65rem 1rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    transition: all 0.3s ease;
-    border: 2px solid;
+    gap: 0.45rem;
+    border: 1.5px solid var(--border-color);
+    color: var(--text-dark);
+    background: var(--white);
+    transition: border-color 0.2s, color 0.2s;
 }
 
-.login-register-btn-primary {
-    background-color: transparent;
-    color: var(--primary-color);
+.lf-auth-alt-btn:hover {
     border-color: var(--primary-color);
+    color: var(--primary-color);
 }
 
-.login-register-btn-primary:hover {
-    background-color: var(--primary-color);
-    color: white;
-    box-shadow: 0 4px 12px rgba(65, 105, 225, 0.25);
-}
-
-.login-register-btn-success {
-    background-color: transparent;
-    color: var(--success-color);
-    border-color: var(--success-color);
-}
-
-.login-register-btn-success:hover {
-    background-color: var(--success-color);
-    color: white;
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
-}
-
-.login-forgot-password {
-    margin-bottom: 0;
-    padding-top: 0.75rem;
-    border-top: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.login-forgot-disabled {
-    font-size: 0.85rem;
+.lf-auth-link-row {
+    font-size: 0.875rem;
     color: var(--text-muted);
-    opacity: 0.6;
-    cursor: not-allowed;
+    margin: 0;
+}
+
+.lf-auth-link-row + .lf-auth-link-row {
+    margin-top: 0.4rem;
+}
+
+.lf-auth-link {
+    color: var(--primary-color);
+    font-weight: 500;
     text-decoration: none;
 }
 
+.lf-auth-link:hover {
+    text-decoration: underline;
+}
+
+.lf-auth-disabled {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.lf-auth-card--teacher {
+    border-color: var(--success-color);
+}
+
 @media (max-width: 600px) {
-    .registration-container {
-        margin: 1rem auto;
-        padding: 0.5rem;
+    .lf-auth-outer {
+        padding: 2rem 0.75rem;
+        align-items: flex-start;
     }
 
-    .registration-header {
-        padding: 1.5rem 1.5rem 1rem;
+    .lf-auth-header {
+        padding: 2rem 1.5rem 1.25rem;
     }
 
-    .registration-title {
-        font-size: 1.5rem;
-    }
-
-    .registration-form {
+    .lf-auth-form {
         padding: 1.5rem;
     }
 
-    .form-row {
+    .lf-auth-footer {
+        padding: 1.25rem 1.5rem;
+    }
+
+    .lf-auth-row {
         grid-template-columns: 1fr;
-        gap: 1rem;
+        gap: 0;
     }
 
-    .registration-footer {
-        padding: 1rem 1.5rem;
-    }
-
-    .login-register-buttons {
+    .lf-auth-alt-btns {
         grid-template-columns: 1fr;
-        gap: 0.75rem;
     }
-
-    .login-register-btn {
-        width: 100%;
-    }
-}
-.registration-teacher-card {
-    border: 2px solid #28a745;
-}
-
-.registration-header-teacher {
-    border-bottom: 2px solid rgba(40, 167, 69, 0.2);
-}
-
-.registration-icon-teacher {
-    background: rgba(40, 167, 69, 0.1);
-    color: #28a745;
-}
-
-.registration-button-teacher {
-    background-color: #28a745;
-}
-
-.registration-button-teacher:hover {
-    background-color: #218838;
-    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
-}
-
-.registration-teacher-card .form-control:focus,
-.registration-teacher-card .form-select:focus {
-    border-color: #28a745;
-    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
-}
-
-.registration-footer-teacher {
-    background: rgba(40, 167, 69, 0.05);
-    border-top: 1px solid rgba(40, 167, 69, 0.15);
 }
