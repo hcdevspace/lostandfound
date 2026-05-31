@@ -3,6 +3,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils import timezone
+from django.conf import settings
 from .models import CustomUser, StudentProfile, TeacherProfile
 from items.models import Item
 
@@ -30,14 +31,26 @@ def home(request):
 
 def register_student(request):
     if request.method == 'POST':
-        #Retrieve form data
+        # Retrieve form data
         username = request.POST.get('username')
         email = request.POST.get('email')
         password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         student_id = request.POST.get('student_id')
         grade = request.POST.get('grade')
+        verification_code = request.POST.get('verification_code', '').strip()
+
+        # Validate verification code first
+        if verification_code != settings.SCHOOL_VERIFICATION_CODE:
+            messages.error(request, 'Invalid school verification code. Please check with your school administrator.')
+            return render(request, 'accounts/register_student.html')
+
+        # Validate passwords match
+        if password != confirm_password:
+            messages.error(request, 'Passwords do not match.')
+            return render(request, 'accounts/register_student.html')
 
         # Validate username doesn't already exist
         if CustomUser.objects.filter(username=username).exists():
@@ -54,14 +67,16 @@ def register_student(request):
             messages.error(request, 'Student ID already registered.')
             return render(request, 'accounts/register_student.html')
 
-        #Creates user, .create_user() method hashes password
+        # Verification code passed — create user and approve immediately
         user = CustomUser.objects.create_user(
             username=username,
             email=email,
             password=password,
             first_name=first_name,
             last_name=last_name,
-            user_type='student'
+            user_type='student',
+            approval_status='approved',
+            approval_date=timezone.now(),
         )
 
         StudentProfile.objects.create(
@@ -70,20 +85,34 @@ def register_student(request):
             grade=grade
         )
 
-        messages.success(request, 'Registration submitted successfully! Your account is pending approval. An administrator will review your registration soon.')
-        return redirect('login')
+        # Log the user in immediately — no waiting for admin
+        login(request, user)
+        messages.success(request, f'Welcome, {first_name}! Your account has been created successfully.')
+        return redirect('/?login=1')
 
     return render(request, 'accounts/register_student.html')
 
 def register_teacher(request):
     if request.method == 'POST':
-        #Retrieve form data
+        # Retrieve form data
         username = request.POST.get('username')
         email = request.POST.get('email')
         password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         department = request.POST.get('department', '')
+        verification_code = request.POST.get('verification_code', '').strip()
+
+        # Validate verification code first
+        if verification_code != settings.SCHOOL_VERIFICATION_CODE:
+            messages.error(request, 'Invalid school verification code. Please check with your school administrator.')
+            return render(request, 'accounts/register_teacher.html')
+
+        # Validate passwords match
+        if password != confirm_password:
+            messages.error(request, 'Passwords do not match.')
+            return render(request, 'accounts/register_teacher.html')
 
         # Validate username doesn't already exist
         if CustomUser.objects.filter(username=username).exists():
@@ -95,14 +124,16 @@ def register_teacher(request):
             messages.error(request, 'Email already registered. Please use a different email.')
             return render(request, 'accounts/register_teacher.html')
 
-        #Create user
+        # Verification code passed — create user and approve immediately
         user = CustomUser.objects.create_user(
             username=username,
             email=email,
             password=password,
             first_name=first_name,
             last_name=last_name,
-            user_type='teacher'
+            user_type='teacher',
+            approval_status='approved',
+            approval_date=timezone.now(),
         )
 
         TeacherProfile.objects.create(
@@ -110,8 +141,10 @@ def register_teacher(request):
             department=department
         )
 
-        messages.success(request, 'Registration submitted successfully! Your account is pending approval. An administrator will review your registration soon.')
-        return redirect('login')
+        # Log the user in immediately — no waiting for admin
+        login(request, user)
+        messages.success(request, f'Welcome, {first_name}! Your account has been created successfully.')
+        return redirect('/?login=1')
 
     return render(request, 'accounts/register_teacher.html')
 

@@ -114,3 +114,6 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 # Login/Logout
 LOGIN_URL = 'login'
 LOGOUT_REDIRECT_URL = 'home'
+
+# School verification code for instant account creation (set in .env)
+SCHOOL_VERIFICATION_CODE = config('SCHOOL_VERIFICATION_CODE', default='SCHOOL2024')

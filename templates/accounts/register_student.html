@@ -68,7 +68,15 @@
                 <input type="password" name="confirm_password" class="lf-auth-input" required>
             </div>
 
-            <button type="submit" class="lf-auth-btn">Register as Student</button>
+            <div class="form-group">
+                <label class="form-label">School Verification Code <span class="required">*</span></label>
+                <input type="text" name="verification_code" class="form-control" placeholder="Enter your school's verification code" required>
+                <small class="form-text">Ask your school administrator for this code</small>
+            </div>
+            
+            <button type="submit" class="registration-button">
+                <i class="fas fa-user-plus"></i> Register as Student
+            </button>
         </form>
 
         <div class="lf-auth-footer">
