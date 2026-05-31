@@ -89,21 +89,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // ALERT AUTO-DISMISS
 document.addEventListener('DOMContentLoaded', function() {
-    const alerts = document.querySelectorAll('.alert');
-    
+    const alerts = document.querySelectorAll('.flash-message');
+
     alerts.forEach(function(alert) {
         if (alert.classList.contains('static-alert')) return;
 
         setTimeout(function() {
             alert.setAttribute('aria-live', 'off');
-            
-            alert.style.transition = 'opacity 0.5s ease';
+            alert.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
             alert.style.opacity = '0';
-
-            setTimeout(function() {
-                alert.remove();
-            }, 500);
-        }, 5000);
+            alert.style.transform = 'translateY(-6px)';
+            setTimeout(function() { alert.remove(); }, 300);
+        }, 4500);
     });
 });
 
