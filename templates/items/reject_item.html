@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block title %}Reject Item Report - {{ item.name }}{% endblock %}
+{% block content %}
+
+<div class="form-container" style="max-width: 700px;">
+    <div class="form-header">
+        <h1><i class="fas fa-times-circle"></i> Reject Item Report</h1>
+        <p>Reject this report if the item was not actually received or the report is invalid</p>
+    </div>
+
+    <!-- Item Info -->
+    <div style="background: #fff3cd; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #ffc107; margin-bottom: 1.5rem;">
+        <h3 style="margin: 0 0 1rem 0; font-size: 1.1rem; color: #856404;">
+            <i class="fas fa-info-circle"></i> Item Details
+        </h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; color: #856404;">
+            <div>
+                <p style="margin: 0.25rem 0;"><strong>Name:</strong> {{ item.name }}</p>
+                <p style="margin: 0.25rem 0;"><strong>Category:</strong> {{ item.get_category_display }}</p>
+                <p style="margin: 0.25rem 0;"><strong>Location Found:</strong> {{ item.location_found }}</p>
+            </div>
+            <div>
+                <p style="margin: 0.25rem 0;"><strong>Date Found:</strong> {{ item.date_found|date:"M d, Y" }}</p>
+                <p style="margin: 0.25rem 0;"><strong>Reported By:</strong> {{ item.submitted_by.get_full_name|default:item.submitted_by.username }}</p>
+                <p style="margin: 0.25rem 0;"><strong>Reported:</strong> {{ item.created_at|date:"M d, Y g:i A" }}</p>
+            </div>
+        </div>
+        {% if item.photo %}
+            <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #ffe69c;">
+                <img src="{{ item.photo.url }}" alt="{{ item.name }}" style="max-width: 100%; max-height: 200px; object-fit: contain; border-radius: 4px;">
+            </div>
+        {% endif %}
+        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #ffe69c;">
+            <p style="margin: 0;"><strong>Description:</strong></p>
+            <p style="margin: 0.5rem 0 0 0; color: #856404;">{{ item.description }}</p>
+        </div>
+    </div>
+
+    <!-- Rejection Form -->
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label class="form-label" for="rejection_notes">
+                Rejection Reason <span class="required">*</span>
+            </label>
+            <textarea
+                name="rejection_notes"
+                id="rejection_notes"
+                class="form-control"
+                rows="3"
+                placeholder="Explain why this report is being rejected (e.g., 'Item was not brought to office', 'Duplicate report', 'Invalid or incomplete submission')"
+                required
+            ></textarea>
+            <small class="form-text">The reporter will be notified by email with this reason.</small>
+        </div>
+
+        <div style="background: #f8d7da; padding: 1rem; border-radius: 8px; border-left: 4px solid #dc3545; margin-bottom: 1.5rem;">
+            <p style="margin: 0; font-size: 0.95rem; color: #721c24;">
+                <i class="fas fa-exclamation-triangle"></i>
+                <strong>What happens after rejection:</strong>
+            </p>
+            <ul style="margin: 0.5rem 0 0 1.5rem; color: #721c24; font-size: 0.9rem;">
+                <li>Item will be marked as discarded/rejected</li>
+                <li>The reporter will receive an email explaining the rejection</li>
+                <li>The item will no longer appear in public listings</li>
+            </ul>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-danger">
+                <i class="fas fa-times-circle"></i> Reject Report
+            </button>
+            <a href="{% url 'item_detail' item.pk %}" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left"></i> Cancel
+            </a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,6 +1,8 @@
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 from items.models import Item
+from claims.models import Claim
+from accounts.emails import send_item_discarded_email
 
 
 class Command(BaseCommand):
@@ -62,6 +64,19 @@ class Command(BaseCommand):
             item.discard_date = timezone.now()
             item.discard_reason = f'Auto-discarded: Unclaimed for {threshold_days}+ days'
             item.save()
+
+            # Notify the original reporter
+            if item.submitted_by and item.submitted_by.email:
+                send_item_discarded_email(item.submitted_by, item)
+
+            # Notify any active claimant (different from the reporter)
+            active_claim = Claim.objects.filter(
+                item=item, status__in=['pending', 'approved']
+            ).select_related('claimant').first()
+            if (active_claim and active_claim.claimant.email and
+                    active_claim.claimant != item.submitted_by):
+                send_item_discarded_email(active_claim.claimant, item)
+
             discard_count += 1
 
         self.stdout.write(

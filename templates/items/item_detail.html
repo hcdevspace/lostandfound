@@ -193,8 +193,12 @@
                             <a href="{% url 'approve_item' item.pk %}" class="btn btn-success">
                                 <i class="fas fa-check-circle"></i> Approve & Receive Item
                             </a>
+                            <a href="{% url 'reject_item' item.pk %}" class="btn btn-danger btn-sm">
+                                <i class="fas fa-times-circle"></i> Reject Report
+                            </a>
                         {% endif %}
                     {% endif %}
+                {% endif %}
 
                     {% if user == item.submitted_by or user.user_type == 'teacher' or user.user_type == 'admin' or user.is_staff %}
                         <a href="{% url 'edit_item' item.pk %}" class="btn btn-warning btn-sm">

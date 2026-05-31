@@ -1,0 +1,15 @@
+{% extends "emails/base_email.html" %}
+{% block header_icon %}✅{% endblock %}
+{% block header_sub %}Item Successfully Returned{% endblock %}
+{% block body %}
+<p class="greeting">Hi {{ user.first_name|default:user.username }},</p>
+<p>This is a confirmation that your item has been <strong>marked as returned</strong> to you. We hope this is resolved!</p>
+<div class="item-card">
+  <div class="item-name">{{ claim.item.name }}</div>
+  <div class="item-meta">Category: <span>{{ claim.item.get_category_display }}</span></div>
+  <div class="item-meta">Returned on: <span>{{ claim.reviewed_at|date:"N j, Y" }}</span></div>
+  <div class="item-meta">Status: <span class="status-badge badge-success">Item Returned</span></div>
+</div>
+<p>If there's any issue with your returned item, please contact the Lost &amp; Found office.</p>
+<p>Thanks for using the Lost &amp; Found system!<br><strong>The Lost &amp; Found Team</strong></p>
+{% endblock %}
