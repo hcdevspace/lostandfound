@@ -1,24 +1,55 @@
-/* NAVIGATION BAR */
+:root {
+    --primary-color: #2C4A9E;
+    --primary-dark: #1a2f6e;
+    --light-bg: #f8f9fa;
+    --text-dark: #333333;
+    --border-color: #e0e0e0;
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --lf-navbar-h: 5rem;
+}
 
 .navbar {
-    background-color: #2C4A9E;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: transparent;
+    box-shadow: none;
     border: none;
-    padding: 0.75rem 0;
-    margin: 0 !important;
+    padding: 0;
+    margin: 0;
     display: block;
+    position: fixed;
+    top: 1rem;
+    left: 1.25rem;
+    right: 1.25rem;
+    z-index: 1000;
+}
+
+body {
+    padding-top: var(--lf-navbar-h, 5rem) !important;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .navbar .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: rgba(255, 255, 255, 0.58);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow: 0 4px 20px rgba(44, 74, 158, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
+    padding: 0.7rem 1.5rem;
 }
 
 .navbar-brand {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: white;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: #2C4A9E;
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -26,12 +57,11 @@
 }
 
 .navbar-brand:hover {
-    color: #e0e0e0;
+    color: #4169E1;
 }
 
-/* ACCESSIBILITY: Better focus state for navbar brand */
 .navbar-brand:focus {
-    outline: 3px solid white;
+    outline: 3px solid #2C4A9E;
     outline-offset: 3px;
 }
 
@@ -47,24 +77,26 @@
 }
 
 .navbar-menu a {
-    color: white;
-    padding: 0.4rem 0.8rem;
-    border-radius: 4px;
-    transition: all 0.3s;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: #2C4A9E;
+    padding: 0.4rem 0.85rem;
+    border-radius: 8px;
+    transition: all 0.2s;
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 0.88rem;
+    font-weight: 500;
+    letter-spacing: 0.005em;
 }
 
 .navbar-menu a:hover {
-    color: #e0e0e0;
-    background-color: rgba(255, 255, 255, 0.1);
+    color: #1a2f6e;
+    background-color: rgba(44, 74, 158, 0.1);
 }
 
-/* ACCESSIBILITY: Clear focus indicator for navbar links */
 .navbar-menu a:focus {
-    outline: 3px solid white;
+    outline: 3px solid #2C4A9E;
     outline-offset: 2px;
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: rgba(44, 74, 158, 0.1);
 }
 
 .btn-register {
@@ -82,57 +114,84 @@
     color: white !important;
 }
 
-/* ACCESSIBILITY: Register button focus state */
 .btn-register:focus {
-    outline: 3px solid white;
+    outline: 3px solid #2C4A9E;
     outline-offset: 3px;
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
 }
 
-/* DROPDOWN MENU */
+.navbar-menu a.btn-register {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--primary-color);
+    color: #ffffff !important;
+    border: none;
+    padding: 0.55rem 1.25rem !important;
+    border-radius: 10px;
+    transition: background-color 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    letter-spacing: 0.01em;
+}
+
+.navbar-menu a.btn-register:hover,
+.navbar-menu a.btn-register:active {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+    color: #ffffff !important;
+    transform: none;
+    box-shadow: none;
+}
+
+.navbar-menu a.btn-register:focus {
+    outline: 3px solid rgba(65, 105, 225, 0.28);
+    outline-offset: 3px;
+}
 
 .dropdown {
     position: relative;
 }
 
 .dropdown-toggle {
-    color: white;
-    padding: 0.4rem 0.8rem;
-    border-radius: 4px;
-    transition: all 0.3s;
-    font-size: 0.9rem;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: #2C4A9E;
+    padding: 0.4rem 0.85rem;
+    border-radius: 8px;
+    transition: all 0.2s;
+    font-size: 0.88rem;
+    font-weight: 500;
+    letter-spacing: 0.005em;
     cursor: pointer;
     display: inline-block;
 }
 
 .dropdown-toggle:hover {
-    color: #e0e0e0;
-    background-color: rgba(255, 255, 255, 0.1);
+    color: #1a2f6e;
+    background-color: rgba(44, 74, 158, 0.1);
 }
 
-/* ACCESSIBILITY: Focus state for dropdown toggle */
 .dropdown-toggle:focus {
-    outline: 3px solid white;
+    outline: 3px solid #2C4A9E;
     outline-offset: 2px;
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: rgba(44, 74, 158, 0.1);
 }
 
 .dropdown-menu {
     display: none;
     position: absolute;
-    top: 100%;
+    top: calc(100% + 0.5rem);
     right: 0;
-    background-color: white;
-    min-width: 200px;
-    box-shadow: var(--shadow-lg);
-    border-radius: 8px;
-    padding-top: 0.25rem;
-    padding-bottom: 0.25rem;
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    min-width: 220px;
+    box-shadow: 0 8px 28px rgba(44, 74, 158, 0.12), 0 2px 6px rgba(0, 0, 0, 0.06);
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
     list-style: none;
     overflow: hidden;
     z-index: 1000;
-    /* ACCESSIBILITY: Border for better definition */
-    border: 1px solid var(--border-color);
 }
 
 .dropdown-menu::before {
@@ -148,11 +207,10 @@
 .dropdown:hover .dropdown-menu,
 .dropdown.active .dropdown-menu {
     display: block;
-    /* ACCESSIBILITY: Announce when dropdown opens */
+
     animation: dropdownFadeIn 0.2s ease;
 }
 
-/* ACCESSIBILITY: Smooth dropdown animation */
 @keyframes dropdownFadeIn {
     from {
         opacity: 0;
@@ -165,26 +223,27 @@
 }
 
 .dropdown-menu a {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
     color: var(--text-dark);
-    padding: 0.75rem 1rem;
+    padding: 0.65rem 1rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    transition: background-color 0.2s;
+    transition: background-color 0.15s;
 }
 
 .dropdown-menu a:hover {
     background-color: var(--light-bg);
 }
 
-/* ACCESSIBILITY: Strong focus indicator for dropdown items */
 .dropdown-menu a:focus {
     outline: 3px solid var(--primary-color);
     outline-offset: -3px;
     background-color: #e0f2ff;
 }
 
-/* ACCESSIBILITY: Active/selected state */
 .dropdown-menu a:active {
     background-color: #bae6ff;
 }
@@ -195,13 +254,11 @@
     margin: 0.5rem 0;
 }
 
-/* MOBILE MENU TOGGLE */
-
 .navbar-toggle {
     display: none;
     background: none;
     border: none;
-    color: white;
+    color: #2C4A9E;
     font-size: 1.5rem;
     cursor: pointer;
     padding: 0.5rem;
@@ -210,37 +267,31 @@
 }
 
 .navbar-toggle:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(44, 74, 158, 0.1);
 }
 
-/* ACCESSIBILITY: Focus state for mobile toggle */
 .navbar-toggle:focus {
-    outline: 3px solid white;
+    outline: 3px solid #2C4A9E;
     outline-offset: 2px;
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: rgba(44, 74, 158, 0.1);
 }
 
-/* ACCESSIBILITY: Active state */
 .navbar-toggle:active {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(44, 74, 158, 0.15);
 }
 
-/* ACCESSIBILITY ENHANCEMENTS */
-
-/* High contrast mode support */
 @media (prefers-contrast: high) {
     .navbar-menu a:focus,
     .dropdown-toggle:focus,
     .navbar-toggle:focus {
         outline-width: 4px;
     }
-    
+
     .dropdown-menu {
         border-width: 2px;
     }
 }
 
-/* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
     .navbar-menu a,
     .dropdown-toggle,
@@ -248,7 +299,7 @@
     .btn-register {
         transition: none;
     }
-    
+
     @keyframes dropdownFadeIn {
         from, to {
             opacity: 1;
@@ -257,17 +308,15 @@
     }
 }
 
-/* Keyboard-only focus (works with main.js) */
 .navbar-menu a:focus:not([data-focus-visible]),
 .dropdown-toggle:focus:not([data-focus-visible]),
 .navbar-toggle:focus:not([data-focus-visible]) {
     outline: none;
 }
 
-/* Force visible focus for keyboard users */
 .navbar-menu a[data-focus-visible],
 .dropdown-toggle[data-focus-visible],
 .navbar-toggle[data-focus-visible] {
-    outline: 3px solid white;
+    outline: 3px solid #2C4A9E;
     outline-offset: 2px;
 }

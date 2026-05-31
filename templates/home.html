@@ -5,135 +5,178 @@
 {% block content %}
 
 {% if not user.is_authenticated %}
-<div class="hero-section" role="region" aria-labelledby="hero-title">
-    <div class="hero-grid">
-        <div class="hero-copy">
-            <div class="hero-tagline" data-hero-randomizer>
-                <h1 class="hero-title" id="hero-title">
-                    <span class="tagline-text">Lose it?<br>Find it here.</span>
-                </h1>
-            </div>
 
-            <p class="hero-description">
-                Quickly post, search, and claim lost and found items on campus.
-                Reunite with your belongings in minutes.
-            </p>
-        </div>
+<div class="lf-grid-bg" aria-hidden="true"></div>
 
-        <div class="hero-slider" data-lf-slider role="region" aria-label="Recently found items carousel">
-            <div class="lf-slider-card">
-                <div class="lf-slider-header">
-                    <div class="lf-slider-title" id="slider-title" style="font-weight: lighter;">Recently Found</div>
-                </div>
+<section class="lf-hero" role="region" aria-labelledby="lf-hero-title">
+    <div class="lf-hero-inner">
+        <h1 class="lf-hero-title" id="lf-hero-title">
+            <span class="lf-hero-line1">Lose it?</span>
+            <span class="lf-hero-line2"><span id="lf-typed-text"></span><span class="lf-cursor" aria-hidden="true">|</span></span>
+        </h1>
+        <p class="lf-hero-sub">
+            Quickly post, search, and claim lost and found items on campus.
+            Reunite with your belongings in minutes.
+        </p>
+        <a href="{% url 'register_student' %}" class="btn btn-primary lf-hero-btn">Get Started</a>
+    </div>
+    <a href="#lf-content-start" class="lf-scroll-indicator" aria-label="Scroll to content">
+        <i class="fas fa-chevron-down"></i>
+    </a>
+</section>
 
-                <div class="lf-slider-viewport" role="group" aria-labelledby="slider-title" aria-live="polite">
-                    {% if slider_items %}
-                        {% for item in slider_items %}
-                            <div class="lf-slide" data-lf-slide role="group"
-                                 aria-label="Item {{ forloop.counter }} of {{ slider_items|length }}">
-                                <div class="lf-slide-media">
-                                    <a class="lf-slide-link" href="{% url 'item_detail' item.pk %}" aria-label="View details for {{ item.name|escape }}">
-                                        <img
-                                            src="{{ item.photo.url }}"
-                                            alt="{{ item.name }}"
-                                            data-lf-tooltip
-                                            data-title="{{ item.name|escape }}"
-                                            data-date-found="{{ item.date_found|date:'M j, Y' }}"
-                                            data-category="{{ item.get_category_display|escape }}"
-                                            data-location="{{ item.location_found|escape }}"
-                                        >
-                                    </a>
+<div id="lf-content-start" class="lf-white-band">
+<section class="lf-carousel-section" aria-labelledby="lf-carousel-label">
+    <div class="lf-carousel-wrap">
+        <div class="lf-carousel-row">
+            <h2 class="lf-carousel-label" id="lf-carousel-label">Found Recently</h2>
+            <div class="lf-carousel-card" data-lf-slider role="region" aria-label="Recently found items carousel">
+                <div class="lf-viewport-wrap">
+                    <div class="lf-slider-viewport" role="group" aria-labelledby="lf-carousel-label" aria-live="polite">
+                        {% if slider_items %}
+                            {% for item in slider_items %}
+                                <div class="lf-slide" data-lf-slide role="group"
+                                     aria-label="Item {{ forloop.counter }} of {{ slider_items|length }}">
+                                    <div class="lf-slide-media">
+                                        <a class="lf-slide-link" href="{% url 'item_detail' item.pk %}" aria-label="View details for {{ item.name|escape }}">
+                                            <img
+                                                src="{{ item.photo.url }}"
+                                                alt="{{ item.name }}"
+                                                data-lf-tooltip
+                                                data-title="{{ item.name|escape }}"
+                                                data-date-found="{{ item.date_found|date:'M j, Y' }}"
+                                                data-category="{{ item.get_category_display|escape }}"
+                                                data-location="{{ item.location_found|escape }}"
+                                            >
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="lf-slide" data-lf-slide role="group" aria-label="Placeholder 1 of 4">
+                                <div class="lf-slide-media lf-slide-media-empty">
+                                    <i class="fas fa-glasses" aria-hidden="true"></i>
                                 </div>
                             </div>
-                        {% endfor %}
-                    {% else %}
-                        <div class="lf-slide" data-lf-slide role="group" aria-label="Example item 1 of 3">
-                            <div class="lf-slide-media lf-slide-media-empty">
-                                <i class="fas fa-glasses" aria-hidden="true"></i>
+                            <div class="lf-slide" data-lf-slide role="group" aria-label="Placeholder 2 of 4">
+                                <div class="lf-slide-media lf-slide-media-empty">
+                                    <i class="fas fa-book" aria-hidden="true"></i>
+                                </div>
                             </div>
-                        </div>
-                        <div class="lf-slide" data-lf-slide role="group" aria-label="Example item 2 of 3">
-                            <div class="lf-slide-media lf-slide-media-empty">
-                                <i class="fas fa-book" aria-hidden="true"></i>
+                            <div class="lf-slide" data-lf-slide role="group" aria-label="Placeholder 3 of 4">
+                                <div class="lf-slide-media lf-slide-media-empty">
+                                    <i class="fas fa-pen" aria-hidden="true"></i>
+                                </div>
                             </div>
-                        </div>
-                        <div class="lf-slide" data-lf-slide role="group" aria-label="Example item 3 of 3">
-                            <div class="lf-slide-media lf-slide-media-empty">
-                                <i class="fas fa-pen" aria-hidden="true"></i>
+                            <div class="lf-slide" data-lf-slide role="group" aria-label="Placeholder 4 of 4">
+                                <div class="lf-slide-media lf-slide-media-empty">
+                                    <i class="fas fa-bag-shopping" aria-hidden="true"></i>
+                                </div>
                             </div>
-                        </div>
-                    {% endif %}
+                        {% endif %}
+                    </div>
+                    <button type="button" class="lf-slider-btn" data-lf-slider-prev aria-label="View previous item">
+                        <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                    </button>
+                    <button type="button" class="lf-slider-btn" data-lf-slider-next aria-label="View next item">
+                        <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                    </button>
                 </div>
-
-                <button type="button" class="lf-slider-btn" data-lf-slider-prev aria-label="View previous item">
-                    <i class="fas fa-chevron-left" aria-hidden="true"></i>
-                </button>
-                <button type="button" class="lf-slider-btn" data-lf-slider-next aria-label="View next item">
-                    <i class="fas fa-chevron-right" aria-hidden="true"></i>
-                </button>
+                <div class="lf-dots-wrap" aria-hidden="true"></div>
             </div>
         </div>
     </div>
+</section>
+
+<section class="lf-hiw-section" aria-labelledby="lf-hiw-heading">
+    <div class="lf-hiw-inner">
+        <h2 class="lf-hiw-heading" id="lf-hiw-heading">How it works</h2>
+        <p class="lf-hiw-sub">Post lost items, search the listings, and claim what's yours — all in minutes.</p>
+
+        <div class="lf-hiw-stepper" aria-hidden="true">
+            <div class="lf-hiw-step-circle">1</div>
+            <div class="lf-hiw-step-line"></div>
+            <div class="lf-hiw-step-circle">2</div>
+            <div class="lf-hiw-step-line"></div>
+            <div class="lf-hiw-step-circle">3</div>
+        </div>
+
+        <div class="lf-hiw-grid">
+            <article class="lf-hiw-card">
+                <div class="lf-hiw-icon lf-hiw-icon-blue" aria-hidden="true">
+                    <i class="fas fa-arrow-up-from-bracket"></i>
+                </div>
+                <h3 class="lf-hiw-card-title">Report Items</h3>
+                <p class="lf-hiw-card-desc">Report lost or found items with photos and details so others can identify them.</p>
+            </article>
+            <article class="lf-hiw-card">
+                <div class="lf-hiw-icon lf-hiw-icon-green" aria-hidden="true">
+                    <i class="fas fa-magnifying-glass"></i>
+                </div>
+                <h3 class="lf-hiw-card-title">Search &amp; Browse</h3>
+                <p class="lf-hiw-card-desc">Search by name, category, or description to find items that match what you lost.</p>
+            </article>
+            <article class="lf-hiw-card">
+                <div class="lf-hiw-icon lf-hiw-icon-orange" aria-hidden="true">
+                    <i class="fas fa-circle-check"></i>
+                </div>
+                <h3 class="lf-hiw-card-title">Claim Your Item</h3>
+                <p class="lf-hiw-card-desc">Submit a claim with proof of ownership and get reunited with your belongings.</p>
+            </article>
+        </div>
+    </div>
+</section>
 </div>
 
-<section class="how-it-works-section" aria-labelledby="how-it-works-heading">
-    <h2 class="how-it-works-title" id="how-it-works-heading">How It Works</h2>
-    <div class="row how-it-works-row">
-
-        <div class="col-4">
-            <article class="card text-center feature-card step-card">
-                <div class="card-body">
-                    <div class="step-icon step-icon-primary" aria-hidden="true">
-                        <i class="fas fa-upload"></i>
-                    </div>
-                    <h4 class="step-title">Report Items</h4>
-                    <p class="step-description">Report found items with photos and details.</p>
-                </div>
-            </article>
+<section class="lf-cta-section" aria-labelledby="lf-cta-heading">
+    <div class="lf-cta-card">
+        <h2 class="lf-cta-title" id="lf-cta-heading">Ready to get <span class="lf-cta-title-blue">started?</span></h2>
+        <p class="lf-cta-desc">Join our community and help reunite students with their belongings.</p>
+        <div class="lf-cta-btns">
+            <a href="{% url 'register_student' %}" class="btn btn-primary lf-cta-btn">Register as Student</a>
+            <a href="{% url 'register_teacher' %}" class="btn btn-outline-primary lf-cta-btn">Register as Teacher</a>
         </div>
-
-        <div class="col-4">
-            <article class="card text-center feature-card step-card">
-                <div class="card-body">
-                    <div class="step-icon step-icon-success" aria-hidden="true">
-                        <i class="fas fa-search"></i>
-                    </div>
-                    <h4 class="step-title">Search & Browse</h4>
-                    <p class="step-description">Search by name, category, or description.</p>
-                </div>
-            </article>
-        </div>
-
-        <div class="col-4">
-            <article class="card text-center feature-card step-card">
-                <div class="card-body">
-                    <div class="step-icon step-icon-warning" aria-hidden="true">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <h4 class="step-title">Claim Your Item</h4>
-                    <p class="step-description">Submit a claim with proof to receive your item.</p>
-                </div>
-            </article>
-        </div>
+        <p class="lf-cta-login">Already have an account? <a href="{% url 'login' %}">Login</a></p>
     </div>
 </section>
 
-<section class="cta-section" aria-labelledby="cta-heading">
-    <h3 class="cta-title" id="cta-heading">Ready to Get Started?</h3>
-    <p class="cta-description">Join our community and help reunite students with their belongings</p>
-    <div class="cta-buttons">
-        <a href="{% url 'register_student' %}" class="btn btn-primary cta-login-btn">
-            Register as Student
-        </a>
-        <a href="{% url 'register_teacher' %}" class="btn btn-outline-primary cta-login-btn">
-            Register as Teacher
-        </a>
-    </div>
-    <p class="cta-register-text">
-        Already have an account?
-        <a href="{% url 'login' %}">Login</a>
-    </p>
-</section>
+<script>
+(function () {
+    var el = document.getElementById('lf-typed-text');
+    if (!el) return;
+
+    var phrases = ['Find it here.', 'Claim it here.', 'Post it here.', 'Reunite here.'];
+    var phraseIdx = 0;
+    var charIdx = 0;
+    var isDeleting = false;
+
+    function tick() {
+        var phrase = phrases[phraseIdx];
+        if (isDeleting) {
+            charIdx--;
+            el.textContent = phrase.slice(0, charIdx);
+            if (charIdx === 0) {
+                isDeleting = false;
+                phraseIdx = (phraseIdx + 1) % phrases.length;
+                setTimeout(tick, 350);
+            } else {
+                setTimeout(tick, 40);
+            }
+        } else {
+            charIdx++;
+            el.textContent = phrase.slice(0, charIdx);
+            if (charIdx === phrase.length) {
+                isDeleting = true;
+                setTimeout(tick, 1800);
+            } else {
+                setTimeout(tick, 75);
+            }
+        }
+    }
+
+    setTimeout(tick, 500);
+}());
+</script>
 
 {% else %}
 <div class="logged-in-home">
@@ -141,7 +184,7 @@
         <div class="hero-slider logged-in-slider" data-lf-slider role="region" aria-label="Recently found items carousel">
             <div class="lf-slider-card">
                 <div class="lf-slider-header">
-                    <div class="lf-slider-title" id="slider-title-logged-in">Recently Found</div>
+                    <div class="lf-slider-title" id="slider-title-logged-in">Found Recently</div>
                 </div>
 
                 <div class="lf-slider-viewport" role="group" aria-labelledby="slider-title-logged-in" aria-live="polite">
