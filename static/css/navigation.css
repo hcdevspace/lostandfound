@@ -176,7 +176,11 @@ body {
 }
 
 .dropdown-menu {
-    display: none;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-5px);
+    transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+    transition-delay: 0.15s;
     position: absolute;
     top: calc(100% + 0.5rem);
     right: 0;
@@ -206,20 +210,10 @@ body {
 
 .dropdown:hover .dropdown-menu,
 .dropdown.active .dropdown-menu {
-    display: block;
-
-    animation: dropdownFadeIn 0.2s ease;
-}
-
-@keyframes dropdownFadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-5px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0s;
 }
 
 .dropdown-menu a {
