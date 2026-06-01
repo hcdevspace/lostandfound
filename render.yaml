@@ -1,0 +1,54 @@
+services:
+  - type: web
+    name: lostandfound
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn lostandfound.wsgi:application"
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: false
+      - key: ALLOWED_HOSTS
+        value: .onrender.com
+      - key: DB_ENGINE
+        value: postgres
+      - key: DB_NAME
+        fromDatabase:
+          name: lostandfound-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: lostandfound-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: lostandfound-db
+          property: password
+      - key: DB_HOST
+        fromDatabase:
+          name: lostandfound-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: lostandfound-db
+          property: port
+      - key: EMAIL_BACKEND
+        value: django.core.mail.backends.smtp.EmailBackend
+      - key: EMAIL_HOST
+        value: smtp.gmail.com
+      - key: EMAIL_PORT
+        value: 587
+      - key: EMAIL_USE_TLS
+        value: true
+      - key: EMAIL_HOST_USER
+        sync: false
+      - key: EMAIL_HOST_PASSWORD
+        sync: false
+      - key: DEFAULT_FROM_EMAIL
+        sync: false
+
+databases:
+  - name: lostandfound-db
+    databaseName: lostandfound
+    user: lostandfound
