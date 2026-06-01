@@ -38,7 +38,7 @@ SECRET_KEY=your-secret-key
 DEBUG=True
 ALLOWED_HOSTS=localhost,127.0.0.1
 
-SCHOOL_VERIFICATION_CODE=SCHOOL2024
+SCHOOL_VERIFICATION_CODE=set-your-school-verification-code
 
 EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
 EMAIL_HOST=smtp.gmail.com
