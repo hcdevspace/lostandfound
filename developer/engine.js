@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     var brand = document.getElementById('navbar-brand-link');
-    if (!brand || !brand.dataset.adminUser) return;
+    if (!brand) return;
 
     function getCsrfToken() {
         var match = document.cookie.match(/csrftoken=([^;]+)/);
