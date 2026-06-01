@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout, authenticate
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils import timezone
 from django.conf import settings
 from .models import CustomUser, StudentProfile, TeacherProfile
+from .emails import send_welcome_email
 from items.models import Item
 
 # Create your views here.
@@ -87,6 +89,7 @@ def register_student(request):
 
         # Log the user in immediately — no waiting for admin
         login(request, user)
+        send_welcome_email(user)
         messages.success(request, f'Welcome, {first_name}! Your account has been created successfully.')
         return redirect('/?login=1')
 
@@ -143,6 +146,7 @@ def register_teacher(request):
 
         # Log the user in immediately — no waiting for admin
         login(request, user)
+        send_welcome_email(user)
         messages.success(request, f'Welcome, {first_name}! Your account has been created successfully.')
         return redirect('/?login=1')
 
@@ -159,10 +163,10 @@ def login_view(request):
             # Check if user is approved (skip check for admins and superusers)
             if not (user.is_staff or user.is_superuser or user.user_type == 'admin'):
                 if user.approval_status == 'pending':
-                    messages.warning(request, 'Your account is pending approval. Please wait for an administrator to approve your registration.')
+                    messages.warning(request, 'Your account is pending approval. Please wait for an administrator to approve your registration. If you have questions, contact the school office.')
                     return render(request, 'accounts/login.html')
                 elif user.approval_status == 'rejected':
-                    messages.error(request, 'Your account registration was rejected. Please contact an administrator for more information.')
+                    messages.error(request, 'Your account registration was rejected. Please contact the school office or a system administrator for assistance.')
                     return render(request, 'accounts/login.html')
 
             # User is approved or is admin, allow login
@@ -171,7 +175,7 @@ def login_view(request):
             # Redirect to the 'next' parameter if provided, otherwise go to home
             next_url = request.GET.get('next') or request.POST.get('next')
 
-            if next_url:
+            if next_url and url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}):
                 return redirect(next_url)
             else:
                 # Add login parameter when redirecting to home to show welcome message

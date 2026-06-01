@@ -51,8 +51,10 @@
                     <i class="fas fa-chalkboard-teacher"></i> Teacher
                 </a>
             </div>
-            <p class="lf-auth-link-row lf-auth-disabled">
-                <i class="fas fa-question-circle"></i> Forgot Password? (Coming Soon)
+            <p class="lf-auth-link-row">
+                <a href="{% url 'password_reset' %}" class="lf-auth-link">
+                    <i class="fas fa-key"></i> Forgot your password?
+                </a>
             </p>
         </div>
     </div>
