@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var brand = document.getElementById('navbar-brand-link');
     if (!brand) return;
+    var isAdminUser = brand.dataset.adminUser === '1';
 
     function getCsrfToken() {
         var match = document.cookie.match(/csrftoken=([^;]+)/);
@@ -788,13 +789,27 @@ document.addEventListener('DOMContentLoaded', function() {
         applyDevModeVisuals(false);
     }
 
+    function navigateBrandHome() {
+        if (brand.href && brand.href !== window.location.href) {
+            window.location.assign(brand.href);
+        }
+    }
+
     var clickCount = 0;
     var clickTimer = null;
-    brand.addEventListener('click', function() {
-        if (sessionStorage.getItem('devMode') === '1') return;
+    brand.addEventListener('click', function(e) {
+        if (!isAdminUser || sessionStorage.getItem('devMode') === '1') return;
+
+        e.preventDefault();
         clickCount++;
         clearTimeout(clickTimer);
-        clickTimer = setTimeout(function() { clickCount = 0; }, 800);
+        clickTimer = setTimeout(function() {
+            if (clickCount > 0) {
+                navigateBrandHome();
+            }
+            clickCount = 0;
+        }, 800);
+
         if (clickCount >= 10) {
             clickCount = 0;
             clearTimeout(clickTimer);
