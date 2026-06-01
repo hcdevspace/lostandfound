@@ -32,12 +32,29 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-4. Create .env file with:
+4. Create a `.env` file in the project root with the following:
 ```
 SECRET_KEY=your-secret-key
 DEBUG=True
 ALLOWED_HOSTS=localhost,127.0.0.1
+
+SCHOOL_VERIFICATION_CODE=SCHOOL2024
+
+EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
+EMAIL_HOST_USER=your_gmail@gmail.com
+EMAIL_HOST_PASSWORD=your_16_char_app_password
+DEFAULT_FROM_EMAIL=Lost & Found <your_gmail@gmail.com>
 ```
+
+> **EMAIL_HOST_PASSWORD** must be a Gmail App Password (not your regular password).
+> Go to [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords) to generate one (requires 2-Step Verification to be enabled).
+>
+> To skip email during local development, replace `EMAIL_BACKEND` with:
+> `EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend`
+> — emails will print to the terminal instead of sending.
 
 5. Run migrations
 ```bash
