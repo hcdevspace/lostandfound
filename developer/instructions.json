@@ -1,214 +1,23 @@
 {
-  "recorded_at": "2026-05-31T23:47:16.351333+00:00",
+  "recorded_at": "2026-06-02T01:26:18.695208+00:00",
   "items": [],
   "claims": [],
   "users": [
     {
       "id": 1,
-      "username": "himag",
+      "username": "admin",
       "first_name": "",
       "last_name": "",
-      "email": "pen314paper@gmail.com",
+      "email": "admin@test.edu",
       "user_type": "student",
       "is_staff": true,
       "approval_status": "pending",
       "approval_date": null,
       "approved_by": null,
-      "date_joined": "2026-05-31T20:09:06.953489+00:00",
+      "date_joined": "2026-06-02T00:42:17.794125+00:00",
       "items_submitted": [],
       "claims_made": []
     }
   ],
-  "instructions": [
-    {
-      "type": "move",
-      "position": {
-        "x": 1566,
-        "y": 416
-      }
-    },
-    {
-      "type": "scroll",
-      "amount": 1300,
-      "position": {
-        "x": 0,
-        "y": 1300
-      }
-    },
-    {
-      "type": "move",
-      "position": {
-        "x": 1570,
-        "y": 423
-      }
-    },
-    {
-      "type": "scroll",
-      "amount": -1300,
-      "position": {
-        "x": 0,
-        "y": 0
-      }
-    },
-    {
-      "type": "click",
-      "start": {
-        "x": 978,
-        "y": 732
-      },
-      "end": {
-        "x": 978,
-        "y": 732
-      },
-      "target": "a.btn.btn-primary.lf-hero-btn",
-      "tagName": "a",
-      "text": "Get Started",
-      "href": "/register/student/"
-    },
-    {
-      "type": "move",
-      "position": {
-        "x": 977,
-        "y": 727
-      }
-    },
-    {
-      "type": "scroll",
-      "amount": 500,
-      "position": {
-        "x": 0,
-        "y": 500
-      }
-    },
-    {
-      "type": "click",
-      "start": {
-        "x": 1020,
-        "y": 829
-      },
-      "end": {
-        "x": 1020,
-        "y": 829
-      },
-      "target": "a.lf-auth-link",
-      "tagName": "a",
-      "text": "Log in",
-      "href": "/login/"
-    },
-    {
-      "type": "click",
-      "start": {
-        "x": 861,
-        "y": 460
-      },
-      "end": {
-        "x": 861,
-        "y": 460
-      },
-      "target": "input.lf-auth-input",
-      "tagName": "input",
-      "name": "username",
-      "placeholder": "Enter your username",
-      "inputType": "text"
-    },
-    {
-      "type": "type",
-      "text": "himag"
-    },
-    {
-      "type": "tab"
-    },
-    {
-      "type": "type",
-      "text": "Mathematicsc3.14"
-    },
-    {
-      "type": "click",
-      "start": {
-        "x": 913,
-        "y": 679
-      },
-      "end": {
-        "x": 913,
-        "y": 679
-      },
-      "target": "button.lf-auth-btn",
-      "tagName": "button",
-      "text": "Log in"
-    },
-    {
-      "type": "click",
-      "start": {
-        "x": 923,
-        "y": 32
-      },
-      "end": {
-        "x": 923,
-        "y": 32
-      },
-      "target": "a",
-      "tagName": "a",
-      "text": "Search Items",
-      "href": "/items/"
-    },
-    {
-      "type": "click",
-      "start": {
-        "x": 1019,
-        "y": 40
-      },
-      "end": {
-        "x": 1019,
-        "y": 39
-      },
-      "target": "a",
-      "tagName": "a",
-      "text": "Report Item",
-      "href": "/items/report/"
-    },
-    {
-      "type": "click",
-      "start": {
-        "x": 482,
-        "y": 38
-      },
-      "end": {
-        "x": 482,
-        "y": 38
-      },
-      "target": "a#navbar-brand-link.navbar-brand",
-      "tagName": "a",
-      "text": "Lost & Found",
-      "href": "/"
-    },
-    {
-      "type": "click",
-      "start": {
-        "x": 1516,
-        "y": 54
-      },
-      "end": {
-        "x": 1516,
-        "y": 54
-      },
-      "target": "span.dropdown-toggle",
-      "tagName": "span",
-      "text": "(Admin)"
-    },
-    {
-      "type": "click",
-      "start": {
-        "x": 1448,
-        "y": 139
-      },
-      "end": {
-        "x": 1448,
-        "y": 139
-      },
-      "target": "a#navbar-logout-link",
-      "tagName": "a",
-      "text": "Logout",
-      "href": "/logout/"
-    }
-  ]
+  "instructions": []
 }

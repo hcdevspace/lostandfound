@@ -12,11 +12,13 @@ from accounts.emails import (
     send_claim_completed_email,
     send_item_discarded_email,
 )
+from lostandfound.throttle import rate_limit
 
 # Create your views here.
 
 # Submission
 @login_required
+@rate_limit(max_requests=10, window_seconds=3600)  # 10 claim submissions per hour
 def submit_claim(request, item_pk, claim_type=None):
     item = get_object_or_404(Item, pk=item_pk)
 

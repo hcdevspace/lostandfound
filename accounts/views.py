@@ -8,6 +8,7 @@ from django.conf import settings
 from .models import CustomUser, StudentProfile, TeacherProfile
 from .emails import send_welcome_email
 from items.models import Item
+from lostandfound.throttle import rate_limit
 
 # Create your views here.
 def home(request):
@@ -31,6 +32,7 @@ def home(request):
         'slider_items': slider_items
     })
 
+@rate_limit(max_requests=5, window_seconds=3600)  # 5 registration attempts per hour
 def register_student(request):
     if request.method == 'POST':
         # Retrieve form data
@@ -95,6 +97,7 @@ def register_student(request):
 
     return render(request, 'accounts/register_student.html')
 
+@rate_limit(max_requests=5, window_seconds=3600)  # 5 registration attempts per hour
 def register_teacher(request):
     if request.method == 'POST':
         # Retrieve form data
@@ -152,6 +155,7 @@ def register_teacher(request):
 
     return render(request, 'accounts/register_teacher.html')
 
+@rate_limit(max_requests=10, window_seconds=300)  # 10 login attempts per 5 minutes
 def login_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')

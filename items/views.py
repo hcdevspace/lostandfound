@@ -11,9 +11,11 @@ from accounts.emails import (
     send_item_rejected_email,
     send_item_discarded_email,
 )
+from lostandfound.throttle import rate_limit
 
 # Create your views here.
 @login_required
+@rate_limit(max_requests=10, window_seconds=3600)  # 10 item reports per hour
 def report_item(request):
     if request.method == "POST":
         form = ItemForm(request.POST, request.FILES)
