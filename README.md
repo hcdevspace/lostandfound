@@ -2,6 +2,7 @@
 
 ## Project Description
 A Django web application to help students and staff report found items, search for lost belongings, and manage the claim process efficiently.
+CURRENT: Undergoing migration to AWS architecture.
 
 ## Team Members
 - Harshit, Aaryan, Himaghna
