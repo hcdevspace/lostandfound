@@ -111,24 +111,38 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # ---------------------------------------------------------------------------
-# Cloud media storage (production)
+# Cloud media storage — AWS S3 (production)
 # ---------------------------------------------------------------------------
-# On Render (or any host where DEBUG=False), Django does NOT serve MEDIA files.
-# Options:
-#   1. Use Cloudinary: pip install cloudinary django-cloudinary-storage
-#      Then set DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-#      and add CLOUDINARY_STORAGE = {'CLOUD_NAME': ..., 'API_KEY': ..., 'API_SECRET': ...}
-#   2. Use AWS S3: pip install boto3 django-storages
-#      Then set DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-# Set CLOUD_MEDIA = True in your .env to activate (example below uses Cloudinary).
-CLOUD_MEDIA = config('CLOUD_MEDIA', default=False, cast=bool)
-if CLOUD_MEDIA:
-    DEFAULT_FILE_STORAGE = config('DEFAULT_FILE_STORAGE', default='cloudinary_storage.storage.MediaCloudinaryStorage')
-    CLOUDINARY_STORAGE = {
-        'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME', default=''),
-        'API_KEY': config('CLOUDINARY_API_KEY', default=''),
-        'API_SECRET': config('CLOUDINARY_API_SECRET', default=''),
+# Set USE_S3=True in .env to store uploaded images in S3 instead of locally.
+# Required env vars when USE_S3=True:
+#   AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_STORAGE_BUCKET_NAME, AWS_S3_REGION_NAME
+USE_S3 = config('USE_S3', default=False, cast=bool)
+if USE_S3:
+    INSTALLED_APPS += ['storages']
+    AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
+    AWS_S3_REGION_NAME = config('AWS_S3_REGION_NAME', default='us-east-1')
+    AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+    AWS_DEFAULT_ACL = None
+    AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+    AWS_QUERYSTRING_AUTH = False
+    STORAGES = {
+        'default': {'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage'},
+        'staticfiles': {'BACKEND': 'whitenoise.storage.CompressedStaticFilesStorage'},
     }
+    MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
+
+# ---------------------------------------------------------------------------
+# Production security headers (active when DEBUG=False)
+# ---------------------------------------------------------------------------
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
 # Custom User model
 AUTH_USER_MODEL = 'accounts.CustomUser'
