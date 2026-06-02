@@ -1,4 +1,4 @@
-"""
+﻿"""
 Management command to seed the database with test data
 Usage: python manage.py seed_data
 """
@@ -107,6 +107,78 @@ class Command(BaseCommand):
                 'location_found': 'Room 312',
                 'days_ago': 8,
                 'status': 'unclaimed'
+            },
+            {
+                'name': 'Car Keys',
+                'category': 'keys',
+                'description': 'Honda car key with a small flashlight keychain attached.',
+                'location_found': 'Front Parking Lot',
+                'days_ago': 1,
+                'status': 'unclaimed'
+            },
+            {
+                'name': 'Denim Jacket',
+                'category': 'clothing',
+                'description': 'Blue denim jacket, size M. Has iron-on patches on the sleeves.',
+                'location_found': 'Art Room',
+                'days_ago': 3,
+                'status': 'unclaimed'
+            },
+            {
+                'name': 'Lunch Box',
+                'category': 'personal',
+                'description': 'Black insulated lunch box with a Minecraft logo. Has a water bottle pocket.',
+                'location_found': 'Cafeteria',
+                'days_ago': 1,
+                'status': 'unclaimed'
+            },
+            {
+                'name': 'USB-C Charger',
+                'category': 'electronics',
+                'description': '65W USB-C laptop charger, white. Compatible with MacBook.',
+                'location_found': 'Library Study Room',
+                'days_ago': 6,
+                'status': 'unclaimed'
+            },
+            {
+                'name': 'Volleyball',
+                'category': 'equipment',
+                'description': 'Mikasa volleyball, official size. Slightly worn.',
+                'location_found': 'PE Storage Room',
+                'days_ago': 12,
+                'status': 'unclaimed'
+            },
+            {
+                'name': 'Prescription Glasses',
+                'category': 'accessories',
+                'description': 'Black rectangular-framed glasses in a soft brown case.',
+                'location_found': 'Room 105',
+                'days_ago': 2,
+                'status': 'unclaimed'
+            },
+            {
+                'name': 'Spiral Notebook',
+                'category': 'supplies',
+                'description': 'Purple spiral notebook with history notes inside. Has stickers on the cover.',
+                'location_found': 'Room 218',
+                'days_ago': 4,
+                'status': 'unclaimed'
+            },
+            {
+                'name': 'Gray Sweatpants',
+                'category': 'clothing',
+                'description': 'Gray Adidas sweatpants, size S. Found in the changing area.',
+                'location_found': 'Boys Locker Room',
+                'days_ago': 9,
+                'status': 'unclaimed'
+            },
+            {
+                'name': 'Portable Speaker',
+                'category': 'electronics',
+                'description': 'JBL Clip 4 mini speaker, teal color. Battery was dead when found.',
+                'location_found': 'Outdoor Lunch Area',
+                'days_ago': 5,
+                'status': 'unclaimed'
             }
         ]
 
@@ -139,7 +211,7 @@ class Command(BaseCommand):
                 item.save()
             
             created_count += 1
-            self.stdout.write(self.style.SUCCESS(f'  ✓ Created: {item.name}'))
+            self.stdout.write(self.style.SUCCESS(f'  Created: {item.name}'))
 
         self.stdout.write(self.style.SUCCESS(f'\nSuccessfully created {created_count} test items!'))
         self.stdout.write(self.style.SUCCESS('Database seeding complete!'))
@@ -161,7 +233,7 @@ class Command(BaseCommand):
         if created:
             admin.set_password('admin123')
             admin.save()
-            self.stdout.write(self.style.SUCCESS('  ✓ Created admin user (username: admin, password: admin123)'))
+            self.stdout.write(self.style.SUCCESS('  Created admin user (username: admin, password: admin123)'))
         return admin
 
     def get_or_create_test_users(self):
@@ -189,7 +261,7 @@ class Command(BaseCommand):
             if created:
                 user.set_password('password123')
                 user.save()
-                self.stdout.write(self.style.SUCCESS(f'  ✓ Created test user: {user.username}'))
+                self.stdout.write(self.style.SUCCESS(f'  Created test user: {user.username}'))
             users.append(user)
         
         # Create test teacher
@@ -206,7 +278,7 @@ class Command(BaseCommand):
         if created:
             teacher.set_password('password123')
             teacher.save()
-            self.stdout.write(self.style.SUCCESS(f'  ✓ Created test teacher: {teacher.username}'))
+            self.stdout.write(self.style.SUCCESS(f'  Created test teacher: {teacher.username}'))
         users.append(teacher)
         
         return users
