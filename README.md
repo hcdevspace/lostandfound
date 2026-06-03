@@ -38,8 +38,7 @@ SECRET_KEY=your-secret-key
 DEBUG=True
 ALLOWED_HOSTS=localhost,127.0.0.1
 
-SCHOOL_VERIFICATION_CODE=set-your-school-verification-code
-
+SCHOOL_VERIFICATION_CODE=SCHOOL2026
 EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
 EMAIL_HOST=smtp.gmail.com
 EMAIL_PORT=587
@@ -47,12 +46,19 @@ EMAIL_USE_TLS=True
 EMAIL_HOST_USER=your_gmail@gmail.com
 EMAIL_HOST_PASSWORD=your_16_char_app_password
 DEFAULT_FROM_EMAIL=Lost & Found <your_gmail@gmail.com>
+
+DB_ENGINE=postgres
+DB_NAME=dbname
+DB_USER=dbuser
+DB_PASSWORD=dbpassword
+DB_HOST=localhost
+DB_PORT=5432
 ```
 
-> **EMAIL_HOST_PASSWORD** must be a Gmail App Password (not your regular password).
+> **EMAIL_HOST_PASSWORD** 
 > Go to [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords) to generate one (requires 2-Step Verification to be enabled).
 >
-> To skip email during local development, replace `EMAIL_BACKEND` with:
+> Local development, replace `EMAIL_BACKEND` with:
 > `EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend`
 > — emails will print to the terminal instead of sending.
 
