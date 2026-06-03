@@ -116,21 +116,4 @@
     </div>
 </div>
 
-<script>
-document.getElementById('reportForm').addEventListener('submit', function(e) {
-    var photoInput = document.getElementById('photoInput');
-    if (!photoInput.files || photoInput.files.length === 0) {
-        e.preventDefault();
-        var existing = document.getElementById('photoError');
-        if (!existing) {
-            var err = document.createElement('span');
-            err.id = 'photoError';
-            err.className = 'error-message';
-            err.textContent = 'Please upload a photo of the item.';
-            document.getElementById('uploadBox').insertAdjacentElement('afterend', err);
-        }
-    }
-});
-</script>
-
 {% endblock %}
