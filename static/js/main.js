@@ -204,8 +204,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Validate form
         if (!reportForm.checkValidity()) {
-            return true; // Let browser handle validation
+            return true;
         }
+
+        // Validate photo
+        if (!uploadBox.classList.contains('has-image')) {
+            e.preventDefault();
+            var existing = document.getElementById('photoError');
+            if (!existing) {
+                var err = document.createElement('span');
+                err.id = 'photoError';
+                err.className = 'error-message';
+                err.textContent = 'Please upload a photo of the item.';
+                uploadBox.insertAdjacentElement('afterend', err);
+            }
+            return false;
+        }
+
+        var photoErr = document.getElementById('photoError');
+        if (photoErr) photoErr.remove();
 
         // Set submitting state
         isSubmitting = true;
