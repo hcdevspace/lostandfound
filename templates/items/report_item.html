@@ -96,7 +96,7 @@
                             <p class="report-upload-sub">or click to select an image</p>
                         </div>
                     </div>
-                    <input type="file" id="photoInput" name="photo" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp" required hidden>
+                    <input type="file" id="photoInput" name="photo" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp" hidden>
                 </div>
                 {% if form.photo.errors %}
                     <span class="error-message">{{ form.photo.errors.0 }}</span>
@@ -115,5 +115,22 @@
         </div>
     </div>
 </div>
+
+<script>
+document.getElementById('reportForm').addEventListener('submit', function(e) {
+    var photoInput = document.getElementById('photoInput');
+    if (!photoInput.files || photoInput.files.length === 0) {
+        e.preventDefault();
+        var existing = document.getElementById('photoError');
+        if (!existing) {
+            var err = document.createElement('span');
+            err.id = 'photoError';
+            err.className = 'error-message';
+            err.textContent = 'Please upload a photo of the item.';
+            document.getElementById('uploadBox').insertAdjacentElement('afterend', err);
+        }
+    }
+});
+</script>
 
 {% endblock %}
