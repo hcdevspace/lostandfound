@@ -1,223 +1,188 @@
-<!-- Html Page of expanded description of an item -->
 {% extends 'base.html' %}
 {% block title %}{{ item.name }} - Item Details{% endblock %}
 {% block content %}
 
-<!-- Item Detail Container - Compact Single Screen Layout -->
-<div class="item-detail-container">
-    <div class="item-detail-grid">
+<div class="lf-grid-bg lf-grid-bg--flat" aria-hidden="true"></div>
 
-        <!-- Left Column: Image -->
-        <div class="item-detail-image-section" style="max-width: 400px;">
-            <div class="item-detail-image-wrapper" style="width: 100%; max-height: 400px; overflow: hidden; border-radius: 8px; background: #f5f5f5; display: flex; align-items: center; justify-content: center;">
-                {% if item.photo %}
-                    <img src="{{ item.photo.url }}" alt="{{ item.name }}" class="item-detail-image" style="max-width: 100%; max-height: 400px; object-fit: contain; border-radius: 8px;">
-                {% else %}
-                    <div class="item-detail-no-image" style="width: 100%; height: 300px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #999;">
-                        <i class="fas fa-image" style="font-size: 64px; margin-bottom: 10px;"></i>
-                        <p>No photo</p>
-                    </div>
-                {% endif %}
-            </div>
-            <span class="status-badge-large status-{{ item.status }}" style="display: inline-block; margin-top: 10px; padding: 8px 16px; border-radius: 20px; font-weight: bold;">
-                <i class="fas fa-circle"></i> {{ item.get_status_display }}
-            </span>
-        </div>
+<section class="lf-page-hero" aria-label="Item Details">
+    <div class="lf-page-hero-inner">
+        <p class="lf-page-label">Lost & Found</p>
+        <h1 class="lf-page-title">{{ item.name }}</h1>
+        <p class="lf-page-sub">{{ item.get_category_display }} &mdash; found at {{ item.location_found }}</p>
+    </div>
+</section>
 
-        <!-- Right Column: Details -->
-        <div class="item-detail-info-section">
+<div class="lf-page-content">
+    <div class="lf-page-content-inner" style="max-width: 960px;">
 
-            <!-- Header -->
-            <div class="item-detail-header">
-                <h1 class="item-detail-title">{{ item.name }}</h1>
-                <span class="item-detail-category">
-                    <i class="fas fa-tag"></i> {{ item.get_category_display }}
-                </span>
-            </div>
+        <div style="display: grid; grid-template-columns: 320px 1fr; gap: 1.5rem; align-items: start;">
 
-            <!-- Compact Info Grid -->
-            <div class="item-info-compact">
-                <div class="info-row">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <strong>Location:</strong> {{ item.location_found }}
-                </div>
-                <div class="info-row">
-                    <i class="fas fa-calendar"></i>
-                    <strong>Date Found:</strong> {{ item.date_found|date:"M d, Y" }}
-                </div>
-                <div class="info-row">
-                    <i class="fas fa-clock"></i>
-                    <strong>Reported:</strong> {{ item.created_at|timesince }} ago
-                </div>
-                <div class="info-row">
-                    <i class="fas fa-user"></i>
-                    <strong>By:</strong> {{ item.submitted_by.get_full_name|default:item.submitted_by.username }}
-                </div>
-            </div>
-
-            <!-- Description -->
-            <div class="item-detail-section">
-                <h3><i class="fas fa-align-left"></i> Description</h3>
-                <p class="item-detail-description">{{ item.description }}</p>
-            </div>
-
-            <!-- Status Box (based on current status) -->
-            {% if item.status == 'reported' %}
-                <div class="status-box" style="background-color: #fff3cd; border-color: #ffc107; color: #856404;">
-                    <div class="status-box-header">
-                        <i class="fas fa-clock"></i>
-                        <h4 class="status-box-title">Pending Admin Verification</h4>
-                    </div>
-                    <div class="status-box-content">
-                        {% if user == item.submitted_by %}
-                            <p style="margin: 0;">Thank you for reporting this item! Please bring the physical item to the Lost & Found office for verification.</p>
-                            <p style="margin: 0.5rem 0 0 0;"><strong>Next Step:</strong> Once staff receives and verifies the item, it will be available for claims.</p>
-                        {% elif user.is_staff or user.user_type == 'teacher' or user.user_type == 'admin' %}
-                            <p style="margin: 0;">This item has been reported but not yet received or verified.</p>
-                            <p style="margin: 0.5rem 0 0 0;"><strong>Action Required:</strong> Confirm receipt of physical item and approve to make it available for claims.</p>
-                        {% else %}
-                            <p style="margin: 0;">This item is pending verification by staff.</p>
-                        {% endif %}
-                    </div>
-                </div>
-            {% elif item.status == 'returned' %}
-                <div class="status-box status-box-returned">
-                    <div class="status-box-header">
-                        <h4 class="status-box-title">Item Returned</h4>
-                    </div>
-                    {% if item.returned_to %}
-                        <div class="status-box-content">
-                            <p style="margin: 0;">
-                                <i class="fas fa-user"></i>
-                                <strong>Returned to:</strong> {{ item.returned_to.get_full_name|default:item.returned_to.username }}
-                            </p>
-                            {% if item.returned_to.email and user.is_staff %}
-                                <p style="margin: 0.25rem 0 0 0; font-size: 0.85rem;">
-                                    <i class="fas fa-envelope"></i> {{ item.returned_to.email }}
-                                </p>
-                            {% endif %}
+            <!-- Left: Image + Status -->
+            <div>
+                <div class="lf-search-card" style="padding: 1rem; text-align: center;">
+                    {% if item.photo %}
+                        <img src="{{ item.photo.url }}" alt="{{ item.name }}"
+                             style="width: 100%; max-height: 300px; object-fit: contain; border-radius: 10px; background: #f9fafb;">
+                    {% else %}
+                        <div style="width: 100%; height: 240px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #f9fafb; border-radius: 10px; color: #9ca3af;">
+                            <i class="fas fa-image" style="font-size: 48px; margin-bottom: 0.5rem;"></i>
+                            <p style="margin: 0; font-size: 0.9rem;">No photo</p>
                         </div>
                     {% endif %}
-                </div>
-            {% elif item.status == 'claimed' %}
-                <div class="status-box status-box-claimed">
-                    <div class="status-box-header">
-                        <i class="fas fa-info-circle"></i>
-                        <h4 class="status-box-title">Claim Submitted</h4>
-                    </div>
-                    <div class="status-box-content">
-                        <p style="margin: 0;">A claim has been submitted for this item and is pending admin review.</p>
+                    <div style="margin-top: 1rem;">
+                        <span class="lf-status lf-status--{{ item.status }}" style="font-size: 0.85rem; padding: 0.4rem 1rem;">
+                            <i class="fas fa-circle" style="font-size: 0.55rem; vertical-align: middle;"></i>
+                            {{ item.get_status_display }}
+                        </span>
                     </div>
                 </div>
-            {% elif item.status == 'verified' %}
-                <div class="status-box status-box-verified">
-                    <div class="status-box-header">
-                        <i class="fas fa-check-circle"></i>
-                        <h4 class="status-box-title">Claim Verified</h4>
-                    </div>
-                    <div class="status-box-content">
-                        <p style="margin: 0;">The claim for this item has been verified by admin. Awaiting physical return.</p>
-                    </div>
-                </div>
-            {% elif item.status == 'rejected' %}
-                <div class="status-box status-box-rejected">
-                    <div class="status-box-header">
-                        <i class="fas fa-times-circle"></i>
-                        <h4 class="status-box-title">Claim Rejected</h4>
-                    </div>
-                    <div class="status-box-content">
-                        <p style="margin: 0;">A previous claim was rejected. This item is available for new claims.</p>
-                    </div>
-                </div>
-            {% elif item.status == 'discarded' %}
-                <div class="status-box status-box-discarded">
-                    <div class="status-box-header">
-                        <i class="fas fa-archive"></i>
-                        <h4 class="status-box-title">Item Discarded / Donated</h4>
-                    </div>
-                    <div class="status-box-content">
-                        {% if item.discard_reason %}
-                            <p style="margin: 0;">
-                                <strong>Reason:</strong> {{ item.discard_reason }}
-                            </p>
-                        {% endif %}
-                        {% if item.discard_date %}
-                            <p style="margin: 0.25rem 0 0 0;">
-                                <strong>Date:</strong> {{ item.discard_date|date:"M d, Y g:i A" }}
-                            </p>
-                        {% endif %}
-                        {% if item.discarded_by and user.is_staff %}
-                            <p style="margin: 0.25rem 0 0 0;">
-                                <strong>By:</strong> {{ item.discarded_by.get_full_name|default:item.discarded_by.username }}
-                            </p>
-                        {% endif %}
-                        {% if item.discard_notes and user.is_staff %}
-                            <p style="margin: 0.5rem 0 0 0; padding-top: 0.5rem; border-top: 1px solid #6c757d;">
-                                <strong>Notes:</strong> {{ item.discard_notes }}
-                            </p>
-                        {% endif %}
-                    </div>
-                </div>
-            {% endif %}
-
-            <!-- Action Buttons - Compact -->
-            <div class="item-detail-actions">
-                {% if item.status == 'unclaimed' or item.status == 'rejected' %}
-                    {% if user.is_authenticated %}
-                        {% if user != item.submitted_by %}
-                            <a href="{% url 'submit_claim_typed' item.pk 'claim' %}" class="btn btn-primary">
-                                <i class="fas fa-hand-paper"></i> Claim Item
-                            </a>
-                            <a href="{% url 'submit_claim_typed' item.pk 'inquiry' %}" class="btn btn-outline-primary">
-                                <i class="fas fa-envelope"></i> Inquire
-                            </a>
-                        {% else %}
-                            <div class="alert-info" style="padding: 0.75rem; margin: 0; border-radius: 8px; background-color: #d1ecf1; border: 1px solid #bee5eb; color: #0c5460;">
-                                <i class="fas fa-info-circle"></i> You cannot claim an item that you reported.
-                            </div>
-                        {% endif %}
-                    {% else %}
-                        <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-primary">
-                            <i class="fas fa-sign-in-alt"></i> Login to Claim
-                        </a>
-                    {% endif %}
-                {% endif %}
-
-                <a href="{% url 'item_list' %}" class="btn btn-outline-secondary">
-                    <i class="fas fa-arrow-left"></i> Back
-                </a>
-
-                {% if user.is_authenticated %}
-                    {% if item.status == 'reported' %}
-                        {% if user.user_type == 'teacher' or user.user_type == 'admin' or user.is_staff %}
-                            <a href="{% url 'approve_item' item.pk %}" class="btn btn-success">
-                                <i class="fas fa-check-circle"></i> Approve & Receive Item
-                            </a>
-                            <a href="{% url 'reject_item' item.pk %}" class="btn btn-danger btn-sm">
-                                <i class="fas fa-times-circle"></i> Reject Report
-                            </a>
-                        {% endif %}
-                    {% endif %}
-
-                    {% if user == item.submitted_by or user.user_type == 'teacher' or user.user_type == 'admin' or user.is_staff %}
-                        <a href="{% url 'edit_item' item.pk %}" class="btn btn-warning btn-sm">
-                            <i class="fas fa-edit"></i> Edit
-                        </a>
-                    {% endif %}
-                    {% if user.user_type == 'teacher' or user.user_type == 'admin' or user.is_staff %}
-                        {% if item.status != 'discarded' and item.status != 'returned' and item.status != 'reported' %}
-                            <a href="{% url 'discard_item' item.pk %}" class="btn btn-outline-warning btn-sm">
-                                <i class="fas fa-archive"></i> Discard
-                            </a>
-                        {% endif %}
-                        <a href="{% url 'delete_item' item.pk %}" class="btn btn-danger btn-sm">
-                            <i class="fas fa-trash"></i> Delete
-                        </a>
-                    {% endif %}
-                {% endif %}
             </div>
 
+            <!-- Right: Details -->
+            <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+
+                <!-- Info Card -->
+                <div class="lf-search-card">
+                    <p style="margin: 0 0 1rem 0; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: #9ca3af;">Item Information</p>
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <div class="info-row"><i class="fas fa-tag"></i> <strong>Category:</strong>&nbsp;{{ item.get_category_display }}</div>
+                        <div class="info-row"><i class="fas fa-map-marker-alt"></i> <strong>Location Found:</strong>&nbsp;{{ item.location_found }}</div>
+                        <div class="info-row"><i class="fas fa-calendar"></i> <strong>Date Found:</strong>&nbsp;{{ item.date_found|date:"M d, Y" }}</div>
+                        <div class="info-row"><i class="fas fa-clock"></i> <strong>Reported:</strong>&nbsp;{{ item.created_at|timesince }} ago</div>
+                        <div class="info-row"><i class="fas fa-user"></i> <strong>Reported By:</strong>&nbsp;{{ item.submitted_by.get_full_name|default:item.submitted_by.username }}</div>
+                    </div>
+                </div>
+
+                <!-- Description Card -->
+                <div class="lf-search-card">
+                    <p style="margin: 0 0 0.6rem 0; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: #9ca3af;">
+                        <i class="fas fa-align-left"></i> Description
+                    </p>
+                    <p style="margin: 0; color: #374151; line-height: 1.7;">{{ item.description }}</p>
+                </div>
+
+                <!-- Status Box -->
+                {% if item.status == 'reported' %}
+                <div style="background: #fffbeb; border: 1px solid #fde68a; border-left: 4px solid #f59e0b; border-radius: 10px; padding: 1rem 1.25rem;">
+                    <p style="margin: 0 0 0.4rem 0; font-weight: 600; color: #92400e;">
+                        <i class="fas fa-clock"></i> Pending Admin Verification
+                    </p>
+                    {% if user == item.submitted_by %}
+                        <p style="margin: 0; font-size: 0.9rem; color: #92400e;">Thank you for reporting this item! Please bring the physical item to the Lost &amp; Found office for verification.</p>
+                        <p style="margin: 0.4rem 0 0 0; font-size: 0.875rem; color: #92400e;"><strong>Next Step:</strong> Once staff receives and verifies the item, it will be available for claims.</p>
+                    {% elif user.is_staff or user.user_type == 'teacher' or user.user_type == 'admin' %}
+                        <p style="margin: 0; font-size: 0.9rem; color: #92400e;">This item has been reported but not yet received or verified.</p>
+                        <p style="margin: 0.4rem 0 0 0; font-size: 0.875rem; color: #92400e;"><strong>Action Required:</strong> Confirm receipt of physical item and approve to make it available for claims.</p>
+                    {% else %}
+                        <p style="margin: 0; font-size: 0.9rem; color: #92400e;">This item is pending verification by staff.</p>
+                    {% endif %}
+                </div>
+
+                {% elif item.status == 'returned' %}
+                <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-left: 4px solid #22c55e; border-radius: 10px; padding: 1rem 1.25rem;">
+                    <p style="margin: 0 0 0.4rem 0; font-weight: 600; color: #15803d;"><i class="fas fa-check-circle"></i> Item Returned</p>
+                    {% if item.returned_to %}
+                        <div class="info-row" style="color: #166534;"><i class="fas fa-user"></i> <strong>Returned to:</strong>&nbsp;{{ item.returned_to.get_full_name|default:item.returned_to.username }}</div>
+                        {% if item.returned_to.email and user.is_staff %}
+                        <div class="info-row" style="color: #166534; font-size: 0.85rem;"><i class="fas fa-envelope"></i>&nbsp;{{ item.returned_to.email }}</div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+
+                {% elif item.status == 'claimed' %}
+                <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-left: 4px solid #3b82f6; border-radius: 10px; padding: 1rem 1.25rem;">
+                    <p style="margin: 0 0 0.4rem 0; font-weight: 600; color: #1d4ed8;"><i class="fas fa-info-circle"></i> Claim Submitted</p>
+                    <p style="margin: 0; font-size: 0.9rem; color: #1e40af;">A claim has been submitted for this item and is pending admin review.</p>
+                </div>
+
+                {% elif item.status == 'verified' %}
+                <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-left: 4px solid #22c55e; border-radius: 10px; padding: 1rem 1.25rem;">
+                    <p style="margin: 0 0 0.4rem 0; font-weight: 600; color: #15803d;"><i class="fas fa-check-circle"></i> Claim Verified</p>
+                    <p style="margin: 0; font-size: 0.9rem; color: #166534;">The claim for this item has been verified by admin. Awaiting physical return.</p>
+                </div>
+
+                {% elif item.status == 'rejected' %}
+                <div style="background: #fef2f2; border: 1px solid #fecaca; border-left: 4px solid #ef4444; border-radius: 10px; padding: 1rem 1.25rem;">
+                    <p style="margin: 0 0 0.4rem 0; font-weight: 600; color: #dc2626;"><i class="fas fa-times-circle"></i> Claim Rejected</p>
+                    <p style="margin: 0; font-size: 0.9rem; color: #991b1b;">A previous claim was rejected. This item is available for new claims.</p>
+                </div>
+
+                {% elif item.status == 'discarded' %}
+                <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-left: 4px solid #6b7280; border-radius: 10px; padding: 1rem 1.25rem;">
+                    <p style="margin: 0 0 0.4rem 0; font-weight: 600; color: #374151;"><i class="fas fa-archive"></i> Item Discarded / Donated</p>
+                    {% if item.discard_reason %}<div class="info-row" style="color:#4b5563;"><strong>Reason:</strong>&nbsp;{{ item.discard_reason }}</div>{% endif %}
+                    {% if item.discard_date %}<div class="info-row" style="color:#4b5563;"><strong>Date:</strong>&nbsp;{{ item.discard_date|date:"M d, Y g:i A" }}</div>{% endif %}
+                    {% if item.discarded_by and user.is_staff %}<div class="info-row" style="color:#4b5563;"><strong>By:</strong>&nbsp;{{ item.discarded_by.get_full_name|default:item.discarded_by.username }}</div>{% endif %}
+                    {% if item.discard_notes and user.is_staff %}
+                    <p style="margin: 0.5rem 0 0 0; padding-top: 0.5rem; border-top: 1px solid #e5e7eb; font-size: 0.875rem; color: #4b5563;"><strong>Notes:</strong> {{ item.discard_notes }}</p>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                <!-- Action Buttons -->
+                <div class="lf-search-card" style="padding: 1rem 1.25rem;">
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;">
+
+                        {% if item.status == 'unclaimed' or item.status == 'rejected' %}
+                            {% if user.is_authenticated %}
+                                {% if user != item.submitted_by %}
+                                    <a href="{% url 'submit_claim_typed' item.pk 'claim' %}" class="btn btn-primary">
+                                        <i class="fas fa-hand-paper"></i> Claim Item
+                                    </a>
+                                    <a href="{% url 'submit_claim_typed' item.pk 'inquiry' %}" class="btn btn-outline-primary">
+                                        <i class="fas fa-envelope"></i> Inquire
+                                    </a>
+                                {% else %}
+                                    <span style="font-size: 0.875rem; color: #6b7280; padding: 0.4rem 0;">
+                                        <i class="fas fa-info-circle"></i> You cannot claim an item you reported.
+                                    </span>
+                                {% endif %}
+                            {% else %}
+                                <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-primary">
+                                    <i class="fas fa-sign-in-alt"></i> Login to Claim
+                                </a>
+                            {% endif %}
+                        {% endif %}
+
+                        {% if user.is_authenticated and item.status == 'reported' %}
+                            {% if user.user_type == 'teacher' or user.user_type == 'admin' or user.is_staff %}
+                                <a href="{% url 'approve_item' item.pk %}" class="btn btn-success">
+                                    <i class="fas fa-check-circle"></i> Approve & Receive Item
+                                </a>
+                                <a href="{% url 'reject_item' item.pk %}" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-times-circle"></i> Reject Report
+                                </a>
+                            {% endif %}
+                        {% endif %}
+
+                        {% if user.is_authenticated %}
+                            {% if user == item.submitted_by or user.user_type == 'teacher' or user.user_type == 'admin' or user.is_staff %}
+                                <a href="{% url 'edit_item' item.pk %}" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                            {% endif %}
+                            {% if user.user_type == 'teacher' or user.user_type == 'admin' or user.is_staff %}
+                                {% if item.status != 'discarded' and item.status != 'returned' and item.status != 'reported' %}
+                                    <a href="{% url 'discard_item' item.pk %}" class="btn btn-outline-warning btn-sm">
+                                        <i class="fas fa-archive"></i> Discard
+                                    </a>
+                                {% endif %}
+                                <a href="{% url 'delete_item' item.pk %}" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash"></i> Delete
+                                </a>
+                            {% endif %}
+                        {% endif %}
+
+                        <a href="{% url 'item_list' %}" class="btn btn-outline-secondary btn-sm" style="margin-left: auto;">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
         </div>
+
     </div>
 </div>
 
