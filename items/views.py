@@ -25,7 +25,7 @@ def report_item(request):
             item.save()
             send_item_reported_email(request.user, item)
             messages.success(request, 'Item reported successfully! Please bring the physical item to the Lost & Found office for verification. Once staff approves it, the item will be available for claims.')
-            return redirect('item_detail', pk=item.pk)
+            return redirect('my_items')
     else:
         form = ItemForm()
 
