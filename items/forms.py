@@ -60,7 +60,10 @@ class ItemForm(forms.ModelForm):
 
     def clean_photo(self):
         photo = self.cleaned_data.get('photo')
-        
+
+        if isinstance(photo, str):
+            return photo
+
         if photo:
             # Check file size (5MB = 5 * 1024 * 1024 bytes)
             max_size = 5 * 1024 * 1024  # 5MB
