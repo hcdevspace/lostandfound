@@ -6,15 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Lost & Found{% endblock %}</title>
     
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
 
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/layout.css' %}">
     <link rel="stylesheet" href="{% static 'css/navigation.css' %}">
@@ -31,7 +28,6 @@
     <link rel="stylesheet" href="{% static 'css/animations.css' %}">
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 
-    
     <script src="{% static 'js/main.js' %}?v=1.1" defer></script>
     <script src="{% static 'developer/engine.js' %}" defer></script>
 </head>
@@ -51,19 +47,11 @@
                 <li><a href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a></li>
                 
                 {% if user.is_authenticated %}
-                    
                     <li><a href="{% url 'item_list' %}"><i class="fas fa-search"></i> Search Items</a></li>
-
-                    
                     <li><a href="{% url 'report_item' %}"><i class="fa-solid fa-clipboard-list"></i> Report Item</a></li>
-
-                    
                     <li><a href="{% url 'my_items' %}"><i class="fas fa-box"></i> My Items</a></li>
-
-                    
                     <li><a href="{% url 'my_claims' %}"><i class="fa-solid fa-check"></i> My Claims</a></li>
 
-                    
                     {% if user.is_staff or user.user_type == 'teacher' or user.user_type == 'admin' %}
                     <li class="dropdown">
                         <span class="dropdown-toggle">
@@ -71,16 +59,16 @@
                         </span>
                         <ul class="dropdown-menu">
                             <li><a href="{% url 'admin_claims' %}"><i class="fas fa-tasks"></i> Manage Reports, Claims, & Inquiries</a></li>
-                            
-                            
+
                             {% if user.is_staff or user.user_type == 'admin' %}
                                 <li><a href="{% url 'pending_users' %}"><i class="fas fa-user-check"></i> Manage User Registrations</a></li>
                             {% endif %}
+
+                            <li><a href="{% url 'analytics' %}"><i class="fas fa-chart-bar"></i> Database Analytics</a></li>
                         </ul>
                     </li>
                     {% endif %}
 
-                    
                     <li class="dropdown">
                         <span class="dropdown-toggle">
                             <i class="fas fa-user"></i> {{ user.first_name }} ({% if user.is_staff %}Admin{% else %}{{ user.get_user_type_display }}{% endif %})
@@ -92,7 +80,6 @@
                         </ul>
                     </li>
                 {% else %}
-                    
                     <li><a href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
                     <li><a href="{% url 'register_student' %}" class="btn-register">Register</a></li>
                 {% endif %}
@@ -100,7 +87,6 @@
         </div>
     </nav>
 
-    
     {% if messages %}
         <div class="flash-messages-container">
             {% for message in messages %}
@@ -121,12 +107,10 @@
         </div>
     {% endif %}
 
-    
     <main class="container mt-2 mb-2">
         {% block content %}{% endblock %}
     </main>
 
-    
     <footer>
         <div class="container">
             <p class="mb-1">&copy; 2025 Lost & Found | FBLA Project</p>

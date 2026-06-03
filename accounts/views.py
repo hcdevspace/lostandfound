@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils import timezone
 from django.conf import settings
+from django.db.models import Count, Q
 from .models import CustomUser, StudentProfile, TeacherProfile
 from .emails import (
     send_welcome_email,
@@ -13,22 +14,20 @@ from .emails import (
     send_teacher_rejected_email,
 )
 from items.models import Item
+from claims.models import Claim
 from lostandfound.throttle import rate_limit
 
 # Create your views here.
 def home(request):
-    # Get recent items if user is logged in
     recent_items = None
     pending_approval_items = None
     slider_items = Item.objects.filter(status__in=['unclaimed', 'rejected']).order_by('-created_at')[:8]
 
     if request.user.is_authenticated:
-        # For admins/teachers, show items pending approval
         if request.user.is_staff or request.user.user_type in ['teacher', 'admin']:
             pending_approval_items = Item.objects.filter(status='reported').order_by('-created_at')[:5]
             recent_items = Item.objects.filter(status__in=['unclaimed', 'rejected']).order_by('-created_at')[:3]
         else:
-            # For students, show unclaimed items
             recent_items = Item.objects.filter(status__in=['unclaimed', 'rejected']).order_by('-created_at')[:3]
 
     return render(request, 'home.html', {
@@ -37,10 +36,9 @@ def home(request):
         'slider_items': slider_items
     })
 
-@rate_limit(max_requests=5, window_seconds=3600)  # 5 registration attempts per hour
+@rate_limit(max_requests=5, window_seconds=3600)
 def register_student(request):
     if request.method == 'POST':
-        # Retrieve form data
         username = request.POST.get('username')
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -51,32 +49,26 @@ def register_student(request):
         grade = request.POST.get('grade')
         verification_code = request.POST.get('verification_code', '').strip()
 
-        # Validate verification code first
         if verification_code != settings.SCHOOL_VERIFICATION_CODE:
             messages.error(request, 'Invalid school verification code. Please check with your school administrator.')
             return render(request, 'accounts/register_student.html')
 
-        # Validate passwords match
         if password != confirm_password:
             messages.error(request, 'Passwords do not match.')
             return render(request, 'accounts/register_student.html')
 
-        # Validate username doesn't already exist
         if CustomUser.objects.filter(username=username).exists():
             messages.error(request, 'Username already taken. Please choose a different username.')
             return render(request, 'accounts/register_student.html')
 
-        # Validate email doesn't already exist
         if CustomUser.objects.filter(email=email).exists():
             messages.error(request, 'Email already registered. Please use a different email.')
             return render(request, 'accounts/register_student.html')
 
-        # Validate student ID doesn't already exist
         if StudentProfile.objects.filter(student_id=student_id).exists():
             messages.error(request, 'Student ID already registered.')
             return render(request, 'accounts/register_student.html')
 
-        # Verification code passed — create user and approve immediately
         user = CustomUser.objects.create_user(
             username=username,
             email=email,
@@ -94,7 +86,6 @@ def register_student(request):
             grade=grade
         )
 
-        # Log the student in immediately — no waiting for admin
         login(request, user)
         send_welcome_email(user)
         messages.success(request, f'Welcome, {first_name}! Your account has been created successfully.')
@@ -102,10 +93,9 @@ def register_student(request):
 
     return render(request, 'accounts/register_student.html')
 
-@rate_limit(max_requests=5, window_seconds=3600)  # 5 registration attempts per hour
+@rate_limit(max_requests=5, window_seconds=3600)
 def register_teacher(request):
     if request.method == 'POST':
-        # Retrieve form data
         username = request.POST.get('username')
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -115,28 +105,22 @@ def register_teacher(request):
         department = request.POST.get('department', '')
         verification_code = request.POST.get('verification_code', '').strip()
 
-        # Validate verification code first
         if verification_code != settings.SCHOOL_VERIFICATION_CODE:
             messages.error(request, 'Invalid school verification code. Please check with your school administrator.')
             return render(request, 'accounts/register_teacher.html')
 
-        # Validate passwords match
         if password != confirm_password:
             messages.error(request, 'Passwords do not match.')
             return render(request, 'accounts/register_teacher.html')
 
-        # Validate username doesn't already exist
         if CustomUser.objects.filter(username=username).exists():
             messages.error(request, 'Username already taken. Please choose a different username.')
             return render(request, 'accounts/register_teacher.html')
 
-        # Validate email doesn't already exist
-        if CustomUser.objects.filter(email=email).exists()  :
+        if CustomUser.objects.filter(email=email).exists():
             messages.error(request, 'Email already registered. Please use a different email.')
             return render(request, 'accounts/register_teacher.html')
 
-        # Verification code passed — but teacher accounts require admin approval
-        # Create the account in pending state; do NOT log in yet
         user = CustomUser.objects.create_user(
             username=username,
             email=email,
@@ -144,7 +128,7 @@ def register_teacher(request):
             first_name=first_name,
             last_name=last_name,
             user_type='teacher',
-            approval_status='pending',  # must be reviewed by admin
+            approval_status='pending',
         )
 
         TeacherProfile.objects.create(
@@ -152,9 +136,7 @@ def register_teacher(request):
             department=department
         )
 
-        # Notify the teacher that their account is under review
         send_teacher_pending_email(user)
-
         messages.success(
             request,
             f'Thank you, {first_name}! Your teacher account has been submitted for admin review. '
@@ -164,7 +146,7 @@ def register_teacher(request):
 
     return render(request, 'accounts/register_teacher.html')
 
-@rate_limit(max_requests=10, window_seconds=300)  # 10 login attempts per 5 minutes
+@rate_limit(max_requests=10, window_seconds=300)
 def login_view(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -172,8 +154,7 @@ def login_view(request):
 
         user = authenticate(request, username=username, password=password)
 
-        if user is not None: # Valid credentials entered
-            # Check if user is approved (skip check for admins and superusers)
+        if user is not None:
             if not (user.is_staff or user.is_superuser or user.user_type == 'admin'):
                 if user.approval_status == 'pending':
                     messages.warning(request, 'Your account is pending approval. Please wait for an administrator to approve your registration. If you have questions, contact the school office.')
@@ -182,18 +163,14 @@ def login_view(request):
                     messages.error(request, 'Your account registration was rejected. Please contact the school office or a system administrator for assistance.')
                     return render(request, 'accounts/login.html')
 
-            # User is approved or is admin, allow login
             login(request, user)
 
-            # Redirect to the 'next' parameter if provided, otherwise go to home
             next_url = request.GET.get('next') or request.POST.get('next')
-
             if next_url and url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}):
                 return redirect(next_url)
             else:
-                # Add login parameter when redirecting to home to show welcome message
                 return redirect('/?login=1')
-        else: # Invalid credentials
+        else:
             messages.error(request, 'Invalid username or password.')
 
     return render(request, 'accounts/login.html')
@@ -205,12 +182,10 @@ def logout_view(request):
 
 @login_required
 def pending_users(request):
-    # Only admins can access this page
     if not (request.user.is_staff or request.user.user_type == 'admin'):
         messages.error(request, 'You do not have permission to access this page.')
         return redirect('home')
 
-    # Get filter status
     status_filter = request.GET.get('status', 'pending')
 
     if status_filter == 'all':
@@ -225,7 +200,6 @@ def pending_users(request):
 
 @login_required
 def approve_user(request, user_id):
-    # Only admins can approve users
     if not (request.user.is_staff or request.user.user_type == 'admin'):
         messages.error(request, 'You do not have permission to perform this action.')
         return redirect('home')
@@ -241,7 +215,6 @@ def approve_user(request, user_id):
             user_to_approve.approval_date = timezone.now()
             user_to_approve.save()
 
-            # Send the appropriate approval email based on account type
             if user_to_approve.user_type == 'teacher':
                 send_teacher_approved_email(user_to_approve)
             else:
@@ -253,7 +226,6 @@ def approve_user(request, user_id):
             user_to_approve.approval_status = 'rejected'
             user_to_approve.save()
 
-            # Notify teacher of rejection
             if user_to_approve.user_type == 'teacher':
                 send_teacher_rejected_email(user_to_approve)
 
@@ -262,3 +234,100 @@ def approve_user(request, user_id):
         return redirect('pending_users')
 
     return render(request, 'accounts/approve_user.html', {'user_to_approve': user_to_approve})
+
+
+@login_required
+def analytics(request):
+    if not (request.user.is_staff or request.user.user_type in ['admin', 'teacher']):
+        messages.error(request, 'You do not have permission to access this page.')
+        return redirect('home')
+
+    # --- Item stats ---
+    total_items = Item.objects.count()
+    items_by_status = {
+        'reported':  Item.objects.filter(status='reported').count(),
+        'unclaimed': Item.objects.filter(status='unclaimed').count(),
+        'verified':  Item.objects.filter(status='verified').count(),
+        'returned':  Item.objects.filter(status='returned').count(),
+        'discarded': Item.objects.filter(status='discarded').count(),
+        'rejected':  Item.objects.filter(status='rejected').count(),
+    }
+
+    # Recovery rate = items returned / all items that reached unclaimed or beyond
+    processed = Item.objects.exclude(status='reported').count()
+    returned  = items_by_status['returned']
+    recovery_rate = round((returned / processed * 100) if processed > 0 else 0, 1)
+
+    # Items by category
+    items_by_category = (
+        Item.objects
+        .values('category')
+        .annotate(total=Count('id'))
+        .order_by('-total')
+    )
+    category_display = dict(Item.CATEGORY_CHOICES)
+    items_by_category = [
+        {'label': category_display.get(row['category'], row['category']), 'count': row['total']}
+        for row in items_by_category
+    ]
+
+    # Long-sitting unclaimed items (30+ days)
+    thirty_days_ago = timezone.now() - timezone.timedelta(days=30)
+    stale_items = Item.objects.filter(
+        status__in=['unclaimed', 'rejected'],
+        created_at__lte=thirty_days_ago
+    ).count()
+
+    # Items reported in last 7 / 30 days
+    seven_days_ago  = timezone.now() - timezone.timedelta(days=7)
+    new_items_7d    = Item.objects.filter(created_at__gte=seven_days_ago).count()
+    new_items_30d   = Item.objects.filter(created_at__gte=thirty_days_ago).count()
+
+    # --- Claim stats ---
+    total_claims = Claim.objects.count()
+    claims_by_status = {
+        'pending':   Claim.objects.filter(status='pending').count(),
+        'approved':  Claim.objects.filter(status='approved').count(),
+        'rejected':  Claim.objects.filter(status='rejected').count(),
+        'completed': Claim.objects.filter(status='completed').count(),
+    }
+    claim_approval_rate = round(
+        (claims_by_status['approved'] + claims_by_status['completed']) /
+        total_claims * 100 if total_claims > 0 else 0, 1
+    )
+
+    # --- User stats ---
+    total_users    = CustomUser.objects.exclude(user_type='admin').count()
+    total_students = CustomUser.objects.filter(user_type='student', approval_status='approved').count()
+    total_teachers = CustomUser.objects.filter(user_type='teacher', approval_status='approved').count()
+    pending_users_count = CustomUser.objects.filter(approval_status='pending').count()
+
+    # Top reporters (students who submitted the most items)
+    top_reporters = (
+        CustomUser.objects
+        .annotate(item_count=Count('submitted_items'))
+        .filter(item_count__gt=0)
+        .order_by('-item_count')[:5]
+    )
+
+    context = {
+        # Items
+        'total_items':        total_items,
+        'items_by_status':    items_by_status,
+        'recovery_rate':      recovery_rate,
+        'items_by_category':  items_by_category,
+        'stale_items':        stale_items,
+        'new_items_7d':       new_items_7d,
+        'new_items_30d':      new_items_30d,
+        # Claims
+        'total_claims':       total_claims,
+        'claims_by_status':   claims_by_status,
+        'claim_approval_rate': claim_approval_rate,
+        # Users
+        'total_users':        total_users,
+        'total_students':     total_students,
+        'total_teachers':     total_teachers,
+        'pending_users_count': pending_users_count,
+        'top_reporters':      top_reporters,
+    }
+    return render(request, 'accounts/analytics.html', context)
