@@ -1,0 +1,9 @@
+{% extends 'emails/base_email.html' %}
+{% block email_content %}
+<h2>Account Submitted for Review</h2>
+<p>Hi {{ user.first_name }},</p>
+<p>Thank you for registering as a teacher on the Lost &amp; Found system. Your account has been submitted and is currently <strong>pending admin approval</strong>.</p>
+<p>You will receive another email as soon as an administrator reviews your account. This typically happens within one school day.</p>
+<p>If you have questions, please contact the school office directly.</p>
+<p>— The Lost &amp; Found Team</p>
+{% endblock %}

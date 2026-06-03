@@ -6,7 +6,12 @@ from django.contrib import messages
 from django.utils import timezone
 from django.conf import settings
 from .models import CustomUser, StudentProfile, TeacherProfile
-from .emails import send_welcome_email
+from .emails import (
+    send_welcome_email,
+    send_teacher_pending_email,
+    send_teacher_approved_email,
+    send_teacher_rejected_email,
+)
 from items.models import Item
 from lostandfound.throttle import rate_limit
 
@@ -89,7 +94,7 @@ def register_student(request):
             grade=grade
         )
 
-        # Log the user in immediately — no waiting for admin
+        # Log the student in immediately — no waiting for admin
         login(request, user)
         send_welcome_email(user)
         messages.success(request, f'Welcome, {first_name}! Your account has been created successfully.')
@@ -126,11 +131,12 @@ def register_teacher(request):
             return render(request, 'accounts/register_teacher.html')
 
         # Validate email doesn't already exist
-        if CustomUser.objects.filter(email=email).exists():
+        if CustomUser.objects.filter(email=email).exists()  :
             messages.error(request, 'Email already registered. Please use a different email.')
             return render(request, 'accounts/register_teacher.html')
 
-        # Verification code passed — create user and approve immediately
+        # Verification code passed — but teacher accounts require admin approval
+        # Create the account in pending state; do NOT log in yet
         user = CustomUser.objects.create_user(
             username=username,
             email=email,
@@ -138,8 +144,7 @@ def register_teacher(request):
             first_name=first_name,
             last_name=last_name,
             user_type='teacher',
-            approval_status='approved',
-            approval_date=timezone.now(),
+            approval_status='pending',  # must be reviewed by admin
         )
 
         TeacherProfile.objects.create(
@@ -147,11 +152,15 @@ def register_teacher(request):
             department=department
         )
 
-        # Log the user in immediately — no waiting for admin
-        login(request, user)
-        send_welcome_email(user)
-        messages.success(request, f'Welcome, {first_name}! Your account has been created successfully.')
-        return redirect('/?login=1')
+        # Notify the teacher that their account is under review
+        send_teacher_pending_email(user)
+
+        messages.success(
+            request,
+            f'Thank you, {first_name}! Your teacher account has been submitted for admin review. '
+            'You will receive an email once your account has been approved.'
+        )
+        return redirect('login')
 
     return render(request, 'accounts/register_teacher.html')
 
@@ -231,10 +240,23 @@ def approve_user(request, user_id):
             user_to_approve.approved_by = request.user
             user_to_approve.approval_date = timezone.now()
             user_to_approve.save()
+
+            # Send the appropriate approval email based on account type
+            if user_to_approve.user_type == 'teacher':
+                send_teacher_approved_email(user_to_approve)
+            else:
+                send_welcome_email(user_to_approve)
+
             messages.success(request, f'User {user_to_approve.username} has been approved.')
+
         elif action == 'reject':
             user_to_approve.approval_status = 'rejected'
             user_to_approve.save()
+
+            # Notify teacher of rejection
+            if user_to_approve.user_type == 'teacher':
+                send_teacher_rejected_email(user_to_approve)
+
             messages.success(request, f'User {user_to_approve.username} has been rejected.')
 
         return redirect('pending_users')

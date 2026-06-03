@@ -1,0 +1,8 @@
+{% extends 'emails/base_email.html' %}
+{% block email_content %}
+<h2>Teacher Account Registration Update</h2>
+<p>Hi {{ user.first_name }},</p>
+<p>Unfortunately, your teacher account registration on the Lost &amp; Found system has been <strong>declined</strong> by an administrator.</p>
+<p>If you believe this is an error or have questions, please contact the school office for assistance.</p>
+<p>— The Lost &amp; Found Team</p>
+{% endblock %}

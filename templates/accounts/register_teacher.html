@@ -15,6 +15,11 @@
             <p class="lf-auth-sub">Join the Lost &amp; Found community</p>
         </div>
 
+        <div class="lf-auth-notice">
+            <i class="fas fa-info-circle"></i>
+            <span>Teacher accounts require admin approval before you can log in. You'll receive an email once your account is reviewed.</span>
+        </div>
+
         <form method="POST" class="lf-auth-form">
             {% csrf_token %}
 
@@ -63,9 +68,9 @@
                 <input type="text" name="verification_code" class="form-control" placeholder="Enter your school's verification code" required>
                 <small class="form-text">Ask your school administrator for this code</small>
             </div>
-            
+
             <button type="submit" class="lf-auth-btn">
-                <i class="fas fa-user-plus"></i> Register as Teacher
+                <i class="fas fa-paper-plane"></i> Submit for Approval
             </button>
         </form>
 

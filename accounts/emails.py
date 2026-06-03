@@ -35,10 +35,40 @@ def _send(subject, template, context, to_email):
 # ---------------------------------------------------------------------------
 
 def send_welcome_email(user):
-    """Sent immediately after a new account is created."""
+    """Sent immediately after a new account is created and approved."""
     _send(
         subject="Welcome to Lost & Found!",
         template="emails/welcome.html",
+        context={"user": user},
+        to_email=user.email,
+    )
+
+
+def send_teacher_pending_email(user):
+    """Sent to a teacher after registration to inform them their account is pending admin approval."""
+    _send(
+        subject="Teacher Account Pending Approval — Lost & Found",
+        template="emails/teacher_pending.html",
+        context={"user": user},
+        to_email=user.email,
+    )
+
+
+def send_teacher_approved_email(user):
+    """Sent to a teacher when an admin approves their account."""
+    _send(
+        subject="Your Teacher Account Has Been Approved — Lost & Found",
+        template="emails/teacher_approved.html",
+        context={"user": user},
+        to_email=user.email,
+    )
+
+
+def send_teacher_rejected_email(user):
+    """Sent to a teacher when an admin rejects their account."""
+    _send(
+        subject="Teacher Account Registration Update — Lost & Found",
+        template="emails/teacher_rejected.html",
         context={"user": user},
         to_email=user.email,
     )

@@ -1,0 +1,10 @@
+{% extends 'emails/base_email.html' %}
+{% block email_content %}
+<h2>Your Teacher Account Has Been Approved!</h2>
+<p>Hi {{ user.first_name }},</p>
+<p>Great news — your teacher account on the Lost &amp; Found system has been <strong>approved</strong>. You can now log in and start managing item reports, claims, and inquiries.</p>
+<p style="text-align: center; margin: 2rem 0;">
+    <a href="#" style="background: #2563eb; color: white; padding: 12px 28px; border-radius: 8px; text-decoration: none; font-weight: 600;">Log In Now</a>
+</p>
+<p>— The Lost &amp; Found Team</p>
+{% endblock %}
