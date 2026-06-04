@@ -1,18 +1,17 @@
 {% extends "emails/base_email.html" %}
-{% block header_icon %}❌{% endblock %}
-{% block header_sub %}Item Report Update{% endblock %}
+{% block header_title %}Item Report Not Approved{% endblock %}
+{% block header_sub %}Your report requires attention{% endblock %}
 {% block body %}
 <p class="greeting">Hi {{ user.first_name|default:user.username }},</p>
-<p>Unfortunately, your item report was <strong>not approved</strong> by staff at this time. This can happen if the item couldn't be verified or if there was an issue with the report.</p>
+<p>Your item report was not approved by staff at this time. This can happen if the item could not be verified or if there was an issue with the submission.</p>
 <div class="item-card">
   <div class="item-name">{{ item.name }}</div>
-  <div class="item-meta">Category: <span>{{ item.get_category_display }}</span></div>
-  <div class="item-meta">Found at: <span>{{ item.location_found }}</span></div>
-  <div class="item-meta">Status: <span class="status-badge badge-danger">Not Approved</span></div>
+  <div class="item-row"><strong>Category</strong> {{ item.get_category_display }}</div>
+  <div class="item-row"><strong>Found at</strong> {{ item.location_found }}</div>
+  <div class="item-row"><strong>Status</strong> <span class="badge badge-danger">Not Approved</span></div>
 </div>
 {% if notes %}
 <div class="notes-box"><strong>Reason:</strong> {{ notes }}</div>
 {% endif %}
 <p>If you believe this is an error or have questions, please visit the Lost &amp; Found office directly.</p>
-<p><strong>The Lost &amp; Found Team</strong></p>
 {% endblock %}
