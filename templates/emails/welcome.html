@@ -1,21 +1,19 @@
 {% extends "emails/base_email.html" %}
-{% block header_icon %}🎉{% endblock %}
-{% block header_sub %}Account Created Successfully{% endblock %}
+{% block header_title %}Welcome to Lost &amp; Found{% endblock %}
+{% block header_sub %}Your account has been created{% endblock %}
 {% block body %}
 <p class="greeting">Hi {{ user.first_name|default:user.username }},</p>
-<p>Welcome to the Lost &amp; Found system! Your account has been created and you're all set to get started.</p>
-<p>Here's what you can do:</p>
-<ul style="margin:0 0 16px;padding-left:20px;line-height:2;font-size:15px;">
+<p>Your account is ready. Here's what you can do on the platform:</p>
+<ul>
   <li><strong>Report a found item</strong> — help reunite someone with their belongings</li>
-  <li><strong>Browse lost items</strong> — search for something you may have lost</li>
-  <li><strong>Submit a claim</strong> — claim an item that belongs to you</li>
+  <li><strong>Browse &amp; search</strong> — look up items that match what you lost</li>
+  <li><strong>Submit a claim</strong> — request an item that belongs to you</li>
 </ul>
-<p>Your account details:</p>
 <div class="item-card">
-  <div class="item-meta">Username: <span>{{ user.username }}</span></div>
-  <div class="item-meta">Email: <span>{{ user.email }}</span></div>
-  <div class="item-meta">Account type: <span>{{ user.get_user_type_display }}</span></div>
+  <div class="item-name">Your Account</div>
+  <div class="item-row"><strong>Username</strong> {{ user.username }}</div>
+  <div class="item-row"><strong>Email</strong> {{ user.email }}</div>
+  <div class="item-row"><strong>Account type</strong> {{ user.get_user_type_display }}</div>
 </div>
-<p>If you ever need to reset your password, use the "Forgot Password" link on the login page.</p>
-<p>Thanks for joining!<br><strong>The Lost &amp; Found Team</strong></p>
+<p>If you ever need to reset your password, use the Forgot Password link on the login page.</p>
 {% endblock %}

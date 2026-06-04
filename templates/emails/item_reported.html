@@ -1,16 +1,15 @@
 {% extends "emails/base_email.html" %}
-{% block header_icon %}📋{% endblock %}
-{% block header_sub %}Item Report Received{% endblock %}
+{% block header_title %}Item Report Received{% endblock %}
+{% block header_sub %}Your report is pending staff review{% endblock %}
 {% block body %}
 <p class="greeting">Hi {{ user.first_name|default:user.username }},</p>
-<p>Thanks for reporting a found item! Your report has been received and is now <strong>pending staff review</strong>. Please bring the physical item to the Lost &amp; Found office so staff can verify it.</p>
+<p>Thanks for reporting a found item. Your report has been received and is now pending staff review. Please bring the physical item to the Lost &amp; Found office so staff can verify it.</p>
 <div class="item-card">
   <div class="item-name">{{ item.name }}</div>
-  <div class="item-meta">Category: <span>{{ item.get_category_display }}</span></div>
-  <div class="item-meta">Found at: <span>{{ item.location_found }}</span></div>
-  <div class="item-meta">Date found: <span>{{ item.date_found }}</span></div>
-  <div class="item-meta">Status: <span class="status-badge badge-warning">Pending Review</span></div>
+  <div class="item-row"><strong>Category</strong> {{ item.get_category_display }}</div>
+  <div class="item-row"><strong>Found at</strong> {{ item.location_found }}</div>
+  <div class="item-row"><strong>Date found</strong> {{ item.date_found }}</div>
+  <div class="item-row"><strong>Status</strong> <span class="badge badge-warning">Pending Review</span></div>
 </div>
-<p>Once a staff member approves your report, the item will appear in the public lost &amp; found list and students can submit claims for it. You'll receive another email when that happens.</p>
-<p>Thank you for helping reunite people with their belongings!<br><strong>The Lost &amp; Found Team</strong></p>
+<p>Once a staff member approves your report, the item will appear in the public listing. You will receive another email when that happens.</p>
 {% endblock %}

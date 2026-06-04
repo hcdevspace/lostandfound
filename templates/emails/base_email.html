@@ -3,49 +3,52 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block subject %}Lost & Found{% endblock %}</title>
+  <title>Lost & Found</title>
   <style>
-    body { margin: 0; padding: 0; background-color: #f4f6fb; font-family: 'Segoe UI', Arial, sans-serif; color: #333; }
-    .wrapper { max-width: 600px; margin: 32px auto; background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(65,105,225,0.08); }
-    .header { background: linear-gradient(135deg, #4169e1 0%, #2f4fb8 100%); padding: 32px 40px; text-align: center; }
-    .header h1 { margin: 0; color: #fff; font-size: 22px; font-weight: 700; letter-spacing: 0.5px; }
-    .header p { margin: 6px 0 0; color: rgba(255,255,255,0.8); font-size: 13px; }
-    .icon-circle { width: 56px; height: 56px; background: rgba(255,255,255,0.15); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px; font-size: 24px; }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 0; background: #f0f2f8; font-family: 'Segoe UI', Arial, sans-serif; color: #1a1a2e; }
+    .wrapper { max-width: 580px; margin: 36px auto; background: #ffffff; border-radius: 16px; overflow: hidden; }
+    .header { background: #4169e1; padding: 36px 40px 28px; text-align: center; }
+    .header-logo { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.65); margin: 0 0 10px; }
+    .header h1 { margin: 0 0 6px; color: #ffffff; font-size: 24px; font-weight: 700; letter-spacing: -0.3px; }
+    .header-sub { margin: 0; color: rgba(255,255,255,0.75); font-size: 14px; }
     .body { padding: 36px 40px; }
-    .body p { margin: 0 0 16px; line-height: 1.6; font-size: 15px; }
-    .body p.greeting { font-size: 16px; font-weight: 600; color: #222; }
-    .item-card { background: #f4f6fb; border-left: 4px solid #4169e1; border-radius: 8px; padding: 16px 20px; margin: 20px 0; }
-    .item-card .item-name { font-size: 17px; font-weight: 700; color: #222; margin: 0 0 8px; }
-    .item-card .item-meta { font-size: 13px; color: #666; margin: 3px 0; }
-    .item-card .item-meta span { font-weight: 600; color: #444; }
-    .status-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
-    .badge-success { background: #e6f9f0; color: #1a7a4a; }
-    .badge-danger  { background: #fdecea; color: #b91c1c; }
-    .badge-warning { background: #fff8e1; color: #b45309; }
-    .badge-info    { background: #e8efff; color: #2f4fb8; }
-    .cta-btn { display: inline-block; margin: 8px 0 20px; padding: 12px 28px; background: #4169e1; color: #fff !important; text-decoration: none; border-radius: 8px; font-size: 14px; font-weight: 700; }
-    .divider { border: none; border-top: 1px solid #e8ecf5; margin: 24px 0; }
-    .footer { background: #f4f6fb; padding: 20px 40px; text-align: center; }
-    .footer p { margin: 0; font-size: 12px; color: #999; line-height: 1.6; }
-    .footer a { color: #4169e1; text-decoration: none; }
-    .notes-box { background: #fff8e1; border: 1px solid #fce08a; border-radius: 8px; padding: 14px 18px; margin: 16px 0; font-size: 14px; color: #7a5c00; }
+    .greeting { font-size: 17px; font-weight: 600; color: #1a1a2e; margin: 0 0 14px; }
+    .body p { margin: 0 0 14px; line-height: 1.65; font-size: 15px; color: #3d3d5c; }
+    .body ul { margin: 0 0 16px; padding-left: 20px; }
+    .body ul li { font-size: 15px; line-height: 2; color: #3d3d5c; }
+    .item-card { background: #f7f8fc; border-radius: 10px; padding: 18px 22px; margin: 20px 0; }
+    .item-card .item-name { font-size: 16px; font-weight: 700; color: #1a1a2e; margin: 0 0 10px; }
+    .item-card .item-row { display: flex; align-items: center; gap: 6px; font-size: 13.5px; color: #6b6b8a; margin: 5px 0; }
+    .item-card .item-row strong { color: #3d3d5c; font-weight: 600; min-width: 90px; }
+    .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+    .badge-success { background: #dcfce7; color: #15803d; }
+    .badge-danger  { background: #fee2e2; color: #b91c1c; }
+    .badge-warning { background: #fef3c7; color: #92400e; }
+    .badge-info    { background: #dbeafe; color: #1d4ed8; }
+    .notes-box { background: #fafafa; border-radius: 8px; padding: 14px 18px; margin: 16px 0; font-size: 14px; color: #4b4b6b; line-height: 1.6; }
+    .cta-wrap { text-align: center; margin: 24px 0; }
+    .cta-btn { display: inline-block; padding: 13px 32px; background: #4169e1; color: #ffffff !important; text-decoration: none; border-radius: 8px; font-size: 14.5px; font-weight: 700; letter-spacing: 0.02em; }
+    .divider { border: none; border-top: 1px solid #eceef5; margin: 28px 0; }
+    .footer { padding: 20px 40px 28px; text-align: center; }
+    .footer p { margin: 0; font-size: 12px; color: #9ca3af; line-height: 1.7; }
+    .signature { margin-top: 24px; padding-top: 20px; border-top: 1px solid #eceef5; font-size: 14px; color: #6b6b8a; }
+    .signature strong { color: #3d3d5c; }
   </style>
 </head>
 <body>
   <div class="wrapper">
     <div class="header">
-      <div class="icon-circle">{% block header_icon %}📦{% endblock %}</div>
-      <h1>Lost & Found</h1>
-      <p>{% block header_sub %}School Lost & Found System{% endblock %}</p>
+      <p class="header-logo">Lost &amp; Found</p>
+      <h1>{% block header_title %}Notification{% endblock %}</h1>
+      <p class="header-sub">{% block header_sub %}South Forsyth Lost &amp; Found System{% endblock %}</p>
     </div>
     <div class="body">
       {% block body %}{% endblock %}
+      <p class="signature">The <strong>Lost &amp; Found</strong> Team</p>
     </div>
-    <hr class="divider">
     <div class="footer">
-      <p>This is an automated message from your school's Lost & Found system.<br>
-      Please do not reply directly to this email.<br>
-      &copy; Lost &amp; Found System</p>
+      <p>This is an automated message — please do not reply directly to this email.<br>&copy; Lost &amp; Found System &mdash; South Forsyth</p>
     </div>
   </div>
 </body>

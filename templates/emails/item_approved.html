@@ -1,19 +1,18 @@
 {% extends "emails/base_email.html" %}
-{% block header_icon %}✅{% endblock %}
-{% block header_sub %}Item Approved{% endblock %}
+{% block header_title %}Item Report Approved{% endblock %}
+{% block header_sub %}Your item is now live in the catalog{% endblock %}
 {% block body %}
 <p class="greeting">Hi {{ user.first_name|default:user.username }},</p>
-<p>Great news! The item you reported has been <strong>approved by staff</strong> and is now live in the Lost &amp; Found. Students can now view and submit claims for it.</p>
+<p>The item you reported has been approved by staff and is now visible in the Lost &amp; Found. Students can view and submit claims for it.</p>
 <div class="item-card">
   <div class="item-name">{{ item.name }}</div>
-  <div class="item-meta">Category: <span>{{ item.get_category_display }}</span></div>
-  <div class="item-meta">Found at: <span>{{ item.location_found }}</span></div>
-  <div class="item-meta">Approved on: <span>{{ item.approval_date|date:"N j, Y" }}</span></div>
-  <div class="item-meta">Status: <span class="status-badge badge-success">Live — Available for Claims</span></div>
+  <div class="item-row"><strong>Category</strong> {{ item.get_category_display }}</div>
+  <div class="item-row"><strong>Found at</strong> {{ item.location_found }}</div>
+  <div class="item-row"><strong>Approved on</strong> {{ item.approval_date|date:"N j, Y" }}</div>
+  <div class="item-row"><strong>Status</strong> <span class="badge badge-success">Live</span></div>
 </div>
 {% if item.approval_notes %}
 <div class="notes-box"><strong>Staff notes:</strong> {{ item.approval_notes }}</div>
 {% endif %}
-<p>You'll receive an email if someone successfully claims this item.</p>
-<p>Thank you for your help!<br><strong>The Lost &amp; Found Team</strong></p>
+<p>You will receive an email if someone successfully claims this item.</p>
 {% endblock %}
