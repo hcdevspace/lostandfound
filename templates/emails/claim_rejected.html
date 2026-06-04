@@ -1,17 +1,18 @@
 {% extends "emails/base_email.html" %}
+{% block header_icon %}❌{% endblock %}
 {% block header_title %}Claim Not Approved{% endblock %}
 {% block header_sub %}Additional information may be required{% endblock %}
 {% block body %}
 <p class="greeting">Hi {{ user.first_name|default:user.username }},</p>
 <p>Your claim for the following item was not approved at this time. The item may still be available if you can provide additional proof of ownership.</p>
-<div class="item-card">
-  <div class="item-name">{{ claim.item.name }}</div>
-  <div class="item-row"><strong>Category</strong> {{ claim.item.get_category_display }}</div>
-  <div class="item-row"><strong>Claim type</strong> {{ claim.get_claim_type_display }}</div>
-  <div class="item-row"><strong>Status</strong> <span class="badge badge-danger">Not Approved</span></div>
+<div class="card">
+  <p class="card-item-name">{{ claim.item.name }}</p>
+  <div class="card-row"><span class="label">Category</span><span class="value">{{ claim.item.get_category_display }}</span></div>
+  <div class="card-row"><span class="label">Claim type</span><span class="value">{{ claim.get_claim_type_display }}</span></div>
+  <div class="card-row"><span class="label">Status</span><span class="value"><span class="badge badge-danger">Not Approved</span></span></div>
 </div>
 {% if claim.admin_notes %}
-<div class="notes-box"><strong>Reason:</strong> {{ claim.admin_notes }}</div>
+<div class="notes"><strong>Reason:</strong> {{ claim.admin_notes }}</div>
 {% endif %}
-<p>If you believe this is an error or would like to provide further information, please visit the Lost &amp; Found office directly.</p>
+<p>If you would like to provide further information, please visit the Lost &amp; Found office directly.</p>
 {% endblock %}

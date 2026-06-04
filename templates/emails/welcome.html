@@ -1,19 +1,20 @@
 {% extends "emails/base_email.html" %}
+{% block header_icon %}🎉{% endblock %}
 {% block header_title %}Welcome to Lost &amp; Found{% endblock %}
 {% block header_sub %}Your account has been created{% endblock %}
 {% block body %}
 <p class="greeting">Hi {{ user.first_name|default:user.username }},</p>
-<p>Your account is ready. Here's what you can do on the platform:</p>
+<p>Your account is ready. Here is what you can do on the platform:</p>
 <ul>
   <li><strong>Report a found item</strong> — help reunite someone with their belongings</li>
   <li><strong>Browse &amp; search</strong> — look up items that match what you lost</li>
   <li><strong>Submit a claim</strong> — request an item that belongs to you</li>
 </ul>
-<div class="item-card">
-  <div class="item-name">Your Account</div>
-  <div class="item-row"><strong>Username</strong> {{ user.username }}</div>
-  <div class="item-row"><strong>Email</strong> {{ user.email }}</div>
-  <div class="item-row"><strong>Account type</strong> {{ user.get_user_type_display }}</div>
+<div class="card">
+  <p class="card-title">Your Account</p>
+  <div class="card-row"><span class="label">Username</span><span class="value">{{ user.username }}</span></div>
+  <div class="card-row"><span class="label">Email</span><span class="value">{{ user.email }}</span></div>
+  <div class="card-row"><span class="label">Account type</span><span class="value">{{ user.get_user_type_display }}</span></div>
 </div>
 <p>If you ever need to reset your password, use the Forgot Password link on the login page.</p>
 {% endblock %}
