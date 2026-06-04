@@ -39,14 +39,137 @@
     <a href="?status=completed" class="lf-tab {% if current_filter == 'completed' %}lf-tab--active{% endif %}">
         Completed
     </a>
+    <a href="?status=spam" class="lf-tab {% if current_filter == 'spam' %}lf-tab--active{% endif %}" style="color: {% if current_filter == 'spam' %}inherit{% else %}#dc2626{% endif %};">
+        Spam
+        {% if counts.spam > 0 %}<span class="lf-count-badge" style="background:#dc2626;">{{ counts.spam }}</span>{% endif %}
+    </a>
 </nav>
 
-{% if current_filter == 'pending_approval' %}
+{% if current_filter == 'spam' %}
+
+    {% if spam_items or spam_claims %}
+
+    <form method="POST" action="{% url 'bulk_action_claims' %}">
+        {% csrf_token %}
+        <input type="hidden" name="return_tab" value="spam">
+
+        <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1.5rem; flex-wrap:wrap;">
+            <select name="bulk_action" class="form-select" style="width:auto; min-width:180px;" required>
+                <option value="">Bulk action...</option>
+                <option value="restore">Restore from Spam</option>
+                <option value="delete">Delete Selected</option>
+            </select>
+            <button type="submit" class="btn btn-outline-primary btn-sm">Apply</button>
+            <span style="font-size:0.85rem; color:#6b7280; margin-left:auto;">
+                <i class="fas fa-shield-alt" style="color:#dc2626;"></i>
+                Items and claims auto-flagged by the spam detection algorithm
+            </span>
+        </div>
+
+        {% if spam_items %}
+        <h2 class="lf-section-heading" style="color:#dc2626;"><i class="fas fa-flag" aria-hidden="true"></i> Flagged Reports ({{ spam_items|length }})</h2>
+        <div class="lf-admin-items-grid">
+            {% for item in spam_items %}
+            <div class="lf-admin-item-card" style="border-top: 3px solid #dc2626;">
+                <label style="position:absolute; top:0.6rem; left:0.6rem; z-index:2; cursor:pointer;">
+                    <input type="checkbox" name="selected_items" value="{{ item.pk }}" style="width:16px; height:16px;">
+                </label>
+                <div class="lf-admin-item-img" style="opacity:0.75;">
+                    {% if item.photo %}
+                        <img src="{{ item.photo.url }}" alt="{{ item.name }}">
+                    {% else %}
+                        <div class="lf-item-card-noimg"><i class="fas fa-image" aria-hidden="true"></i></div>
+                    {% endif %}
+                    <span class="lf-status" style="background:#dc2626; color:#fff;">Spam &bull; {{ item.spam_score }}/100</span>
+                </div>
+                <div class="lf-admin-item-body">
+                    <p class="lf-item-card-cat"><i class="fas fa-tag" aria-hidden="true"></i> {{ item.get_category_display }}</p>
+                    <h3 class="lf-item-card-name">{{ item.name }}</h3>
+                    <p class="lf-item-card-meta"><i class="fas fa-user" aria-hidden="true"></i> {{ item.submitted_by.get_full_name|default:item.submitted_by.username }}</p>
+                    <p class="lf-item-card-meta"><i class="fas fa-map-marker-alt" aria-hidden="true"></i> {{ item.location_found }}</p>
+                    {% if item.spam_reasons %}
+                    <div style="margin-top:0.5rem; padding:0.5rem 0.75rem; background:#fef2f2; border-radius:6px; font-size:0.78rem; color:#991b1b; line-height:1.5;">
+                        <i class="fas fa-exclamation-triangle"></i> {{ item.spam_reasons }}
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="lf-admin-item-actions">
+                    <a href="{% url 'item_detail' item.pk %}" class="btn btn-outline-primary btn-sm">
+                        <i class="fas fa-eye"></i> View
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if spam_claims %}
+        <h2 class="lf-section-heading" style="color:#dc2626; margin-top:2rem;"><i class="fas fa-flag" aria-hidden="true"></i> Flagged Claims ({{ spam_claims|length }})</h2>
+        <div class="lf-claims-grid">
+            {% for claim in spam_claims %}
+            <div class="lf-claim-card" style="border-top: 3px solid #dc2626; position:relative;">
+                <label style="position:absolute; top:0.75rem; right:0.75rem; z-index:2; cursor:pointer;">
+                    <input type="checkbox" name="selected_claims" value="{{ claim.pk }}" style="width:16px; height:16px;">
+                </label>
+                <div class="lf-claim-top">
+                    <div class="lf-claim-title-row">
+                        <h3 class="lf-claim-name">{{ claim.item.name }}</h3>
+                        <span class="lf-status" style="background:#dc2626; color:#fff; font-size:0.72rem;">Spam &bull; {{ claim.spam_score }}/100</span>
+                    </div>
+                    <p class="lf-item-card-cat">{{ claim.get_claim_type_display }}</p>
+                </div>
+                <div class="lf-claim-meta">
+                    <p class="lf-item-card-meta"><i class="fas fa-user" aria-hidden="true"></i> {{ claim.claimant.get_full_name|default:claim.claimant.username }}</p>
+                    <p class="lf-item-card-meta"><i class="fas fa-envelope" aria-hidden="true"></i> {{ claim.claimant.email }}</p>
+                    <p class="lf-item-card-meta"><i class="fas fa-clock" aria-hidden="true"></i> {{ claim.created_at|timesince }} ago</p>
+                </div>
+                <div class="lf-claim-desc">{{ claim.description }}</div>
+                {% if claim.spam_reasons %}
+                <div style="margin-top:0.5rem; padding:0.5rem 0.75rem; background:#fef2f2; border-radius:6px; font-size:0.78rem; color:#991b1b; line-height:1.5;">
+                    <i class="fas fa-exclamation-triangle"></i> {{ claim.spam_reasons }}
+                </div>
+                {% endif %}
+                <div class="lf-claim-actions">
+                    <a href="{% url 'review_claim' claim.pk %}" class="btn btn-outline-primary btn-sm">
+                        <i class="fas fa-gavel"></i> Review
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+    </form>
+
+    {% else %}
+    <div class="lf-empty-state">
+        <i class="fas fa-shield-alt" aria-hidden="true"></i>
+        <h2>No Spam Detected</h2>
+        <p>All submissions look clean. The algorithm has not flagged anything.</p>
+    </div>
+    {% endif %}
+
+{% elif current_filter == 'pending_approval' %}
 
     {% if pending_approval_items %}
+    <form method="POST" action="{% url 'bulk_action_claims' %}">
+        {% csrf_token %}
+        <input type="hidden" name="return_tab" value="pending_approval">
+        <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1.5rem; flex-wrap:wrap;">
+            <select name="bulk_action" class="form-select" style="width:auto; min-width:180px;" required>
+                <option value="">Bulk action...</option>
+                <option value="approve">Approve Selected</option>
+                <option value="reject">Reject Selected</option>
+                <option value="spam">Mark as Spam</option>
+            </select>
+            <button type="submit" class="btn btn-outline-primary btn-sm">Apply</button>
+        </div>
     <div class="lf-admin-items-grid">
         {% for item in pending_approval_items %}
-        <div class="lf-admin-item-card">
+        <div class="lf-admin-item-card" style="position:relative;">
+            <label style="position:absolute; top:0.6rem; left:0.6rem; z-index:2; cursor:pointer;">
+                <input type="checkbox" name="selected_items" value="{{ item.pk }}" style="width:16px; height:16px;">
+            </label>
             <div class="lf-admin-item-img">
                 {% if item.photo %}
                     <img src="{{ item.photo.url }}" alt="{{ item.name }}">
@@ -74,6 +197,7 @@
         </div>
         {% endfor %}
     </div>
+    </form>
     {% else %}
     <div class="lf-empty-state">
         <i class="fas fa-check-circle" aria-hidden="true"></i>
@@ -179,9 +303,28 @@
 {% else %}
 
     {% if claims %}
+    <form method="POST" action="{% url 'bulk_action_claims' %}">
+        {% csrf_token %}
+        <input type="hidden" name="return_tab" value="{{ current_filter }}">
+        {% if current_filter == 'pending' %}
+        <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1.5rem; flex-wrap:wrap;">
+            <select name="bulk_action" class="form-select" style="width:auto; min-width:180px;" required>
+                <option value="">Bulk action...</option>
+                <option value="approve">Approve Selected</option>
+                <option value="reject">Reject Selected</option>
+                <option value="spam">Mark as Spam</option>
+            </select>
+            <button type="submit" class="btn btn-outline-primary btn-sm">Apply</button>
+        </div>
+        {% endif %}
     <div class="lf-claims-grid">
         {% for claim in claims %}
-        <div class="lf-claim-card">
+        <div class="lf-claim-card" style="position:relative;">
+            {% if current_filter == 'pending' %}
+            <label style="position:absolute; top:0.75rem; right:0.75rem; z-index:2; cursor:pointer;">
+                <input type="checkbox" name="selected_claims" value="{{ claim.pk }}" style="width:16px; height:16px;">
+            </label>
+            {% endif %}
             <div class="lf-claim-top">
                 <div class="lf-claim-title-row">
                     <h3 class="lf-claim-name">{{ claim.item.name }}</h3>
@@ -232,6 +375,7 @@
         </div>
         {% endfor %}
     </div>
+    </form>
     {% else %}
     <div class="lf-empty-state">
         <i class="fas fa-inbox" aria-hidden="true"></i>

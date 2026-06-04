@@ -17,6 +17,9 @@ class CustomUser(AbstractUser):
     approval_status = models.CharField(max_length=10, choices=APPROVAL_STATUS_CHOICES, default='pending')
     approved_by = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='approved_users')
     approval_date = models.DateTimeField(null=True, blank=True)
+    spam_score = models.IntegerField(default=0)
+    spam_reasons = models.TextField(blank=True, default='')
+    registration_ip = models.GenericIPAddressField(null=True, blank=True)
 
     def __str__(self):
         return self.username

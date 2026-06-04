@@ -7,4 +7,5 @@ urlpatterns = [
     path('my-claims/', views.my_claims, name='my_claims'),
     path('admin/', views.admin_claims, name='admin_claims'),
     path('admin/<int:claim_pk>/review/', views.review_claim, name='review_claim'),
+    path('admin/bulk/', views.bulk_action_claims, name='bulk_action_claims'),
 ]
