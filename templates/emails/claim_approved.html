@@ -1,17 +1,18 @@
 {% extends "emails/base_email.html" %}
+{% block header_icon %}🎉{% endblock %}
 {% block header_title %}Claim Approved{% endblock %}
 {% block header_sub %}Your item is ready for pickup{% endblock %}
 {% block body %}
 <p class="greeting">Hi {{ user.first_name|default:user.username }},</p>
 <p>Your claim has been approved. Please visit the Lost &amp; Found office as soon as possible to pick up your item. Bring your student or staff ID.</p>
-<div class="item-card">
-  <div class="item-name">{{ claim.item.name }}</div>
-  <div class="item-row"><strong>Category</strong> {{ claim.item.get_category_display }}</div>
-  <div class="item-row"><strong>Found at</strong> {{ claim.item.location_found }}</div>
-  <div class="item-row"><strong>Status</strong> <span class="badge badge-success">Claim Approved</span></div>
+<div class="card">
+  <p class="card-item-name">{{ claim.item.name }}</p>
+  <div class="card-row"><span class="label">Category</span><span class="value">{{ claim.item.get_category_display }}</span></div>
+  <div class="card-row"><span class="label">Found at</span><span class="value">{{ claim.item.location_found }}</span></div>
+  <div class="card-row"><span class="label">Status</span><span class="value"><span class="badge badge-success">Claim Approved</span></span></div>
 </div>
 {% if claim.admin_notes %}
-<div class="notes-box"><strong>Staff notes:</strong> {{ claim.admin_notes }}</div>
+<div class="notes"><strong>Staff notes:</strong> {{ claim.admin_notes }}</div>
 {% endif %}
 <p>Items not picked up within 60 days may be donated or discarded.</p>
 {% endblock %}

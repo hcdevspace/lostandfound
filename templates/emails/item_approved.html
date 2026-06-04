@@ -1,18 +1,19 @@
 {% extends "emails/base_email.html" %}
+{% block header_icon %}✅{% endblock %}
 {% block header_title %}Item Report Approved{% endblock %}
 {% block header_sub %}Your item is now live in the catalog{% endblock %}
 {% block body %}
 <p class="greeting">Hi {{ user.first_name|default:user.username }},</p>
 <p>The item you reported has been approved by staff and is now visible in the Lost &amp; Found. Students can view and submit claims for it.</p>
-<div class="item-card">
-  <div class="item-name">{{ item.name }}</div>
-  <div class="item-row"><strong>Category</strong> {{ item.get_category_display }}</div>
-  <div class="item-row"><strong>Found at</strong> {{ item.location_found }}</div>
-  <div class="item-row"><strong>Approved on</strong> {{ item.approval_date|date:"N j, Y" }}</div>
-  <div class="item-row"><strong>Status</strong> <span class="badge badge-success">Live</span></div>
+<div class="card">
+  <p class="card-item-name">{{ item.name }}</p>
+  <div class="card-row"><span class="label">Category</span><span class="value">{{ item.get_category_display }}</span></div>
+  <div class="card-row"><span class="label">Found at</span><span class="value">{{ item.location_found }}</span></div>
+  <div class="card-row"><span class="label">Approved on</span><span class="value">{{ item.approval_date|date:"N j, Y" }}</span></div>
+  <div class="card-row"><span class="label">Status</span><span class="value"><span class="badge badge-success">Live</span></span></div>
 </div>
 {% if item.approval_notes %}
-<div class="notes-box"><strong>Staff notes:</strong> {{ item.approval_notes }}</div>
+<div class="notes"><strong>Staff notes:</strong> {{ item.approval_notes }}</div>
 {% endif %}
 <p>You will receive an email if someone successfully claims this item.</p>
 {% endblock %}

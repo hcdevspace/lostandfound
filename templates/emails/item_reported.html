@@ -1,15 +1,16 @@
 {% extends "emails/base_email.html" %}
+{% block header_icon %}📋{% endblock %}
 {% block header_title %}Item Report Received{% endblock %}
 {% block header_sub %}Your report is pending staff review{% endblock %}
 {% block body %}
 <p class="greeting">Hi {{ user.first_name|default:user.username }},</p>
-<p>Thanks for reporting a found item. Your report has been received and is now pending staff review. Please bring the physical item to the Lost &amp; Found office so staff can verify it.</p>
-<div class="item-card">
-  <div class="item-name">{{ item.name }}</div>
-  <div class="item-row"><strong>Category</strong> {{ item.get_category_display }}</div>
-  <div class="item-row"><strong>Found at</strong> {{ item.location_found }}</div>
-  <div class="item-row"><strong>Date found</strong> {{ item.date_found }}</div>
-  <div class="item-row"><strong>Status</strong> <span class="badge badge-warning">Pending Review</span></div>
+<p>Thanks for reporting a found item. Your report has been received and is pending staff review. Please bring the physical item to the Lost &amp; Found office so staff can verify it.</p>
+<div class="card">
+  <p class="card-item-name">{{ item.name }}</p>
+  <div class="card-row"><span class="label">Category</span><span class="value">{{ item.get_category_display }}</span></div>
+  <div class="card-row"><span class="label">Found at</span><span class="value">{{ item.location_found }}</span></div>
+  <div class="card-row"><span class="label">Date found</span><span class="value">{{ item.date_found }}</span></div>
+  <div class="card-row"><span class="label">Status</span><span class="value"><span class="badge badge-warning">Pending Review</span></span></div>
 </div>
-<p>Once a staff member approves your report, the item will appear in the public listing. You will receive another email when that happens.</p>
+<p>Once a staff member approves your report, the item will appear in the public listing and you will receive another email.</p>
 {% endblock %}

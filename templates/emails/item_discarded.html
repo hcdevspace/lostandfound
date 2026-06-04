@@ -1,15 +1,16 @@
 {% extends "emails/base_email.html" %}
+{% block header_icon %}📦{% endblock %}
 {% block header_title %}Item No Longer Available{% endblock %}
 {% block header_sub %}This item has been discarded or donated{% endblock %}
 {% block body %}
 <p class="greeting">Hi {{ user.first_name|default:user.username }},</p>
 <p>The following item has been discarded or donated and is no longer available in the Lost &amp; Found.</p>
-<div class="item-card">
-  <div class="item-name">{{ item.name }}</div>
-  <div class="item-row"><strong>Category</strong> {{ item.get_category_display }}</div>
-  <div class="item-row"><strong>Found at</strong> {{ item.location_found }}</div>
-  {% if item.discard_reason %}<div class="item-row"><strong>Reason</strong> {{ item.discard_reason }}</div>{% endif %}
-  <div class="item-row"><strong>Status</strong> <span class="badge badge-danger">Discarded / Donated</span></div>
+<div class="card">
+  <p class="card-item-name">{{ item.name }}</p>
+  <div class="card-row"><span class="label">Category</span><span class="value">{{ item.get_category_display }}</span></div>
+  <div class="card-row"><span class="label">Found at</span><span class="value">{{ item.location_found }}</span></div>
+  {% if item.discard_reason %}<div class="card-row"><span class="label">Reason</span><span class="value">{{ item.discard_reason }}</span></div>{% endif %}
+  <div class="card-row"><span class="label">Status</span><span class="value"><span class="badge badge-danger">Discarded / Donated</span></span></div>
 </div>
 <p>If you have questions about this item, please contact the Lost &amp; Found office.</p>
 {% endblock %}
