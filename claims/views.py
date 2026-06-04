@@ -11,6 +11,8 @@ from accounts.emails import (
     send_claim_rejected_email,
     send_claim_completed_email,
     send_item_discarded_email,
+    send_item_approved_email,
+    send_item_rejected_email,
 )
 from lostandfound.throttle import rate_limit
 from lostandfound.spam_detector import score_claim
