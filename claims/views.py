@@ -13,6 +13,7 @@ from accounts.emails import (
     send_item_discarded_email,
 )
 from lostandfound.throttle import rate_limit
+from lostandfound.spam_detector import score_claim
 
 # Create your views here.
 
@@ -44,6 +45,10 @@ def submit_claim(request, item_pk, claim_type=None):
             claim.item = item
             claim.claimant = request.user
             claim.save()
+            sp_score, sp_reasons = score_claim(claim)
+            claim.spam_score = sp_score
+            claim.spam_reasons = sp_reasons
+            claim.save(update_fields=['spam_score', 'spam_reasons'])
             send_claim_submitted_email(request.user, claim)
             messages.success(request, f'Your {claim.get_claim_type_display().lower()} has been submitted successfully!')
             return redirect('my_claims')
@@ -69,41 +74,47 @@ def admin_claims(request):
         messages.error(request, 'You do not have permission to access this page.')
         return redirect('home')
 
-    # Filtering options
+    from lostandfound.spam_detector import SPAM_THRESHOLD
     status_filter = request.GET.get('status', 'pending_approval')
 
-    # Get items pending approval
-    pending_approval_items = Item.objects.filter(status='reported').order_by('-created_at')
+    clean_items = Item.objects.filter(status='reported', spam_score__lt=SPAM_THRESHOLD).order_by('-created_at')
+    spam_items = Item.objects.filter(status='reported', spam_score__gte=SPAM_THRESHOLD).order_by('-spam_score', '-created_at')
+    spam_claims = Claim.objects.filter(status='pending', spam_score__gte=SPAM_THRESHOLD).order_by('-spam_score', '-created_at')
 
-    # Get claims based on filter
     if status_filter == 'pending_approval':
-        claims = []  # No claims to show on this tab
+        claims = []
+        pending_approval_items = clean_items
+    elif status_filter == 'spam':
+        claims = []
+        pending_approval_items = []
     elif status_filter == 'all':
-        claims = Claim.objects.filter(status__in=['pending', 'approved', 'rejected']).order_by('-created_at')
+        claims = Claim.objects.filter(status__in=['pending', 'approved', 'rejected'], spam_score__lt=SPAM_THRESHOLD).order_by('-created_at')
+        pending_approval_items = clean_items
     elif status_filter == 'completed':
         claims = Claim.objects.filter(status='completed').order_by('-created_at')
+        pending_approval_items = []
     else:
-        claims = Claim.objects.filter(status=status_filter).order_by('-created_at')
+        claims = Claim.objects.filter(status=status_filter, spam_score__lt=SPAM_THRESHOLD).order_by('-created_at')
+        pending_approval_items = []
 
-    # Calculate counts for each category
     counts = {
-        'pending_approval': Item.objects.filter(status='reported').count(),
-        'pending': Claim.objects.filter(status='pending').count(),
+        'pending_approval': clean_items.count(),
+        'pending': Claim.objects.filter(status='pending', spam_score__lt=SPAM_THRESHOLD).count(),
         'approved': Claim.objects.filter(status='approved').count(),
         'rejected': Claim.objects.filter(status='rejected').count(),
         'completed': Claim.objects.filter(status='completed').count(),
-        'all': Claim.objects.filter(status__in=['pending', 'approved', 'rejected']).count(),
-        'all_actionable': (
-            Item.objects.filter(status='reported').count() +
-            Claim.objects.filter(status__in=['pending', 'approved', 'rejected']).count()
-        )
+        'all': Claim.objects.filter(status__in=['pending', 'approved', 'rejected'], spam_score__lt=SPAM_THRESHOLD).count() + clean_items.count(),
+        'all_actionable': clean_items.count() + Claim.objects.filter(status__in=['pending', 'approved', 'rejected'], spam_score__lt=SPAM_THRESHOLD).count(),
+        'spam': spam_items.count() + spam_claims.count(),
     }
 
     return render(request, 'claims/admin_claims.html', {
         'claims': claims,
         'current_filter': status_filter,
         'pending_approval_items': pending_approval_items,
-        'counts': counts
+        'spam_items': spam_items,
+        'spam_claims': spam_claims,
+        'counts': counts,
     })
 
 # Admin view to review claim detail
@@ -195,3 +206,80 @@ def review_claim(request, claim_pk):
         return redirect('admin_claims')
 
     return render(request, 'claims/review_claim.html', {'claim': claim})
+
+
+@login_required
+def bulk_action_claims(request):
+    if not (request.user.is_staff or request.user.user_type in ['teacher', 'admin']):
+        return redirect('home')
+    if request.method != 'POST':
+        return redirect('admin_claims')
+
+    action = request.POST.get('bulk_action')
+    claim_ids = request.POST.getlist('selected_claims')
+    item_ids = request.POST.getlist('selected_items')
+
+    if claim_ids:
+        claims_qs = Claim.objects.filter(pk__in=claim_ids)
+        if action == 'spam':
+            claims_qs.update(spam_score=99, spam_reasons='Manually marked as spam by admin')
+            messages.success(request, f'{claims_qs.count()} claim(s) marked as spam.')
+        elif action == 'restore':
+            claims_qs.update(spam_score=0, spam_reasons='')
+            messages.success(request, f'{claims_qs.count()} claim(s) restored from spam.')
+        elif action == 'delete':
+            count = claims_qs.count()
+            claims_qs.delete()
+            messages.success(request, f'{count} claim(s) permanently deleted.')
+        elif action == 'approve':
+            for claim in claims_qs:
+                claim.status = 'approved'
+                claim.item.status = 'verified'
+                claim.item.verified_date = timezone.now()
+                claim.item.save()
+                claim.reviewed_by = request.user
+                claim.reviewed_at = timezone.now()
+                claim.save()
+            messages.success(request, f'{len(claim_ids)} claim(s) approved.')
+        elif action == 'reject':
+            for claim in claims_qs:
+                claim.status = 'rejected'
+                claim.item.status = 'rejected'
+                claim.item.save()
+                claim.reviewed_by = request.user
+                claim.reviewed_at = timezone.now()
+                claim.save()
+            messages.success(request, f'{len(claim_ids)} claim(s) rejected.')
+
+    if item_ids:
+        from items.models import Item
+        items_qs = Item.objects.filter(pk__in=item_ids)
+        if action == 'spam':
+            items_qs.update(spam_score=99, spam_reasons='Manually marked as spam by admin')
+            messages.success(request, f'{items_qs.count()} report(s) marked as spam.')
+        elif action == 'restore':
+            items_qs.update(spam_score=0, spam_reasons='')
+            messages.success(request, f'{items_qs.count()} report(s) restored from spam.')
+        elif action == 'delete':
+            count = items_qs.count()
+            items_qs.delete()
+            messages.success(request, f'{count} report(s) permanently deleted.')
+        elif action == 'approve':
+            for item in items_qs:
+                item.status = 'unclaimed'
+                item.approved_by = request.user
+                item.approval_date = timezone.now()
+                item.approval_notes = 'Bulk approved'
+                item.save()
+                send_item_approved_email(item.submitted_by, item)
+            messages.success(request, f'{len(item_ids)} report(s) approved.')
+        elif action == 'reject':
+            for item in items_qs:
+                item.status = 'discarded'
+                item.approved_by = request.user
+                item.approval_date = timezone.now()
+                item.save()
+                send_item_rejected_email(item.submitted_by, item)
+            messages.success(request, f'{len(item_ids)} report(s) rejected.')
+
+    return redirect(f'/claims/admin/?status={request.POST.get("return_tab", "pending_approval")}')

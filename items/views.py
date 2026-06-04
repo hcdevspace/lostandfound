@@ -12,6 +12,7 @@ from accounts.emails import (
     send_item_discarded_email,
 )
 from lostandfound.throttle import rate_limit
+from lostandfound.spam_detector import get_client_ip, hash_photo, score_item
 
 # Create your views here.
 @login_required
@@ -22,7 +23,14 @@ def report_item(request):
         if form.is_valid():
             item = form.save(commit=False)
             item.submitted_by = request.user
+            item.submitter_ip = get_client_ip(request)
+            if request.FILES.get('photo'):
+                item.photo_hash = hash_photo(request.FILES['photo'])
             item.save()
+            sp_score, sp_reasons = score_item(item)
+            item.spam_score = sp_score
+            item.spam_reasons = sp_reasons
+            item.save(update_fields=['spam_score', 'spam_reasons'])
             send_item_reported_email(request.user, item)
             messages.success(request, 'Item reported successfully! Please bring the physical item to the Lost & Found office for verification. Once staff approves it, the item will be available for claims.')
             return redirect('my_items')

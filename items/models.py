@@ -54,11 +54,16 @@ class Item(models.Model):
     discard_notes = models.TextField(blank=True, help_text="Additional notes about disposal/donation")
     discarded_by = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True, related_name='discarded_items', help_text="Staff member who discarded the item")
 
+    spam_score = models.IntegerField(default=0)
+    spam_reasons = models.TextField(blank=True, default='')
+    submitter_ip = models.GenericIPAddressField(null=True, blank=True)
+    photo_hash = models.CharField(max_length=32, blank=True, default='')
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['-created_at'] # Newest Items listed first
+        ordering = ['-created_at']
 
     def __str__(self):
         return f"{self.name} - {self.location_found}"

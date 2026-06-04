@@ -16,6 +16,7 @@ from .emails import (
 from items.models import Item
 from claims.models import Claim
 from lostandfound.throttle import rate_limit
+from lostandfound.spam_detector import get_client_ip, score_user
 
 # Create your views here.
 def home(request):
@@ -86,6 +87,11 @@ def register_student(request):
             grade=grade
         )
 
+        user.registration_ip = get_client_ip(request)
+        sp_score, sp_reasons = score_user(user)
+        user.spam_score = sp_score
+        user.spam_reasons = sp_reasons
+        user.save(update_fields=['registration_ip', 'spam_score', 'spam_reasons'])
         login(request, user)
         send_welcome_email(user)
         messages.success(request, f'Welcome, {first_name}! Your account has been created successfully.')
@@ -136,6 +142,11 @@ def register_teacher(request):
             department=department
         )
 
+        user.registration_ip = get_client_ip(request)
+        sp_score, sp_reasons = score_user(user)
+        user.spam_score = sp_score
+        user.spam_reasons = sp_reasons
+        user.save(update_fields=['registration_ip', 'spam_score', 'spam_reasons'])
         send_teacher_pending_email(user)
         messages.success(
             request,
@@ -186,16 +197,28 @@ def pending_users(request):
         messages.error(request, 'You do not have permission to access this page.')
         return redirect('home')
 
+    from lostandfound.spam_detector import SPAM_THRESHOLD
     status_filter = request.GET.get('status', 'pending')
 
-    if status_filter == 'all':
-        users = CustomUser.objects.exclude(user_type='admin').order_by('-date_joined')
+    spam_users = CustomUser.objects.filter(spam_score__gte=SPAM_THRESHOLD).exclude(user_type='admin').order_by('-spam_score', '-date_joined')
+
+    if status_filter == 'spam':
+        users = []
+    elif status_filter == 'all':
+        users = CustomUser.objects.filter(spam_score__lt=SPAM_THRESHOLD).exclude(user_type='admin').order_by('-date_joined')
     else:
-        users = CustomUser.objects.filter(approval_status=status_filter).exclude(user_type='admin').order_by('-date_joined')
+        users = CustomUser.objects.filter(approval_status=status_filter, spam_score__lt=SPAM_THRESHOLD).exclude(user_type='admin').order_by('-date_joined')
+
+    counts = {
+        'pending': CustomUser.objects.filter(approval_status='pending', spam_score__lt=SPAM_THRESHOLD).exclude(user_type='admin').count(),
+        'spam': spam_users.count(),
+    }
 
     return render(request, 'accounts/pending_users.html', {
         'users': users,
-        'current_filter': status_filter
+        'spam_users': spam_users,
+        'current_filter': status_filter,
+        'counts': counts,
     })
 
 @login_required
@@ -234,6 +257,48 @@ def approve_user(request, user_id):
         return redirect('pending_users')
 
     return render(request, 'accounts/approve_user.html', {'user_to_approve': user_to_approve})
+
+
+@login_required
+def bulk_action_users(request):
+    if not (request.user.is_staff or request.user.user_type == 'admin'):
+        return redirect('home')
+    if request.method != 'POST':
+        return redirect('pending_users')
+
+    action = request.POST.get('bulk_action')
+    user_ids = request.POST.getlist('selected_users')
+    return_tab = request.POST.get('return_tab', 'pending')
+
+    if user_ids:
+        users_qs = CustomUser.objects.filter(pk__in=user_ids).exclude(user_type='admin')
+        if action == 'approve':
+            for u in users_qs:
+                u.approval_status = 'approved'
+                u.approved_by = request.user
+                u.approval_date = timezone.now()
+                u.save()
+                send_welcome_email(u)
+            messages.success(request, f'{len(user_ids)} user(s) approved.')
+        elif action == 'reject':
+            for u in users_qs:
+                u.approval_status = 'rejected'
+                u.save()
+                if u.user_type == 'teacher':
+                    send_teacher_rejected_email(u)
+            messages.success(request, f'{len(user_ids)} user(s) rejected.')
+        elif action == 'spam':
+            users_qs.update(spam_score=99, spam_reasons='Manually marked as spam by admin')
+            messages.success(request, f'{len(user_ids)} user(s) marked as spam.')
+        elif action == 'restore':
+            users_qs.update(spam_score=0, spam_reasons='')
+            messages.success(request, f'{len(user_ids)} user(s) restored from spam.')
+        elif action == 'delete':
+            count = users_qs.count()
+            users_qs.delete()
+            messages.success(request, f'{count} user(s) permanently deleted.')
+
+    return redirect(f'/pending-users/?status={return_tab}')
 
 
 @login_required
