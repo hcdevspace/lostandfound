@@ -3,9 +3,6 @@
 ## Project Description
 A Django web application to help students and staff report found items, search for lost belongings, and manage the claim process efficiently.
 
-## Team Members
-- Harshit, Aaryan, Himaghna
-
 ## Technologies Used
 - Django 5.2.8
 - Python 3.14
@@ -111,5 +108,7 @@ py manage.py runserver 0.0.0.0:8000
 - Claim items
 - Admin dashboard for claim management
 
+## Team Members
+- Harshit, Aaryan, Himaghna
 
 
