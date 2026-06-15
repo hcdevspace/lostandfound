@@ -2,64 +2,71 @@
 {% block title %}Review User Registration{% endblock %}
 {% block content %}
 
-<div class="form-container">
+<div class="form-container review-claim-container">
     <div class="form-header">
         <h1><i class="fas fa-user-check"></i> Review User Registration</h1>
-        <p>Review the registration details for {{ user_to_approve.get_full_name|default:user_to_approve.username }}</p>
+        <p>Make a decision on this registration request</p>
     </div>
 
-    <div class="card" style="margin-bottom: 2rem;">
-        <div class="card-body">
-            <h3 style="margin-top: 0;">Account Information</h3>
+    <div class="review-info-grid">
+        <div class="review-card item-card">
+            <h3 class="review-card-title">
+                Account Information
+                <span class="item-id-badge">ID: {{ user_to_approve.id }}</span>
+            </h3>
+            <div class="review-details">
+                <p class="review-detail"><strong>Full Name:</strong> {{ user_to_approve.first_name }} {{ user_to_approve.last_name }}</p>
+                <p class="review-detail"><strong>Username:</strong> {{ user_to_approve.username }}</p>
+                <p class="review-detail"><strong>Email:</strong> {{ user_to_approve.email }}</p>
+                <p class="review-detail"><strong>Account Type:</strong> {{ user_to_approve.get_user_type_display }}</p>
+                <p class="review-detail"><strong>Registered:</strong> {{ user_to_approve.date_joined|date:"M d, Y g:i A" }}</p>
+            </div>
 
-            <p style="margin: 0.5rem 0; font-size: 1rem;">
-                <strong><i class="fas fa-user"></i> Full Name:</strong> {{ user_to_approve.first_name }} {{ user_to_approve.last_name }}
-            </p>
-            <p style="margin: 0.5rem 0; font-size: 1rem;">
-                <strong><i class="fas fa-user-circle"></i> Username:</strong> {{ user_to_approve.username }}
-            </p>
-            <p style="margin: 0.5rem 0; font-size: 1rem;">
-                <strong><i class="fas fa-envelope"></i> Email:</strong> {{ user_to_approve.email }}
-            </p>
-            <p style="margin: 0.5rem 0; font-size: 1rem;">
-                <strong><i class="fas fa-id-badge"></i> Account Type:</strong> {{ user_to_approve.get_user_type_display }}
-            </p>
+            <div class="review-status-box status-{{ user_to_approve.approval_status }}">
+                <strong>Current Status:</strong><br>
+                <span class="status-text">{{ user_to_approve.get_approval_status_display }}</span>
+            </div>
+        </div>
 
+        <div class="review-card claimant-card">
             {% if user_to_approve.user_type == 'student' and user_to_approve.student_profile %}
-            <hr>
-            <h4>Student Information</h4>
-            <p style="margin: 0.5rem 0; font-size: 1rem;">
-                <strong><i class="fas fa-id-card"></i> Student ID:</strong> {{ user_to_approve.student_profile.student_id }}
-            </p>
-            <p style="margin: 0.5rem 0; font-size: 1rem;">
-                <strong><i class="fas fa-graduation-cap"></i> Grade:</strong> {{ user_to_approve.student_profile.get_grade_display }}
-            </p>
+            <h3 class="review-card-title">Student Details</h3>
+            <div class="review-details">
+                <p class="review-detail"><strong>Student ID:</strong> {{ user_to_approve.student_profile.student_id }}</p>
+                <p class="review-detail"><strong>Grade:</strong> {{ user_to_approve.student_profile.get_grade_display }}</p>
+            </div>
             {% elif user_to_approve.user_type == 'teacher' and user_to_approve.teacher_profile %}
-            <hr>
-            <h4>Teacher Information</h4>
-            <p style="margin: 0.5rem 0; font-size: 1rem;">
-                <strong><i class="fas fa-building"></i> Department:</strong> {{ user_to_approve.teacher_profile.department|default:"Not specified" }}
-            </p>
+            <h3 class="review-card-title">Teacher Details</h3>
+            <div class="review-details">
+                <p class="review-detail"><strong>Department:</strong> {{ user_to_approve.teacher_profile.department|default:"Not specified" }}</p>
+            </div>
+            {% else %}
+            <h3 class="review-card-title">Additional Details</h3>
+            <div class="review-details">
+                <p class="review-detail" style="color: #6c757d;">No additional profile information available.</p>
+            </div>
             {% endif %}
 
-            <hr>
-            <p style="margin: 0.5rem 0; font-size: 1rem; color: #6c757d;">
-                <i class="fas fa-calendar"></i> Registered {{ user_to_approve.date_joined|date:"F d, Y g:i A" }} ({{ user_to_approve.date_joined|timesince }} ago)
-            </p>
+            {% if user_to_approve.spam_score > 0 %}
+            <div class="review-status-box" style="background: #fff3cd; border-left: 4px solid #ffc107; margin-top: 1rem;">
+                <strong><i class="fas fa-exclamation-triangle" style="color: #ffc107;"></i> Spam Score: {{ user_to_approve.spam_score }}/100</strong><br>
+                <small style="color: #6c757d;">{{ user_to_approve.spam_reasons }}</small>
+            </div>
+            {% endif %}
         </div>
     </div>
 
     <form method="POST">
         {% csrf_token %}
-        <div class="form-actions" style="display: flex; gap: 1rem; justify-content: center;">
-            <button type="submit" name="action" value="approve" class="btn btn-success" style="min-width: 150px;">
+        <div class="form-actions review-actions">
+            <button type="submit" name="action" value="approve" class="btn btn-success">
                 <i class="fas fa-check-circle"></i> Approve User
             </button>
-            <button type="submit" name="action" value="reject" class="btn btn-danger" style="min-width: 150px;">
+            <button type="submit" name="action" value="reject" class="btn btn-danger">
                 <i class="fas fa-times-circle"></i> Reject User
             </button>
-            <a href="{% url 'pending_users' %}" class="btn btn-outline-secondary" style="min-width: 150px;">
-                <i class="fas fa-arrow-left"></i> Cancel
+            <a href="{% url 'pending_users' %}" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left"></i> Back to List
             </a>
         </div>
     </form>
