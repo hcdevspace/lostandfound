@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Lost & Found{% endblock %}</title>
+    <title>{% block title %}ReFind{% endblock %}</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,7 +36,7 @@
     <nav class="navbar">
         <div class="container">
             <a href="{% url 'home' %}" class="navbar-brand" id="navbar-brand-link"{% if user.is_staff or dev_simulate %} data-admin-user="1"{% endif %}>
-                <i class="fas fa-box-open"></i> Lost & Found
+                <i class="fas fa-box-open"></i> ReFind
             </a>
             
             <button class="navbar-toggle" onclick="toggleMenu()">
@@ -113,7 +113,7 @@
 
     <footer>
         <div class="container">
-            <p class="mb-1">&copy; 2025 Lost & Found | FBLA Project</p>
+            <p class="mb-1">&copy; 2026 ReFind | FBLA Project</p>
             <p class="mb-1">Powered By Django (5.2.8)</p>
             <p class="footer-tagline mb-0">Helping students reunite with their belongings</p>
             <p class="mt-2">
