@@ -117,9 +117,3 @@ img {
         flex-basis: 100%;
     }
 }
-
-@media (hover: none) and (pointer: coarse) {
-    .dropdown:hover .dropdown-menu {
-        display: none;
-    }
-}

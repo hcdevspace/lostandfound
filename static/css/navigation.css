@@ -208,7 +208,7 @@ body {
     background: transparent;
 }
 
-.dropdown:hover .dropdown-menu,
+.dropdown.hover-open .dropdown-menu,
 .dropdown.active .dropdown-menu {
     visibility: visible;
     opacity: 1;

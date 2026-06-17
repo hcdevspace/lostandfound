@@ -17,11 +17,22 @@ function toggleMenu() {
 document.addEventListener('DOMContentLoaded', function() {
     const dropdowns = document.querySelectorAll('.dropdown');
 
+    const supportsHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
     dropdowns.forEach(function(dropdown) {
         const toggle = dropdown.querySelector('.dropdown-toggle');
         const menu = dropdown.querySelector('.dropdown-menu');
 
         if (toggle && menu) {
+            if (supportsHover) {
+                dropdown.addEventListener('mouseenter', function() {
+                    dropdown.classList.add('hover-open');
+                });
+                dropdown.addEventListener('mouseleave', function() {
+                    dropdown.classList.remove('hover-open');
+                });
+            }
+
             toggle.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
