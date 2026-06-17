@@ -208,12 +208,20 @@ body {
     background: transparent;
 }
 
-.dropdown.hover-open .dropdown-menu,
 .dropdown.active .dropdown-menu {
     visibility: visible;
     opacity: 1;
     transform: translateY(0);
     transition-delay: 0s;
+}
+
+@media (min-width: 1101px) {
+    .dropdown:hover .dropdown-menu {
+        visibility: visible;
+        opacity: 1;
+        transform: translateY(0);
+        transition-delay: 0s;
+    }
 }
 
 .dropdown-menu a {
