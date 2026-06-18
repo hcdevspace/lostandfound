@@ -244,7 +244,7 @@
     opacity: 1;
 }
 
-.alert-success { border-width: 2px; border-color: var(--success-color); }
+.alert-success { border-width: 3px; border-color: var(--success-color); }
 .alert-error   { border-color: var(--danger-color); }
 .alert-warning { border-color: var(--warning-color); }
 .alert-info    { border-color: var(--primary-color); }
