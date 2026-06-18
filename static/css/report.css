@@ -241,6 +241,57 @@
     display: block;
 }
 
+.claim-item-summary {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.claim-item-summary-img {
+    width: 72px;
+    height: 72px;
+    border-radius: 8px;
+    background: var(--light-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.claim-item-summary-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.claim-item-summary-img i {
+    font-size: 1.5rem;
+    color: var(--text-muted);
+}
+
+.claim-item-summary-info h3 {
+    margin: 0 0 0.3rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.claim-item-summary-info .info-row {
+    display: inline-flex;
+    font-size: 0.85rem;
+    margin-right: 1rem;
+}
+
+.claim-form-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
 @media (max-width: 1000px) {
     .report-form-grid {
         grid-template-columns: 1fr;

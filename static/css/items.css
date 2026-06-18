@@ -634,6 +634,10 @@
     gap: 1.25rem;
 }
 
+.item-detail-content > .lf-search-card {
+    margin-bottom: 0;
+}
+
 .item-detail-card {
     padding: 0;
     overflow: hidden;
