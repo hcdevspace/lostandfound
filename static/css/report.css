@@ -318,6 +318,14 @@
     padding-top: 0;
 }
 
+.claim-request-type-line {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 .report-field-row--centered .form-text {
     text-align: left;
 }

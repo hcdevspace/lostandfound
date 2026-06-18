@@ -38,8 +38,8 @@
                 {% csrf_token %}
 
                 <div class="report-field-row report-field-row--centered">
-                    <label class="report-field-label">{{ form.claim_type.label }} <span class="required">*</span></label>
-                    <div class="report-field-input">
+                    <div class="claim-request-type-line">
+                        <label class="report-field-label">{{ form.claim_type.label }} <span class="required">*</span></label>
                         <div class="form-radio-row">
                             {% for radio in form.claim_type %}
                             <div class="form-check">
@@ -50,6 +50,8 @@
                             </div>
                             {% endfor %}
                         </div>
+                    </div>
+                    <div class="report-field-input">
                         <small class="form-text">
                             <strong>Claim Item:</strong> You believe this is your item and want to retrieve it (requires proof of ownership)<br>
                             <strong>Inquiry Only:</strong> You have questions about this item or want more information (no proof needed)
