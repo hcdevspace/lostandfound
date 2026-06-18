@@ -15,15 +15,15 @@
                 <span class="item-id-badge">ID: {{ user_to_approve.id }}</span>
             </h3>
             <div class="review-details">
-                <p class="review-detail"><span class="review-detail-label">Full Name</span>{{ user_to_approve.first_name }} {{ user_to_approve.last_name }}</p>
-                <p class="review-detail"><span class="review-detail-label">Username</span>{{ user_to_approve.username }}</p>
-                <p class="review-detail"><span class="review-detail-label">Email</span>{{ user_to_approve.email }}</p>
-                <p class="review-detail"><span class="review-detail-label">Account Type</span>{{ user_to_approve.get_user_type_display }}</p>
-                <p class="review-detail"><span class="review-detail-label">Registered</span>{{ user_to_approve.date_joined|date:"M d, Y g:i A" }}</p>
+                <div class="info-row"><i class="fas fa-user"></i> <strong>Full Name:</strong>&nbsp;{{ user_to_approve.first_name }} {{ user_to_approve.last_name }}</div>
+                <div class="info-row"><i class="fas fa-user-circle"></i> <strong>Username:</strong>&nbsp;{{ user_to_approve.username }}</div>
+                <div class="info-row"><i class="fas fa-envelope"></i> <strong>Email:</strong>&nbsp;{{ user_to_approve.email }}</div>
+                <div class="info-row"><i class="fas fa-id-badge"></i> <strong>Account Type:</strong>&nbsp;{{ user_to_approve.get_user_type_display }}</div>
+                <div class="info-row"><i class="fas fa-calendar"></i> <strong>Registered:</strong>&nbsp;{{ user_to_approve.date_joined|date:"M d, Y g:i A" }}</div>
             </div>
 
             <div class="review-status-box status-{{ user_to_approve.approval_status }}">
-                <span class="review-detail-label">Current Status</span>
+                <strong>Current Status:</strong><br>
                 <span class="status-text">{{ user_to_approve.get_approval_status_display }}</span>
             </div>
         </div>
@@ -32,26 +32,25 @@
             {% if user_to_approve.user_type == 'student' and user_to_approve.student_profile %}
             <h3 class="review-card-title">Student Details</h3>
             <div class="review-details">
-                <p class="review-detail"><span class="review-detail-label">Student ID</span>{{ user_to_approve.student_profile.student_id }}</p>
-                <p class="review-detail"><span class="review-detail-label">Grade</span>{{ user_to_approve.student_profile.get_grade_display }}</p>
+                <div class="info-row"><i class="fas fa-id-card"></i> <strong>Student ID:</strong>&nbsp;{{ user_to_approve.student_profile.student_id }}</div>
+                <div class="info-row"><i class="fas fa-graduation-cap"></i> <strong>Grade:</strong>&nbsp;{{ user_to_approve.student_profile.get_grade_display }}</div>
             </div>
             {% elif user_to_approve.user_type == 'teacher' and user_to_approve.teacher_profile %}
             <h3 class="review-card-title">Teacher Details</h3>
             <div class="review-details">
-                <p class="review-detail"><span class="review-detail-label">Department</span>{{ user_to_approve.teacher_profile.department|default:"Not specified" }}</p>
+                <div class="info-row"><i class="fas fa-building"></i> <strong>Department:</strong>&nbsp;{{ user_to_approve.teacher_profile.department|default:"Not specified" }}</div>
             </div>
             {% else %}
             <h3 class="review-card-title">Additional Details</h3>
             <div class="review-details">
-                <p class="review-detail review-detail-muted">No additional profile information available.</p>
+                <p class="review-detail-muted">No additional profile information available.</p>
             </div>
             {% endif %}
 
             {% if user_to_approve.spam_score > 0 %}
-            <div class="review-status-box review-status-box--warning">
-                <span class="review-detail-label"><i class="fas fa-exclamation-triangle"></i> Spam Score</span>
-                <span class="status-text">{{ user_to_approve.spam_score }}/100</span>
-                <small class="review-spam-reasons">{{ user_to_approve.spam_reasons }}</small>
+            <div class="review-spam-box">
+                <span class="lf-status review-spam-pill">Spam &bull; {{ user_to_approve.spam_score }}/100</span>
+                <div class="review-spam-reasons"><i class="fas fa-exclamation-triangle"></i> {{ user_to_approve.spam_reasons }}</div>
             </div>
             {% endif %}
         </div>
