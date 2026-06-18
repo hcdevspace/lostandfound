@@ -340,6 +340,66 @@
     font-weight: 600;
 }
 
+/* Review User page typography */
+.review-user-page .form-header h1 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.review-user-page .form-header p {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 300;
+}
+
+.review-user-page .review-card-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--text-dark);
+}
+
+.review-user-page .review-detail {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+.review-user-page .review-detail-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.review-user-page .review-detail-muted {
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.review-user-page .review-status-box {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.review-user-page .review-status-box--warning {
+    background: rgba(255, 193, 7, 0.1);
+    border-color: #ffc107;
+}
+
+.review-user-page .review-spam-reasons {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--text-muted);
+    font-weight: 300;
+}
+
 .review-description-box {
     background: var(--light-bg);
     padding: 1rem;
