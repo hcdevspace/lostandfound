@@ -322,6 +322,10 @@
     text-align: left;
 }
 
+.claim-form-section .report-form-actions {
+    justify-content: center;
+}
+
 @media (max-width: 1000px) {
     .report-form-grid {
         grid-template-columns: 1fr;
