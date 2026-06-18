@@ -25,10 +25,12 @@
                     {% endif %}
                 </div>
                 <div class="claim-item-summary-info">
-                    <h3>{{ item.name }}</h3>
-                    <span class="info-row"><i class="fas fa-tag"></i> {{ item.get_category_display }}</span>
-                    <span class="info-row"><i class="fas fa-map-marker-alt"></i> {{ item.location_found }}</span>
-                    <span class="info-row"><i class="fas fa-calendar"></i> {{ item.date_found|date:"M d, Y" }}</span>
+                    <h2>{{ item.name }}</h2>
+                    <div class="item-detail-fields">
+                        <div class="info-row"><i class="fas fa-tag"></i> <strong>Category:</strong>&nbsp;{{ item.get_category_display }}</div>
+                        <div class="info-row"><i class="fas fa-map-marker-alt"></i> <strong>Location Found:</strong>&nbsp;{{ item.location_found }}</div>
+                        <div class="info-row"><i class="fas fa-calendar"></i> <strong>Date Found:</strong>&nbsp;{{ item.date_found|date:"M d, Y" }}</div>
+                    </div>
                 </div>
             </div>
 
@@ -58,7 +60,7 @@
                     </div>
                 </div>
 
-                <div class="report-field-row report-description-row">
+                <div class="claim-fields-grid">
                     <label class="report-field-label" for="{{ form.description.id_for_label }}">
                         <span id="description-label">Item Description / Proof of Ownership</span> <span class="required">*</span>
                     </label>
@@ -69,9 +71,7 @@
                             <span class="error-message">{{ form.description.errors.0 }}</span>
                         {% endif %}
                     </div>
-                </div>
 
-                <div class="report-field-row">
                     <label class="report-field-label" for="{{ form.contact_method.id_for_label }}">
                         {{ form.contact_method.label }} <span class="required">*</span>
                     </label>
@@ -81,17 +81,17 @@
                             <span class="error-message">{{ form.contact_method.errors.0 }}</span>
                         {% endif %}
                     </div>
-                </div>
 
-                <div class="report-field-row" id="additional-proof-section">
-                    <label class="report-field-label" for="{{ form.additional_proof.id_for_label }}">
-                        {{ form.additional_proof.label }}
-                    </label>
-                    <div class="report-field-input">
-                        {{ form.additional_proof }}
-                        {% if form.additional_proof.errors %}
-                            <span class="error-message">{{ form.additional_proof.errors.0 }}</span>
-                        {% endif %}
+                    <div id="additional-proof-section" class="claim-grid-pair">
+                        <label class="report-field-label" for="{{ form.additional_proof.id_for_label }}">
+                            {{ form.additional_proof.label }}
+                        </label>
+                        <div class="report-field-input">
+                            {{ form.additional_proof }}
+                            {% if form.additional_proof.errors %}
+                                <span class="error-message">{{ form.additional_proof.errors.0 }}</span>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
 

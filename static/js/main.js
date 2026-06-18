@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 descriptionTextarea.setAttribute('aria-describedby', 'description-help');
             }
             if (additionalProofSection) {
-                additionalProofSection.style.display = 'block';
+                additionalProofSection.style.display = 'contents';
                 const proofTextarea = additionalProofSection.querySelector('textarea');
                 if (proofTextarea) proofTextarea.removeAttribute('aria-hidden');
             }
