@@ -1,4 +1,4 @@
-# Spam Detection Algorithm
+# Weighted Signal Algorithm for Spam Detection
 
 ## What is it?
 
