@@ -1,4 +1,4 @@
-# Sources & Citations
+# Sources, Citations, and Documentation
 
 ## Overview
 This document lists all external resources, libraries, tutorials, and references used in the development of this project.
