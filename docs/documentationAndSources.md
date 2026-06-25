@@ -253,6 +253,6 @@ This document lists all external resources, libraries, tutorials, and references
 
 
 
-**Last Updated:** June 25, 2026
-**Project:** ReFind
-**Event:** FBLA Website Coding & Development 2025-2026
+- **Last Updated:** June 25, 2026
+- **Project:** ReFind
+- **Event:** FBLA Website Coding & Development 2025-2026
