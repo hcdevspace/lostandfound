@@ -52,13 +52,6 @@ DB_HOST=localhost
 DB_PORT=5432
 ```
 
-> **EMAIL_HOST_PASSWORD** 
-> Go to [myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords) to generate one (requires 2-Step Verification to be enabled).
->
-> Local development, replace `EMAIL_BACKEND` with:
-> `EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend`
-> — emails will print to the terminal instead of sending.
-
 5. Run migrations
 ```bash
 py manage.py migrate
