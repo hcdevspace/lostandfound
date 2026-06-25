@@ -1,7 +1,5 @@
 # Sources, Citations, and Documentation
-
-## Overview
-This document lists all external resources, libraries, tutorials, and references used in the development of this project.
+This document lists all external resources, libraries, tutorials, and references used in the development of ReFind.
 
 
 ## Frameworks & Libraries
@@ -31,6 +29,33 @@ This document lists all external resources, libraries, tutorials, and references
 - **Purpose:** Image processing and validation
 - **Citation:** Clark, A. (2025). Pillow: The friendly PIL fork. Retrieved from https://python-pillow.org/
 
+### boto3
+
+- **Name**: boto3
+- **Version**: 1.34.0
+- **URL**: https://aws.amazon.com/sdk-for-python/
+- **License**: Apache License 2.0
+- **Purpose**: Amazon Web Services (AWS) SDK for Python, used to connect the application to Amazon S3 buckets for secure storage.
+- **Citation**: Amazon Web Services, Inc. (2026). AWS SDK for Python (Boto3). Retrieved from https://aws.amazon.com/sdk-for-python/
+
+### django-storages
+
+- **Name**: django-storages
+- **Version**: 1.14.0
+- **URL**: https://django-storages.readthedocs.io/
+- **License**: BSD-3-Clause
+- **Purpose**: Custom storage backend engine that routes Django's FileField and ImageField uploads directly to AWS S3.
+- **Citation**: Schneier, J., Larlet, D., & Contributors. (2026). django-storages: Custom storage backends for Django. Retrieved from https://django-storages.readthedocs.io/
+
+### psycopg2-binary
+
+- **Name**: psycopg2-binary
+- **Version**: 2.9.12
+- **URL**: https://pypi.org/project/psycopg2-binary/
+- **License**: LGPL-3.0 (with exceptions)
+- **Purpose**: PostgreSQL database adapter for Python. It allows the Django application to communicate natively with the Amazon RDS PostgreSQL instance.
+- **Citation**: Di Gregorio, F., & Varrazzo, D. (2026). psycopg2-binary: PostgreSQL database adapter for Python. Retrieved from https://pypi.org/project/psycopg2-binary/
+
 ---
 
 ## Documentation References
@@ -51,6 +76,33 @@ This document lists all external resources, libraries, tutorials, and references
   - os module
   - File handling
 - **Citation:** Python Software Foundation. (2025). Python documentation. Retrieved from https://docs.python.org/3/
+
+### AWS Amazon S3 Official Documentation
+
+- **URL**: https://docs.aws.amazon.com/s3/
+- **Sections Used**:
+  - Creating and configuring S3 buckets
+  - IAM (Identity and Access Management) policies for application access
+  - Object lifecycle management for item images
+- **Citation**: Amazon Web Services, Inc. (2026). Amazon Simple Storage Service (S3) documentation. Retrieved from https://docs.aws.amazon.com/s3/
+
+### AWS Amazon EC2 Official Documentation
+
+- **URL**: https://docs.aws.amazon.com/ec2/
+- **Sections Used**:
+  - Linux virtual machine configuration (Ubuntu/Amazon Linux)
+  - Security Groups and inbound/outbound firewall rules for port 8000/443
+  - Application hosting environment setup
+- **Citation**: Amazon Web Services, Inc. (2026). Amazon Elastic Compute Cloud (EC2) documentation. Retrieved from https://docs.aws.amazon.com/ec2/
+
+### AWS Amazon RDS Official Documentation
+
+- **URL**: https://docs.aws.amazon.com/rds/
+- **Sections Used**:
+  - PostgreSQL instance provisioning
+  - Database subnet groups and security connectivity
+  - Environment string extraction for live database linking
+- **Citation**: Amazon Web Services, Inc. (2026). Amazon Relational Database Service (RDS) documentation. Retrieved from https://docs.aws.amazon.com/rds/
 
 ---
 
@@ -92,14 +144,28 @@ This document lists all external resources, libraries, tutorials, and references
 
 ### File Upload Validation
 - **URL:** https://stackoverflow.com/questions/2472422/django-file-upload-size-limit
-- **Date Accessed:** January 2025
+- **Date Accessed:** December 2025
 - **Purpose:** Learning how to validate file sizes in Django
 - **Modified for our specific needs**
   
 ### Image Processing
 - **URL:** https://stackoverflow.com/questions/6350602/django-how-to-resize-uploaded-images
-- **Date Accessed:** January 2025
+- **Date Accessed:** December 2025
 - **Purpose:** Understanding PIL/Pillow image handling
+
+### Django S3 Cloud Storage Integration
+
+- **URL**: https://stackoverflow.com/questions/4364443/how-to-use-django-storages-with-amazon-s3
+- **Date Accessed**: June 2026
+- **Purpose**: Learning how to structure settings.py environment variables (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, and AWS_STORAGE_BUCKET_NAME) to authenticate the app safely.
+- **Modified configuration blocks to utilize secure environment variables**
+
+### Django Managed Database Connection Configuration
+
+- **URL**: https://stackoverflow.com/questions/42220465/connecting-django-to-amazon-rds-postgresql
+- **Date Accessed**: January 2026
+- **Purpose**: Learning how to safely configure the DATABASES setting dictionary in settings.py to reference an external AWS RDS endpoint, database port, and authentication tokens via environment variables.
+- **Modified code to prevent exposing structural database credentials in version control**
 
 ---
 
@@ -187,6 +253,6 @@ This document lists all external resources, libraries, tutorials, and references
 
 
 
-**Last Updated:** January 28, 2026
-**Project:** School Lost & Found Management System
+**Last Updated:** June 25, 2026
+**Project:** ReFind
 **Event:** FBLA Website Coding & Development 2025-2026
