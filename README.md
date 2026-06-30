@@ -1,4 +1,4 @@
-# Lost and Found - School Management System
+# ReFind - Lost and Found School Management System
 
 ## Project Description
 A Django web application to help students and staff report found items, search for lost belongings, and manage the claim process efficiently.
