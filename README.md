@@ -75,7 +75,7 @@ To allow access from other devices on your local network:
 
 1. Find your computer's local IP address:
    - **Windows**: Open Command Prompt and run `ipconfig`
-   - Look for "IPv4 Address" (e.g., 192.168.1.100)
+   - Look for the IPv4 Address (e.g., 192.168.1.100)
    - **Mac/Linux**: Run `ifconfig` or `ip addr`
 
 2. Run the development server on all network interfaces:
@@ -101,7 +101,7 @@ py manage.py runserver 0.0.0.0:8000
 - Claim items
 - Admin dashboard for claim management
 
-## Team Members
+## Team 
 - Harshit, Aaryan, Himaghna
 
 
